@@ -278,7 +278,7 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
                                 
                                 {(filteredImages[lightbox.index].type === 'package' || filteredImages[lightbox.index].type === 'blog') && (
                                     <div className="mt-6">
-                                        <Link href={filteredImages[lightbox.index].type === 'package' ? `/tour/detail/${filteredImages[lightbox.index].slug}` : `/tour/blog/${filteredImages[lightbox.index].slug}`} 
+                                        <Link href={filteredImages[lightbox.index].type === 'package' ? `/tour/${filteredImages[lightbox.index].slug}` : `/tour/blog/${filteredImages[lightbox.index].slug}`} 
                                            className="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-900 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-toba-green hover:text-white transition shadow-md">
                                             <span className="material-symbols-outlined text-sm">open_in_new</span>
                                             {filteredImages[lightbox.index].type === 'package' ? 'Lihat Paket Wisata' : 'Baca Artikel Selengkapnya'}

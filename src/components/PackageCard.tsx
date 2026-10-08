@@ -42,7 +42,7 @@ export default function PackageCard({ pkg, locationName = 'Sumatera Utara' }: { 
 
     return (
         <div className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-100 hover:border-slate-200 hover:shadow-xl transition-all duration-300 h-full">
-            <Link href={`/tour/detail/${slug}`} className="flex flex-col flex-grow">
+            <Link href={`/tour/${slug}`} className="flex flex-col flex-grow">
                 <div className="relative aspect-[4/3] overflow-hidden shrink-0">
                     <img
                         src={image}
@@ -102,7 +102,7 @@ export default function PackageCard({ pkg, locationName = 'Sumatera Utara' }: { 
                         ) : (
                             <p>Tidak ada rincian tambahan.</p>
                         )}
-                        <Link href={`/tour/detail/${slug}`} className="text-toba-green font-medium underline mt-2 inline-block">Lihat selengkapnya</Link>
+                        <Link href={`/tour/${slug}`} className="text-toba-green font-medium underline mt-2 inline-block">Lihat selengkapnya</Link>
                     </div>
                 )}
             </div>
