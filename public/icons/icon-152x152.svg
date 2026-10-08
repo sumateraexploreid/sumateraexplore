@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="152" height="152" viewBox="0 0 152 152">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background rounded rect -->
+  <rect width="152" height="152" rx="33.44" fill="url(#bg)"/>
+  <!-- Green accent bar at top -->
+  <rect x="12.16" y="12.16" width="127.67999999999999" height="9.12" rx="4.56" fill="url(#accent)"/>
+  <!-- W Letter -->
+  <text 
+    x="76" 
+    y="94.24" 
+    font-family="Arial Black, Arial, sans-serif" 
+    font-weight="900" 
+    font-size="72.96" 
+    fill="white" 
+    text-anchor="middle" 
+    dominant-baseline="middle"
+  >W</text>
+  <!-- Wonderful text -->
+  <text 
+    x="76" 
+    y="127.67999999999999" 
+    font-family="Arial, sans-serif" 
+    font-weight="700" 
+    font-size="12.920000000000002" 
+    fill="#10B981"
+    text-anchor="middle"
+    letter-spacing="1.216"
+  >SUJAI LAKETOBA</text>
+</svg>
