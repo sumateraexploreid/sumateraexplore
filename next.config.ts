@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
     // Aset lama dirujuk dari DB sebagai /storage/... dan /images/...
     remotePatterns: [{ protocol: "https", hostname: "**.supabase.co" }],
   },
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: "https://anqebirxzaydpnmqllnr.supabase.co",
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_Y_9cwSSRPGlRm8h-Dg8htw_gt_-KS7B",
+  },
   async redirects() {
     return [
       { source: "/home", destination: "/", permanent: false },
