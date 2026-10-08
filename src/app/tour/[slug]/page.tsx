@@ -2,8 +2,9 @@ import React from 'react';
 import PackageDetailClient from './PackageDetailClient';
 import { notFound } from 'next/navigation';
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-    const pkg = dummyPackages.find(p => p.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const pkg = dummyPackages.find(p => p.slug === slug);
     if (!pkg) return { title: 'Not Found' };
     
     return {
@@ -93,8 +94,9 @@ const dummyPackages = [
     }
 ];
 
-export default function PackageDetailPage({ params }: { params: { slug: string } }) {
-    const pkg = dummyPackages.find(p => p.slug === params.slug);
+export default async function PackageDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const pkg = dummyPackages.find(p => p.slug === slug);
 
     if (!pkg) {
         notFound();
