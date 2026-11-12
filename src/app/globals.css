@@ -937,12 +937,16 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-xs);
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-xs);
   font-size: var(--text-sm);
   color: var(--color-muted);
 }
 
 .se-breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--space-3xs);
   color: var(--color-ink-2);
   text-decoration: none;
 }
@@ -1368,17 +1372,13 @@
     gap: var(--space-2xs);
   }
 
-  .se-wordmark > span:first-child {
-    width: 7px;
-    height: 7px;
-  }
-
   .se-nav-social {
     gap: 0;
   }
 
   .se-nav-social-link {
-    min-width: 24px;
+    min-width: 32px;
+    min-height: 44px;
     padding-inline: 0;
   }
 
@@ -1390,5 +1390,38 @@
   .se-locale-btn {
     padding-inline: var(--space-xs);
     gap: var(--space-2xs);
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  body {
+    background: var(--color-receipt-paper) !important;
+    color: var(--color-receipt-ink) !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  #receipt-print-sheet,
+  #receipt-print-sheet * {
+    visibility: visible !important;
+  }
+
+  #receipt-print-sheet {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    border-color: var(--color-receipt-rule) !important;
+    box-shadow: none !important;
+    background: var(--color-receipt-paper) !important;
+    color: var(--color-receipt-ink) !important;
   }
 }

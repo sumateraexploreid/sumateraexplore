@@ -51,6 +51,7 @@ interface DashboardData {
 export default function DashboardClient() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showGuide, setShowGuide] = useState<boolean>(true);
 
   useEffect(() => {
     adminFetch<DashboardData>("/api/admin/dashboard")
@@ -72,10 +73,10 @@ export default function DashboardClient() {
   if (!data) {
     return (
       <div className="space-y-4">
-        <div className="h-20 bg-paper-2 rounded-card animate-pulse" />
+        <div className="h-20 bg-paper-2 rounded-card motion-safe:animate-pulse" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((n) => (
-            <div key={n} className="h-28 bg-paper-2 rounded-card animate-pulse" />
+            <div key={n} className="h-28 bg-paper-2 rounded-card motion-safe:animate-pulse" />
           ))}
         </div>
       </div>
@@ -87,28 +88,75 @@ export default function DashboardClient() {
   return (
     <div>
       <AdminPageHeader
-        title="Dashboard Operasional & CMS"
-        subtitle="Kendali penuh seluruh paket trip, order & DP WhatsApp, artikel rute, galeri media, kurs mata uang, dan legalitas PT SUJAI TOBA SUMATERA."
+        title="Beranda Admin Sumatera Explore"
+        subtitle="Kelola order tamu, cetak kwitansi resmi, ubah harga paket, unggah foto galeri, dan atur nomor WhatsApp dari satu tempat yang mudah."
         actions={
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-paper-2 border border-rule text-xs">
-            <span
-              className={`w-2 h-2 rounded-full ${
-                data.dbHealth.connected ? "bg-success" : "bg-error"
-              }`}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-paper-2 border border-rule text-xs">
+            <AdminIcon
+              name={data.dbHealth.connected ? "check_circle" : "error"}
+              className={`w-4 h-4 ${data.dbHealth.connected ? "text-success" : "text-error"}`}
             />
             <span className="text-ink-2">
-              Supabase Postgres: {data.dbHealth.connected ? `${data.dbHealth.latencyMs}ms` : "Offline"}
+              Server Data: {data.dbHealth.connected ? `Aktif (${data.dbHealth.latencyMs}ms)` : "Terputus"}
             </span>
           </div>
         }
       />
+
+      {/* Friendly Beginner Guide Banner */}
+      <section className="mb-6 bg-paper-2 border border-rule rounded-card p-4 sm:p-5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5">
+            <AdminIcon name="help" className="w-5 h-5 text-accent" />
+            <h2 className="font-display text-base text-ink">
+              Panduan Singkat Operator (4 Langkah Mudah)
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowGuide((v) => !v)}
+            className="px-3 py-1 rounded-md border border-rule bg-paper text-xs font-semibold text-ink-2 hover:text-ink"
+          >
+            {showGuide ? "Sembunyikan Panduan" : "Tampilkan Panduan"}
+          </button>
+        </div>
+
+        {showGuide ? (
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 text-xs">
+            <div className="p-3 rounded-md bg-paper border border-rule space-y-1">
+              <p className="font-bold text-accent">1. Cek Tamu Masuk</p>
+              <p className="text-ink-2 leading-relaxed">
+                Setiap tamu yang klik pesan di website otomatis tercatat di menu Order &amp; Data Tamu.
+              </p>
+            </div>
+            <div className="p-3 rounded-md bg-paper border border-rule space-y-1">
+              <p className="font-bold text-accent">2. Tandai DP &amp; Supir</p>
+              <p className="text-ink-2 leading-relaxed">
+                Setelah tamu transfer DP, cukup klik tombol &ldquo;DP Lunas&rdquo; dan isi nama supirnya.
+              </p>
+            </div>
+            <div className="p-3 rounded-md bg-paper border border-rule space-y-1">
+              <p className="font-bold text-accent">3. Buat &amp; Kirim Kwitansi</p>
+              <p className="text-ink-2 leading-relaxed">
+                Klik tombol &ldquo;Buat Kwitansi&rdquo;, sesuaikan harga bila perlu, lalu download gambar PNG untuk dikirim ke WhatsApp tamu.
+              </p>
+            </div>
+            <div className="p-3 rounded-md bg-paper border border-rule space-y-1">
+              <p className="font-bold text-accent">4. Ubah Harga / Foto Kapan Saja</p>
+              <p className="text-ink-2 leading-relaxed">
+                Ubah kurs RM atau harga paket sekali klik, seluruh harga di website tamu langsung ter-update otomatis.
+              </p>
+            </div>
+          </div>
+        ) : null}
+      </section>
 
       {/* Top KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         <div className="bg-paper-2 p-5 rounded-card border border-rule">
           <div className="flex items-center justify-between text-muted mb-2">
             <span className="text-xs font-semibold">
-              Pipeline Order
+              Total Nilai Pemesanan
             </span>
             <AdminIcon name="receipt_long" className="w-5 h-5 text-accent" />
           </div>
@@ -246,48 +294,92 @@ export default function DashboardClient() {
         </section>
       </div>
 
-      {/* Quick Actions */}
+      {/* Quick Actions: Expanded 8 Visual Shortcut Buttons */}
       <section className="mb-6">
-        <h2 className="font-display text-lg text-ink mb-3">Aksi Cepat Integrasi</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="flex items-baseline justify-between mb-3">
+          <h2 className="font-display text-lg text-ink">Tombol Jalan Pintas (1 Klik)</h2>
+          <span className="text-xs text-muted">Pilih tugas yang ingin langsung dikerjakan</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
           <Link
-            href="/admin/orders"
+            href="/admin/orders?action=new"
             className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
           >
-            <AdminIcon name="add_shopping_cart" className="w-5 h-5 text-accent" />
+            <AdminIcon name="add_shopping_cart" className="w-6 h-6 text-accent" />
             <div>
-              <p className="text-sm font-bold text-ink">Catat Order WA</p>
-              <p className="text-[11px] text-muted">Pantau DP & sopir</p>
+              <p className="text-sm font-bold text-ink">+ Catat Order Baru</p>
+              <p className="text-[11px] text-muted">Masukkan nama tamu &amp; DP</p>
             </div>
           </Link>
           <Link
-            href="/admin/packages"
+            href="/admin/receipts"
+            className="p-4 rounded-card bg-paper-2 border border-accent/60 hover:border-accent flex items-center gap-3 transition-colors"
+          >
+            <AdminIcon name="receipt_add" className="w-6 h-6 text-accent" />
+            <div>
+              <p className="text-sm font-bold text-ink">Buat Kwitansi Resmi</p>
+              <p className="text-[11px] text-muted">Edit harga, simpan PDF/PNG ke WA</p>
+            </div>
+          </Link>
+          <Link
+            href="/admin/packages?action=new"
             className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
           >
-            <AdminIcon name="sell" className="w-5 h-5 text-accent" />
+            <AdminIcon name="sell" className="w-6 h-6 text-accent" />
             <div>
-              <p className="text-sm font-bold text-ink">Ubah Harga Tier</p>
-              <p className="text-[11px] text-muted">Update tarif 1-20 pax</p>
+              <p className="text-sm font-bold text-ink">Tambah / Edit Paket</p>
+              <p className="text-[11px] text-muted">Ubah tarif 1-20 orang &amp; rute</p>
+            </div>
+          </Link>
+          <Link
+            href="/admin/gallery?action=new"
+            className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
+          >
+            <AdminIcon name="add_photo_alternate" className="w-6 h-6 text-accent" />
+            <div>
+              <p className="text-sm font-bold text-ink">Upload Foto Wisata</p>
+              <p className="text-[11px] text-muted">Pilih foto dari galeri HP/PC</p>
+            </div>
+          </Link>
+          <Link
+            href="/admin/blog?action=new"
+            className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
+          >
+            <AdminIcon name="post_add" className="w-6 h-6 text-accent" />
+            <div>
+              <p className="text-sm font-bold text-ink">Tulis Artikel Wisata</p>
+              <p className="text-[11px] text-muted">Tambah panduan rute &amp; kuliner</p>
             </div>
           </Link>
           <Link
             href="/admin/finance"
             className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
           >
-            <AdminIcon name="currency_exchange" className="w-5 h-5 text-accent" />
+            <AdminIcon name="currency_exchange" className="w-6 h-6 text-accent" />
             <div>
-              <p className="text-sm font-bold text-ink">Update Kurs MYR</p>
-              <p className="text-[11px] text-muted">Otomatis ke kalkulator</p>
+              <p className="text-sm font-bold text-ink">Ubah Kurs &amp; Aturan DP</p>
+              <p className="text-[11px] text-muted">Otomatis ke kalkulator web</p>
             </div>
           </Link>
           <Link
             href="/admin/business"
             className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
           >
-            <AdminIcon name="verified_user" className="w-5 h-5 text-accent" />
+            <AdminIcon name="verified_user" className="w-6 h-6 text-accent" />
             <div>
-              <p className="text-sm font-bold text-ink">Bisnis & Legal PT</p>
+              <p className="text-sm font-bold text-ink">Ganti No WA &amp; Profil</p>
               <p className="text-[11px] text-muted">WA, Medsos, Armada, FAQ</p>
+            </div>
+          </Link>
+          <Link
+            href="/"
+            target="_blank"
+            className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
+          >
+            <AdminIcon name="open_in_new" className="w-6 h-6 text-accent" />
+            <div>
+              <p className="text-sm font-bold text-ink">Lihat Website Utama</p>
+              <p className="text-[11px] text-muted">Cek hasil perubahan di depan</p>
             </div>
           </Link>
         </div>
@@ -321,8 +413,16 @@ export default function DashboardClient() {
                     {b.children_count ? `, ${b.children_count} ank` : ""}
                   </p>
                 </div>
-                <div className="text-right shrink-0 space-y-1">
-                  <StatusPill status={b.dp_status} />
+                <div className="text-right shrink-0 flex flex-col items-end gap-1">
+                  <div className="flex items-center gap-1.5">
+                    <StatusPill status={b.dp_status} />
+                    <Link
+                      href={`/admin/receipts?orderId=${b.id}`}
+                      className="px-2 py-0.5 rounded-md bg-paper-2 border border-rule text-[11px] font-bold text-accent hover:border-accent"
+                    >
+                      Kwitansi
+                    </Link>
+                  </div>
                   <p className="text-xs font-semibold text-ink num">
                     RM {b.estimated_total.toLocaleString("en-US")}
                   </p>

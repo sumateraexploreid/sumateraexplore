@@ -79,6 +79,19 @@ export default function AdminGalleryPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const qs = new URLSearchParams(window.location.search);
+    if (qs.get("action") === "new") {
+      const id = window.setTimeout(() => {
+        setEditingId(null);
+        setForm(EMPTY_GALLERY);
+        setModalOpen(true);
+      }, 0);
+      return () => window.clearTimeout(id);
+    }
+  }, []);
+
   function openCreate() {
     setEditingId(null);
     setForm(EMPTY_GALLERY);
@@ -292,16 +305,16 @@ export default function AdminGalleryPage() {
             <button
               type="button"
               onClick={() => setModalOpen(false)}
-              className="px-4 py-2 rounded-card border border-rule text-sm text-ink-2"
+              className="px-4 py-2 rounded-md border border-rule text-sm text-ink-2"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2 rounded-card bg-accent text-accent-ink text-sm font-bold hover:bg-accent-hover disabled:opacity-50"
+              className="px-5 py-2 rounded-md bg-accent text-accent-ink text-sm font-bold hover:bg-accent-hover disabled:opacity-50"
             >
-              {saving ? "Menyimpan..." : "Simpan Foto"}
+              {saving ? "Menyimpan…" : "Simpan Foto"}
             </button>
           </div>
         </form>

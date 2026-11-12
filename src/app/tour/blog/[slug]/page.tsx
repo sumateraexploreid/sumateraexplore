@@ -1,8 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getLiveBlogPost, getLiveBlogs, getLivePackageBySlug } from "@/lib/cms";
-import { BUSINESS_IDENTITY } from "@/data/business";
+import { getLiveBlogPost, getLiveBlogs, getLivePackageBySlug, getLiveSiteBundle } from "@/lib/cms";
 import { getLocale } from "@/i18n";
 import { formatPrice } from "@/lib/currency";
 
@@ -52,10 +51,12 @@ export default async function BlogDetailPage({
   }
 
   const locale = await getLocale();
-  const [relatedPkg, allPosts] = await Promise.all([
+  const [relatedPkg, allPosts, bundle] = await Promise.all([
     getLivePackageBySlug(post.relatedPackageSlug),
     getLiveBlogs(),
+    getLiveSiteBundle(),
   ]);
+  const BUSINESS_IDENTITY = bundle.business;
   const formattedPkgPrice = relatedPkg
     ? await formatPrice(relatedPkg.priceMyr, locale)
     : null;

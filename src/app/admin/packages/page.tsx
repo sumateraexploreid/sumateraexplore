@@ -136,6 +136,20 @@ export default function AdminPackagesPage() {
     };
   }, [q]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const qs = new URLSearchParams(window.location.search);
+    if (qs.get("action") === "new") {
+      const id = window.setTimeout(() => {
+        setEditingId(null);
+        setActiveTab("info");
+        setForm(DEFAULT_FORM);
+        setModalOpen(true);
+      }, 0);
+      return () => window.clearTimeout(id);
+    }
+  }, []);
+
   function openCreate() {
     setEditingId(null);
     setActiveTab("info");
@@ -362,11 +376,10 @@ export default function AdminPackagesPage() {
               key={key}
               type="button"
               onClick={() => setActiveTab(key)}
-              className={`px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ${
-                activeTab === key
-                  ? "bg-accent text-accent-ink"
-                  : "bg-paper-2 text-ink-2 hover:text-ink"
-              }`}
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ${activeTab === key
+                ? "bg-accent text-accent-ink"
+                : "bg-paper-2 text-ink-2 hover:text-ink"
+                }`}
             >
               {label}
             </button>
@@ -390,9 +403,24 @@ export default function AdminPackagesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-ink-2 mb-1">
-                    Slug URL
-                  </label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-semibold text-ink-2">
+                      Alamat Link Paket (Slug)
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const slug = form.name
+                          .toLowerCase()
+                          .replace(/[^a-z0-9]+/g, "-")
+                          .replace(/^-+|-+$/g, "");
+                        if (slug) setForm({ ...form, slug });
+                      }}
+                      className="text-[11px] font-bold text-accent hover:underline"
+                    >
+                      Buat Link Otomatis
+                    </button>
+                  </div>
                   <input
                     type="text"
                     required
@@ -401,6 +429,9 @@ export default function AdminPackagesPage() {
                     placeholder="danau-toba-3d2n"
                     className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink font-mono"
                   />
+                  <p className="text-[11px] text-muted mt-1">
+                    Dipakai di link web (contoh: /tour/danau-toba-3d2n). Boleh klik &ldquo;Buat Link Otomatis&rdquo;.
+                  </p>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-ink-2 mb-1">

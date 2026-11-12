@@ -3,9 +3,26 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "./Icon";
-import { BUSINESS_IDENTITY, SOCIAL_CHANNELS } from "@/data/business";
+import { BUSINESS_IDENTITY, SOCIAL_CHANNELS, type SocialChannel } from "@/data/business";
+import type { BusinessSettings } from "@/lib/cms";
 
-export default function Footer() {
+export default function Footer({
+  business = BUSINESS_IDENTITY,
+  socialChannels = SOCIAL_CHANNELS,
+}: {
+  business?: Pick<
+    BusinessSettings,
+    | "brandName"
+    | "legalName"
+    | "legalForm"
+    | "decreeNumber"
+    | "shortAddress"
+    | "whatsappNumber"
+    | "whatsappDisplay"
+    | "email"
+  >;
+  socialChannels?: SocialChannel[];
+}) {
   const pathname = usePathname();
   if (pathname?.startsWith("/admin")) {
     return null;
@@ -15,16 +32,15 @@ export default function Footer() {
     <footer className="se-footer">
       <div className="se-footer-inner">
         <div className="se-footer-brand">
-          <Link href="/" className="se-footer-logo" aria-label="Sumatera Explore, beranda">
-            {BUSINESS_IDENTITY.brandName}
+          <Link href="/" className="se-footer-logo" aria-label={`${business.brandName}, beranda`}>
+            {business.brandName}
           </Link>
           <p>
             Kantor operasional di Berastagi, Kabupaten Karo. Dikelola resmi oleh badan hukum{" "}
-            {BUSINESS_IDENTITY.legalForm} {BUSINESS_IDENTITY.legalName} (
-            {BUSINESS_IDENTITY.decreeNumber}).
+            {business.legalForm} {business.legalName} ({business.decreeNumber}).
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3" aria-label="Media sosial resmi">
-            {SOCIAL_CHANNELS.map((channel) => (
+            {socialChannels.map((channel) => (
               <a
                 key={channel.key}
                 href={channel.url}
@@ -50,24 +66,24 @@ export default function Footer() {
 
         <div className="se-footer-contact">
           <h2>Kontak &amp; Legalitas</h2>
-          <p>{BUSINESS_IDENTITY.shortAddress}</p>
+          <p>{business.shortAddress}</p>
           <a
-            href={`https://wa.me/${BUSINESS_IDENTITY.whatsappNumber}`}
+            href={`https://wa.me/${business.whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             <Icon name="whatsapp" className="w-4 h-4" />
-            <span>{BUSINESS_IDENTITY.whatsappDisplay}</span>
+            <span>{business.whatsappDisplay}</span>
           </a>
-          <a href={`mailto:${BUSINESS_IDENTITY.email}`}>
-            <span>{BUSINESS_IDENTITY.email}</span>
+          <a href={`mailto:${business.email}`}>
+            <span>{business.email}</span>
           </a>
         </div>
       </div>
 
       <div className="se-footer-bottom">
         <span>
-          © {new Date().getFullYear()} {BUSINESS_IDENTITY.brandName} ({BUSINESS_IDENTITY.legalName})
+          © {new Date().getFullYear()} {business.brandName} ({business.legalName})
         </span>
         <div>
           <Link href="/terms">Syarat &amp; ketentuan</Link>

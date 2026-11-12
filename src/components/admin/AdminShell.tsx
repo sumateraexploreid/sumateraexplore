@@ -18,28 +18,29 @@ interface NavGroup {
 const NAV_GROUPS: NavGroup[] = [
   {
     label: "Ringkasan",
-    items: [{ href: "/admin", label: "Dashboard", icon: "dashboard", exact: true }],
+    items: [{ href: "/admin", label: "Beranda Admin", icon: "dashboard", exact: true }],
   },
   {
-    label: "Operasional & Order",
+    label: "Order & Kwitansi",
     items: [
-      { href: "/admin/orders", label: "Order & DP WhatsApp", icon: "receipt_long" },
+      { href: "/admin/orders", label: "Order & Data Tamu", icon: "add_shopping_cart" },
+      { href: "/admin/receipts", label: "Buat Kwitansi", icon: "receipt_long" },
     ],
   },
   {
-    label: "Katalog & Konten",
+    label: "Isi Website",
     items: [
-      { href: "/admin/packages", label: "Paket & Tier Harga", icon: "tour" },
-      { href: "/admin/blog", label: "Jurnal & Rute", icon: "article" },
-      { href: "/admin/gallery", label: "Galeri & Media", icon: "gallery_thumbnail" },
+      { href: "/admin/packages", label: "Paket & Harga", icon: "tour" },
+      { href: "/admin/blog", label: "Artikel Wisata", icon: "article" },
+      { href: "/admin/gallery", label: "Galeri Foto", icon: "gallery_thumbnail" },
     ],
   },
   {
-    label: "Integrasi & Sistem",
+    label: "Pengaturan & WA",
     items: [
-      { href: "/admin/finance", label: "Kurs & Pembayaran", icon: "currency_exchange" },
-      { href: "/admin/business", label: "Bisnis, Legal & Web", icon: "verified_user" },
-      { href: "/admin/users", label: "Akun & Keamanan", icon: "admin_panel_settings" },
+      { href: "/admin/finance", label: "Kurs & Aturan DP", icon: "currency_exchange" },
+      { href: "/admin/business", label: "Profil Bisnis & WA", icon: "verified_user" },
+      { href: "/admin/users", label: "Akun Pengelola", icon: "admin_panel_settings" },
     ],
   },
 ];
@@ -164,7 +165,7 @@ export default function AdminShell({
   );
 
   return (
-    <div className="min-h-screen bg-paper flex flex-col md:flex-row">
+    <div className="min-h-dvh bg-paper flex flex-col md:flex-row">
       {/* Top Bar Mobile */}
       <div className="md:hidden sticky top-0 z-30 bg-forest-deep border-b border-forest-rule px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
@@ -204,6 +205,57 @@ export default function AdminShell({
       ) : null}
 
       <main className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 max-w-full overflow-x-hidden">
+        {/* Global Shortcut Strip */}
+        <nav
+          aria-label="Jalan pintas cepat admin"
+          className="mb-5 pb-4 border-b border-rule flex flex-wrap items-center gap-2"
+        >
+          <span className="text-xs font-semibold text-muted mr-1">Pintasan:</span>
+          <Link
+            href="/admin/orders?action=new"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent text-accent-ink text-xs font-bold hover:bg-accent-hover transition-colors"
+          >
+            <AdminIcon name="add_circle" className="w-3.5 h-3.5" />
+            + Catat Order Baru
+          </Link>
+          <Link
+            href="/admin/receipts"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-paper-2 border border-rule text-xs font-bold text-ink hover:border-accent transition-colors"
+          >
+            <AdminIcon name="receipt_long" className="w-3.5 h-3.5 text-accent" />
+            Buat Kwitansi
+          </Link>
+          <Link
+            href="/admin/packages?action=new"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-paper-2 border border-rule text-xs font-semibold text-ink-2 hover:text-ink hover:border-accent transition-colors"
+          >
+            <AdminIcon name="tour" className="w-3.5 h-3.5 text-accent" />
+            + Tambah Paket
+          </Link>
+          <Link
+            href="/admin/gallery?action=new"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-paper-2 border border-rule text-xs font-semibold text-ink-2 hover:text-ink hover:border-accent transition-colors"
+          >
+            <AdminIcon name="add_photo_alternate" className="w-3.5 h-3.5 text-accent" />
+            + Upload Foto
+          </Link>
+          <Link
+            href="/admin/finance"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-paper-2 border border-rule text-xs font-semibold text-ink-2 hover:text-ink hover:border-accent transition-colors"
+          >
+            <AdminIcon name="currency_exchange" className="w-3.5 h-3.5 text-accent" />
+            Ubah Kurs
+          </Link>
+          <Link
+            href="/"
+            target="_blank"
+            className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-rule text-xs font-semibold text-muted hover:text-ink hover:border-accent transition-colors"
+          >
+            <AdminIcon name="open_in_new" className="w-3.5 h-3.5" />
+            Buka Web Tamu
+          </Link>
+        </nav>
+
         {children}
       </main>
     </div>

@@ -3,8 +3,7 @@ import Link from "next/link";
 import PackageCard from "@/components/PackageCard";
 import { getLocale } from "@/i18n";
 import { currencyFor, getManualRates } from "@/lib/currency";
-import { getLivePackages } from "@/lib/cms";
-import { BUSINESS_IDENTITY } from "@/data/business";
+import { getLivePackages, getLiveSiteBundle } from "@/lib/cms";
 
 export const metadata = {
   title: "Paket Wisata & Pricelist Danau Toba - Sumatera Explore",
@@ -13,13 +12,16 @@ export const metadata = {
 };
 
 export default async function PackagesPage() {
-  const locale = await getLocale();
+  const [locale, rates, livePackages, bundle] = await Promise.all([
+    getLocale(),
+    getManualRates(),
+    getLivePackages(),
+    getLiveSiteBundle(),
+  ]);
+  const BUSINESS_IDENTITY = bundle.business;
   const currency = currencyFor(locale) as "MYR" | "IDR" | "SGD";
-  const rates = await getManualRates();
   const idrPerUnit =
     currency === "MYR" ? rates.myr : currency === "SGD" ? rates.sgd : 1;
-
-  const livePackages = await getLivePackages();
   const catalogPackages = livePackages.map((pkg) => ({
     id: pkg.id,
     slug: pkg.slug,
@@ -33,7 +35,7 @@ export default async function PackagesPage() {
   }));
 
   return (
-    <main className="se-page min-h-screen">
+    <main className="se-page min-h-dvh">
       <section className="se-subhero" aria-labelledby="packages-page-title">
         <div className="se-subhero-inner">
           <div>

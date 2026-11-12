@@ -682,14 +682,13 @@ export default function AdminBusinessPage() {
           className="max-w-3xl bg-paper-2 border border-rule rounded-card p-6 space-y-4"
         >
           <div className="p-4 rounded-md bg-paper border border-rule text-xs space-y-1">
-            <p className="font-bold text-ink">Status Koneksi Infrastruktur Web</p>
+            <p className="font-bold text-ink">Status Koneksi Website &amp; Pencatatan Order</p>
             <p className="text-ink-2">
-              Supabase PostgreSQL Project:{" "}
+              Sistem penyimpanan data aktif (kode server:{" "}
               <span className="font-mono text-accent">
                 {integrations.supabaseProjectRef || "anqebirxzaydpnmqllnr"}
-              </span>{" "}
-              • Sinkronisasi: Real-time Cache Revalidation + Public Booking Lead Intake (
-              <span className="font-mono">/api/bookings</span>)
+              </span>
+              ) — setiap perubahan harga, paket, atau order tamu otomatis tersinkron ke halaman depan website.
             </p>
           </div>
 

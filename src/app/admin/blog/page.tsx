@@ -98,6 +98,19 @@ export default function AdminBlogPage() {
     };
   }, [q]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const qs = new URLSearchParams(window.location.search);
+    if (qs.get("action") === "new") {
+      const id = window.setTimeout(() => {
+        setEditingId(null);
+        setForm(EMPTY_BLOG);
+        setModalOpen(true);
+      }, 0);
+      return () => window.clearTimeout(id);
+    }
+  }, []);
+
   function openCreate() {
     setEditingId(null);
     setForm(EMPTY_BLOG);
@@ -191,7 +204,7 @@ export default function AdminBlogPage() {
           <button
             type="button"
             onClick={openCreate}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover"
           >
             <AdminIcon name="post_add" className="w-[18px] h-[18px]" />
             Tulis Artikel Baru
@@ -206,8 +219,8 @@ export default function AdminBlogPage() {
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Cari judul atau slug artikel..."
-          className="w-full sm:w-80 px-3.5 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent"
+          placeholder="Cari judul atau link artikel…"
+          className="w-full sm:w-80 px-3.5 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent"
         />
       </div>
 
@@ -286,16 +299,31 @@ export default function AdminBlogPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-ink-2 mb-1">
-                Slug URL
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs font-semibold text-ink-2">
+                  Alamat Link Artikel (Slug)
+                </label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const slug = form.title
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, "-")
+                      .replace(/^-+|-+$/g, "");
+                    if (slug) setForm({ ...form, slug });
+                  }}
+                  className="text-[11px] font-bold text-accent hover:underline"
+                >
+                  Buat Link Otomatis
+                </button>
+              </div>
               <input
                 type="text"
                 required
                 value={form.slug}
                 onChange={(e) => setForm({ ...form, slug: e.target.value })}
                 placeholder="panduan-kuliner-halal-toba"
-                className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink font-mono"
+                className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink font-mono"
               />
             </div>
 

@@ -44,13 +44,27 @@ const localeShort: Record<string, string> = {
   en: "SGD",
 };
 
-export default function Navbar({ activeLocale }: { activeLocale: Locale }) {
+export default function Navbar({
+  activeLocale,
+  brandName = BUSINESS_IDENTITY.brandName,
+  whatsappNumber = contactWhatsapp,
+}: {
+  activeLocale: Locale;
+  brandName?: string;
+  whatsappNumber?: string;
+}) {
   const pathname = usePathname();
   const [openLang, setOpenLang] = useState(false);
 
   if (pathname?.startsWith("/admin")) {
     return null;
   }
+
+  const liveDirectLinks = headerDirectLinks.map((item) =>
+    item.key === "whatsapp"
+      ? { ...item, href: `https://wa.me/${whatsappNumber}` }
+      : item,
+  );
 
   const isHome = pathname === "/";
   const isPkg = pathname?.startsWith("/tour/packages") || (pathname?.startsWith("/tour/") && !pathname?.startsWith("/tour/gallery") && !pathname?.startsWith("/tour/blog"));
@@ -77,13 +91,12 @@ export default function Navbar({ activeLocale }: { activeLocale: Locale }) {
     >
       <div className="se-nav-inner">
         <div className="se-brand-bar">
-          <Link href="/" className="se-wordmark inline-flex items-center gap-2" aria-label="Sumatera Explore, beranda">
-            <span className="w-2.5 h-2.5 rounded-full bg-accent shrink-0" aria-hidden="true" />
-            <span>Sumatera Explore</span>
+          <Link href="/" className="se-wordmark inline-flex items-center" aria-label={`${brandName}, beranda`}>
+            <span>{brandName}</span>
           </Link>
 
           <div className="se-nav-social" aria-label="Tautan media sosial dan WhatsApp">
-            {headerDirectLinks.map((item) => (
+            {liveDirectLinks.map((item) => (
               <a
                 key={item.key}
                 href={item.href}
@@ -174,7 +187,7 @@ export default function Navbar({ activeLocale }: { activeLocale: Locale }) {
           </div>
 
           <a
-            href={`https://wa.me/${contactWhatsapp}`}
+            href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
             className="se-nav-cta se-nav-cta-desktop"

@@ -1,11 +1,14 @@
 import type { MetadataRoute } from "next";
-import { TOUR_PACKAGES } from "@/data/packages";
-import { BLOG_POSTS } from "@/data/blog";
+import { getLiveBlogs, getLivePackages, getLiveSiteBundle } from "@/lib/cms";
 
-const BASE_URL = "https://sumateraexplore.my.id";
-
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const [packages, blogs, bundle] = await Promise.all([
+    getLivePackages(),
+    getLiveBlogs(),
+    getLiveSiteBundle(),
+  ]);
+  const BASE_URL = (bundle.business.siteUrl || "https://sumateraexplore.my.id").replace(/\/+$/, "");
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
@@ -18,14 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.4 },
   ];
 
-  const packageRoutes: MetadataRoute.Sitemap = TOUR_PACKAGES.map((pkg) => ({
+  const packageRoutes: MetadataRoute.Sitemap = packages.map((pkg) => ({
     url: `${BASE_URL}/tour/${pkg.slug}`,
     lastModified: now,
     changeFrequency: "weekly",
     priority: 0.9,
   }));
 
-  const blogRoutes: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
+  const blogRoutes: MetadataRoute.Sitemap = blogs.map((post) => ({
     url: `${BASE_URL}/tour/blog/${post.slug}`,
     lastModified: new Date(post.updatedAt || post.createdAt),
     changeFrequency: "monthly",

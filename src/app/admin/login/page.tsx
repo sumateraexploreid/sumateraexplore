@@ -43,7 +43,7 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-paper flex flex-col items-center justify-center p-4">
+    <div className="min-h-dvh bg-paper flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md bg-paper-2 border border-rule rounded-card p-6 sm:p-8 shadow-card">
         <div className="flex items-center gap-3 mb-6 pb-5 border-b border-rule">
           <div className="w-11 h-11 rounded-md bg-accent text-accent-ink flex items-center justify-center shrink-0">
@@ -52,7 +52,7 @@ function LoginForm() {
           <div>
             <h1 className="font-display text-xl text-ink">Sumatera Explore</h1>
             <p className="text-xs text-muted">
-              Back-Office & CMS Terintegrasi (SUJAI TOBA SUMATERA)
+              Panel Pengelola Sumatera Explore ({/* */}SUJAI TOBA SUMATERA)
             </p>
           </div>
         </div>
@@ -127,7 +127,7 @@ function LoginForm() {
             <AdminIcon name="arrow_back" className="w-3.5 h-3.5" />
             Kembali ke Website
           </Link>
-          <span>Proteksi HMAC Cookie & DB</span>
+          <span>Akses Aman Operator Resmi</span>
         </div>
       </div>
     </div>
@@ -136,7 +136,7 @@ function LoginForm() {
 
 export default function AdminLoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-paper" />}>
+    <Suspense fallback={<div className="min-h-dvh bg-paper" />}>
       <LoginForm />
     </Suspense>
   );

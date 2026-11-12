@@ -121,7 +121,7 @@ export default function BlogClient({ posts }: { posts: BlogPost[] }) {
               type="search"
               value={searchQuery}
               onChange={(e) => handleQueryChange(e.target.value)}
-              placeholder="Cari destinasi atau panduan..."
+              placeholder="Cari destinasi atau panduan…"
               className="se-input"
             />
           </div>

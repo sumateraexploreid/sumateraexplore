@@ -169,7 +169,7 @@ export default async function Home() {
                 />
               </div>
               <div>
-                <p className="se-ugc-operator-name">Operator Resmi · {BUSINESS_IDENTITY.legalName}</p>
+                <p className="se-ugc-operator-name">Operator Resmi: {BUSINESS_IDENTITY.legalName}</p>
                 <p className="se-ugc-operator-sub">Private Trip Medan, Berastagi, Danau Toba &amp; Samosir</p>
               </div>
             </div>
@@ -193,7 +193,9 @@ export default async function Home() {
                     {item.formattedStartPrice}
                   </span>
                 </div>
-                <span className="se-ugc-tile-area">{item.locationTag}</span>
+                <span className="se-ugc-tile-area">
+                  {item.locationTag} (mulai 6 pax)
+                </span>
               </Link>
             ))}
           </nav>
@@ -270,7 +272,7 @@ export default async function Home() {
                     {pkg.duration} di {pkg.locationTag}
                   </p>
                   <p className="se-package-includes">
-                    {pkg.hotels.join(" · ")} | {pkg.includes.slice(0, 2).join(", ")}
+                    {pkg.hotels.join(", ")} | {pkg.includes.slice(0, 2).join(", ")}
                   </p>
                   <div className="se-package-bottom">
                     <div>

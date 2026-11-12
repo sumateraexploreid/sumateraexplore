@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { BUSINESS_IDENTITY } from '@/data/business';
+import { getLiveSiteBundle } from '@/lib/cms';
 
 export const metadata = {
   title: 'Syarat dan Ketentuan - Sumatera Explore',
@@ -8,9 +8,11 @@ export const metadata = {
     'Syarat dan ketentuan layanan paket wisata Sumatera Explore: pemesanan, pembayaran, pembatalan, dan tanggung jawab layanan perjalanan Danau Toba.',
 };
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const bundle = await getLiveSiteBundle();
+  const BUSINESS_IDENTITY = bundle.business;
   return (
-    <main>
+    <main className="min-h-dvh">
       <section className="se-subhero">
         <div className="se-subhero-inner">
           <div>
@@ -122,10 +124,10 @@ export default function TermsPage() {
               <li>
                 Email:{' '}
                 <a
-                  href="mailto:booking@sumateraexplore.my.id"
+                  href={`mailto:${BUSINESS_IDENTITY.email}`}
                   className="font-semibold text-accent underline underline-offset-4 hover:text-ink"
                 >
-                  booking@sumateraexplore.my.id
+                  {BUSINESS_IDENTITY.email}
                 </a>
               </li>
               <li>

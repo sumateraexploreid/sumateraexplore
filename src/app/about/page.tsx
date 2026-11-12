@@ -19,7 +19,7 @@ export default async function AboutPage() {
   const DOCUMENTATION_GEAR = bundle.documentationGear;
   const OPERATOR_NOTES = bundle.operatorNotes;
   return (
-    <main className="se-page min-h-screen">
+    <main className="se-page min-h-dvh">
       <section className="se-subhero" aria-labelledby="about-title">
         <div className="se-subhero-inner">
           <div>

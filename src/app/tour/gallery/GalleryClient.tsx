@@ -183,7 +183,7 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
               type="search"
               value={searchQuery}
               onChange={(e) => handleQueryChange(e.target.value)}
-              placeholder="Cari lokasi atau momen..."
+              placeholder="Cari lokasi atau momen…"
               className="se-input"
             />
           </div>

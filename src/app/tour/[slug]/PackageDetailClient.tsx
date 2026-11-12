@@ -136,7 +136,7 @@ export default function PackageDetailClient({
   )}`;
 
   return (
-    <main className="se-page min-h-screen pb-24 lg:pb-16">
+    <main className="se-page min-h-dvh pb-24 lg:pb-16">
       <section className="se-subhero" aria-labelledby="pkg-title">
         <div className="se-subhero-inner">
           <div>

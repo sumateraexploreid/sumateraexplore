@@ -48,7 +48,7 @@ export default async function PaymentPage() {
   ];
 
   return (
-    <main className="se-page min-h-screen">
+    <main className="se-page min-h-dvh">
       <section className="se-subhero" aria-labelledby="payment-title">
         <div className="se-subhero-inner">
           <div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { adminFetch, type ListResult } from "@/lib/admin-client";
 import {
   AdminPageHeader,
@@ -122,6 +123,18 @@ export default function AdminOrdersPage() {
       active = false;
     };
   }, [q, statusFilter]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const qs = new URLSearchParams(window.location.search);
+    if (qs.get("action") === "new") {
+      const id = window.setTimeout(() => {
+        setEditingId(null);
+        setModalOpen(true);
+      }, 0);
+      return () => window.clearTimeout(id);
+    }
+  }, []);
 
   useEffect(() => {
     adminFetch<ListResult<PackageOption>>("/api/admin/packages?pageSize=50")
@@ -352,12 +365,30 @@ export default function AdminOrdersPage() {
                       onChange={(e) => handleQuickStatus(row, e.target.value)}
                       className="px-2.5 py-1.5 rounded-md bg-paper border border-rule text-xs text-ink"
                     >
-                      <option value="pending_inquiry">Lead Baru</option>
+                      <option value="pending_inquiry">Tamu Baru</option>
                       <option value="waiting_dp">Menunggu DP</option>
                       <option value="dp_paid">DP Lunas</option>
                       <option value="completed">Trip Selesai</option>
                       <option value="cancelled">Batal</option>
                     </select>
+
+                    {row.dp_status !== "dp_paid" && row.dp_status !== "completed" ? (
+                      <button
+                        type="button"
+                        onClick={() => handleQuickStatus(row, "dp_paid")}
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-accent/15 border border-accent/40 text-xs font-bold text-accent hover:bg-accent hover:text-accent-ink transition-colors"
+                      >
+                        Tandai DP Lunas
+                      </button>
+                    ) : null}
+
+                    <Link
+                      href={`/admin/receipts?orderId=${row.id}`}
+                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-accent text-accent-ink text-xs font-bold whitespace-nowrap hover:bg-accent-hover transition-colors"
+                    >
+                      <AdminIcon name="receipt_long" className="w-3.5 h-3.5" />
+                      Buat Kwitansi
+                    </Link>
 
                     <a
                       href={waFollowUpUrl(row)}

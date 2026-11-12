@@ -68,8 +68,8 @@ export default function AdminFinancePage() {
   return (
     <div>
       <AdminPageHeader
-        title="Kurs Mata Uang & Kebijakan DP"
-        subtitle="Kelola nilai tukar MYR → IDR dan SGD → IDR yang dipakai konverter mata uang di Navbar, Kartu Paket, dan halaman Cara Pembayaran (/payment)."
+        title="Kurs Mata Uang & Aturan DP"
+        subtitle="Ubah nilai tukar RM dan SGD di sini. Seluruh harga pada kalkulator website dan halaman Pembayaran otomatis ikut berubah."
       />
 
       <ToastBanner toast={toast} onClose={() => setToast(null)} />
