@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  experimental: {
+    agentUpgrade: "security",
+  },
   images: {
     // Aset lama dirujuk dari DB sebagai /storage/... dan /images/...
     remotePatterns: [{ protocol: "https", hostname: "**.supabase.co" }],

@@ -1,39 +1,35 @@
-"use client";
-
-import React, { useState } from 'react';
+import React from "react";
 
 interface FaqProps {
-    q: string;
-    a: string;
+  q: string;
+  a: string;
 }
 
 export default function FaqAccordion({ faqs }: { faqs: FaqProps[] }) {
-    const [selected, setSelected] = useState<number | null>(1);
-
-    return (
-        <div className="space-y-2 md:space-y-4">
-            {faqs.map((faq, index) => {
-                const isOpen = selected === index + 1;
-                return (
-                    <div key={index} className="bg-white px-5 md:px-6 rounded-2xl border border-slate-100 shadow-xs transition-shadow hover:shadow-sm">
-                        <button 
-                            onClick={() => setSelected(isOpen ? null : index + 1)}
-                            aria-expanded={isOpen}
-                            className="w-full py-5 md:py-6 flex justify-between items-center gap-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-toba-green focus-visible:ring-offset-2"
-                        >
-                            <span className="text-[15px] md:text-[18px] text-slate-900 font-bold leading-snug">{faq.q}</span>
-                            <span className={`material-symbols-outlined transition-transform duration-300 ${isOpen ? 'rotate-180 text-toba-green' : 'text-slate-400'}`} aria-hidden="true">expand_more</span>
-                        </button>
-                        <div 
-                            className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
-                        >
-                            <p className="pb-5 md:pb-6 font-sans text-[14px] md:text-[16px] text-slate-600 leading-relaxed">
-                                {faq.a}
-                            </p>
-                        </div>
-                    </div>
-                );
-            })}
-        </div>
-    );
+  return (
+    <div className="divide-y divide-rule border-y border-rule">
+      {faqs.map((faq, index) => (
+        <details key={faq.q} open={index === 0} className="group">
+          <summary className="list-none cursor-pointer w-full py-5 flex justify-between items-center gap-4 text-left text-ink hover:text-accent transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-focus">
+            <span className="font-display text-lg leading-snug">{faq.q}</span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="shrink-0 text-muted transition-transform duration-200 group-open:rotate-180 group-open:text-accent"
+              aria-hidden="true"
+            >
+              <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </summary>
+          <div className="pb-5">
+            <p className="text-sm text-ink-2 leading-relaxed">{faq.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  );
 }

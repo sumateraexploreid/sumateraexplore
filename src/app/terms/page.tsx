@@ -1,69 +1,148 @@
 import React from 'react';
 import Link from 'next/link';
+import { BUSINESS_IDENTITY } from '@/data/business';
 
 export const metadata = {
   title: 'Syarat dan Ketentuan - Sumatera Explore',
-  description: 'Syarat dan ketentuan layanan paket wisata Sumatera Explore: pemesanan, pembayaran, pembatalan, dan tanggung jawab layanan perjalanan Danau Toba.',
+  description:
+    'Syarat dan ketentuan layanan paket wisata Sumatera Explore: pemesanan, pembayaran, pembatalan, dan tanggung jawab layanan perjalanan Danau Toba.',
 };
 
 export default function TermsPage() {
-    return (
-        <div className="bg-slate-50 min-h-screen pt-14 pb-12 font-sans">
-            <div className="max-w-4xl mx-auto px-5">
-                <div className="bg-white rounded-3xl p-6 md:p-12 shadow-sm border border-slate-100 animate-fade-in-up duration-1000">
-                    <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Syarat &amp; <span className="text-toba-green">Ketentuan</span></h1>
-                    
-                    {/* Identitas Perusahaan */}
-                    <div className="mb-8 p-6 bg-slate-50 border border-slate-100 rounded-2xl text-xs text-slate-500 font-normal leading-relaxed">
-                        <p className="font-bold text-slate-700 mb-1">Sumatera Explore</p>
-                        <p>Nama Domain: <strong className="text-slate-800 font-medium">sumateraexplore.my.id</strong> — Brand resmi: <strong className="text-slate-800 font-medium">Sumatera Explore</strong></p>
-                        <p>Dioperasikan oleh Sumatera Explore, berdomisili di Jl. Trimurti 109, Berastagi, Kabupaten Karo, Sumatera Utara.</p>
-                        <p className="mt-2 text-[10px] text-slate-400">Terakhir diperbarui: Juni 2025</p>
-                    </div>
-                    
-                    <div className="prose prose-slate max-w-none text-slate-600 text-sm font-normal leading-relaxed">
-                        <h3 className="text-slate-900 font-bold text-base mb-3 tracking-tight">1. Pendaftaran &amp; Pemesanan</h3>
-                        <p className="mb-6">Setiap pemesanan dianggap sah apabila dilakukan melalui website resmi <strong className="text-slate-900 font-medium">sumateraexplore.my.id</strong> atau melalui jalur komunikasi resmi (WhatsApp/Email). Kami berhak meminta uang muka (DP) sebesar 30–50% sebagai tanda jadi pemesanan paket wisata sebelum proses konfirmasi akomodasi dilakukan.</p>
-                        
-                        <h3 className="text-slate-900 font-bold text-base mb-3 tracking-tight">2. Pembayaran</h3>
-                        <p className="mb-6">Pelunasan wajib dilakukan paling lambat 7 hari sebelum tanggal keberangkatan. Pembayaran dapat dilakukan melalui:</p>
-                        <ul className="list-disc pl-5 mb-6 space-y-2">
-                            <li>Transfer bank rekening resmi Sumatera Explore (BCA / BNI / Mandiri)</li>
-                            <li>Transfer internasional via Wise (Transferwise) untuk tamu dari Singapura dan Malaysia</li>
-                            <li>Mata uang yang diterima: IDR (Rupiah), MYR (Ringgit Malaysia), SGD (Singapore Dollar)</li>
-                        </ul>
-                        <p className="mb-6">Untuk informasi rekening dan detail pembayaran internasional, silakan kunjungi halaman <Link href="/payment" className="text-toba-green font-semibold hover:underline">Cara Pembayaran</Link>.</p>
-                        
-                        <h3 className="text-slate-900 font-bold text-base mb-3 tracking-tight">3. Pembatalan</h3>
-                        <ul className="list-disc pl-5 mb-6 space-y-2">
-                            <li>Pembatalan &gt; 14 hari sebelum keberangkatan: Pengembalian dana 100% (potong biaya admin Rp 50.000).</li>
-                            <li>Pembatalan 7–14 hari sebelum keberangkatan: Pengembalian dana 50%.</li>
-                            <li>Pembatalan &lt; 7 hari sebelum keberangkatan: Dana tidak dapat dikembalikan.</li>
-                            <li>Pembatalan karena bencana alam atau force majeure: Pengembalian dana penuh atau penjadwalan ulang tanpa biaya.</li>
-                        </ul>
-                        
-                        <h3 className="text-slate-900 font-bold text-base mb-3 tracking-tight">4. Tanggung Jawab &amp; Asuransi</h3>
-                        <p className="mb-6">Sumatera Explore bertanggung jawab atas keselamatan dan kenyamanan tamu selama program berlangsung sesuai itinerary yang disepakati. Kami menyediakan asuransi perjalanan dasar untuk setiap tamu. Tamu disarankan untuk memiliki asuransi perjalanan pribadi yang mencakup evakuasi medis, terutama untuk tamu internasional.</p>
-                        
-                        <h3 className="text-slate-900 font-bold text-base mb-3 tracking-tight">5. Perubahan Jadwal</h3>
-                        <p className="mb-6">Sumatera Explore berhak mengubah itinerary atau jadwal perjalanan apabila terjadi kondisi force majeure (bencana alam, penutupan akses oleh pemerintah, cuaca ekstrem, dll) demi keselamatan dan kenyamanan tamu. Perubahan akan diberitahukan paling lambat 24 jam sebelum keberangkatan.</p>
-                        
-                        <h3 className="text-slate-900 font-bold text-base mb-3 tracking-tight">6. Hak &amp; Kewajiban Tamu</h3>
-                        <ul className="list-disc pl-5 mb-6 space-y-2">
-                            <li>Tamu wajib mematuhi peraturan dan norma lokal di setiap destinasi yang dikunjungi.</li>
-                            <li>Tamu wajib memiliki dokumen perjalanan yang sah (paspor, visa jika diperlukan).</li>
-                            <li>Tamu bertanggung jawab atas barang bawaan pribadi masing-masing.</li>
-                        </ul>
-                        
-                        <h3 className="text-slate-900 font-bold text-base mb-3 tracking-tight">7. Kontak &amp; Penyelesaian Sengketa</h3>
-                        <p className="mb-6">Untuk pertanyaan, keluhan, atau penyelesaian sengketa, tamu dapat menghubungi kami melalui:</p>
-                        <ul className="list-none pl-0 mb-6 space-y-2">
-                            <li>📧 Email: <a href="mailto:booking@sumateraexplore.my.id" className="text-toba-green font-semibold hover:underline">booking@sumateraexplore.my.id</a></li>
-                            <li>📱 WhatsApp 1: <a href="https://wa.me/6282166889988" target="_blank" rel="noopener noreferrer" className="text-toba-green font-semibold hover:underline">+62 821-6688-9988</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+  return (
+    <main>
+      <section className="se-subhero">
+        <div className="se-subhero-inner">
+          <div>
+            <nav aria-label="Breadcrumb" className="se-breadcrumb">
+              <Link href="/">Beranda</Link>
+              <span aria-hidden="true">/</span>
+              <span>Syarat &amp; ketentuan</span>
+            </nav>
+            <h1>Syarat &amp; ketentuan</h1>
+          </div>
+          <p>Terakhir diperbarui: Juni 2025</p>
         </div>
-    );
+      </section>
+
+      <section className="se-prose-wrap">
+        <article className="se-prose-card">
+          <div className="mb-8 border-b border-rule pb-6 text-sm text-ink-2 leading-relaxed">
+            <p className="font-semibold text-ink mb-1">Sumatera Explore</p>
+            <p>
+              Nama Domain:{' '}
+              <strong className="font-semibold text-ink">sumateraexplore.my.id</strong>, Brand
+              resmi: <strong className="font-semibold text-ink">Sumatera Explore</strong>
+            </p>
+            <p className="mt-1">
+              Dioperasikan oleh Sumatera Explore, berdomisili di Jl. Trimurti 109, Berastagi,
+              Kabupaten Karo, Sumatera Utara.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <h2>1. Pendaftaran &amp; Pemesanan</h2>
+            <p>
+              Setiap pemesanan dianggap sah apabila dilakukan melalui website resmi{' '}
+              <strong className="font-semibold text-ink">sumateraexplore.my.id</strong> atau melalui
+              jalur komunikasi resmi (WhatsApp/Email). Kami berhak meminta uang muka (DP) sebesar
+              30-50% sebagai tanda jadi pemesanan paket wisata sebelum proses konfirmasi akomodasi
+              dilakukan.
+            </p>
+
+            <h2>2. Pembayaran</h2>
+            <p>
+              Pelunasan wajib dilakukan paling lambat 7 hari sebelum tanggal keberangkatan.
+              Pembayaran dapat dilakukan melalui:
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>Transfer bank rekening resmi Sumatera Explore (BCA / BNI / Mandiri)</li>
+              <li>
+                Transfer internasional via Wise (Transferwise) untuk tamu dari Singapura dan Malaysia
+              </li>
+              <li>
+                Mata uang yang diterima: IDR (Rupiah), MYR (Ringgit Malaysia), SGD (Singapore Dollar)
+              </li>
+            </ul>
+            <p>
+              Untuk informasi rekening dan detail pembayaran internasional, silakan kunjungi halaman{' '}
+              <Link href="/payment" className="font-semibold text-accent underline underline-offset-4 hover:text-ink">
+                Cara Pembayaran
+              </Link>
+              .
+            </p>
+
+            <h2>3. Pembatalan</h2>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                Pembatalan &gt; 14 hari sebelum keberangkatan: Pengembalian dana 100% (potong biaya
+                admin Rp 50.000).
+              </li>
+              <li>Pembatalan 7-14 hari sebelum keberangkatan: Pengembalian dana 50%.</li>
+              <li>Pembatalan &lt; 7 hari sebelum keberangkatan: Dana tidak dapat dikembalikan.</li>
+              <li>
+                Pembatalan karena bencana alam atau force majeure: Pengembalian dana penuh atau
+                penjadwalan ulang tanpa biaya.
+              </li>
+            </ul>
+
+            <h2>4. Tanggung Jawab &amp; Asuransi</h2>
+            <p>
+              Sumatera Explore bertanggung jawab atas keselamatan dan kenyamanan tamu selama program
+              berlangsung sesuai itinerary yang disepakati. Kami menyediakan asuransi perjalanan
+              dasar untuk setiap tamu. Tamu disarankan untuk memiliki asuransi perjalanan pribadi
+              yang mencakup evakuasi medis, terutama untuk tamu internasional.
+            </p>
+
+            <h2>5. Perubahan Jadwal</h2>
+            <p>
+              Sumatera Explore berhak mengubah itinerary atau jadwal perjalanan apabila terjadi
+              kondisi force majeure (bencana alam, penutupan akses oleh pemerintah, cuaca ekstrem,
+              dll) demi keselamatan dan kenyamanan tamu. Perubahan akan diberitahukan paling lambat
+              24 jam sebelum keberangkatan.
+            </p>
+
+            <h2>6. Hak &amp; Kewajiban Tamu</h2>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                Tamu wajib mematuhi peraturan dan norma lokal di setiap destinasi yang dikunjungi.
+              </li>
+              <li>
+                Tamu wajib memiliki dokumen perjalanan yang sah (paspor, visa jika diperlukan).
+              </li>
+              <li>Tamu bertanggung jawab atas barang bawaan pribadi masing-masing.</li>
+            </ul>
+
+            <h2>7. Kontak &amp; Penyelesaian Sengketa</h2>
+            <p>
+              Untuk pertanyaan, keluhan, atau penyelesaian sengketa, tamu dapat menghubungi kami
+              melalui:
+            </p>
+            <ul className="list-none pl-0 space-y-2">
+              <li>
+                Email:{' '}
+                <a
+                  href="mailto:booking@sumateraexplore.my.id"
+                  className="font-semibold text-accent underline underline-offset-4 hover:text-ink"
+                >
+                  booking@sumateraexplore.my.id
+                </a>
+              </li>
+              <li>
+                WhatsApp:{' '}
+                <a
+                  href={`https://wa.me/${BUSINESS_IDENTITY.whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-accent underline underline-offset-4 hover:text-ink"
+                >
+                  {BUSINESS_IDENTITY.whatsappDisplay}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </section>
+    </main>
+  );
 }

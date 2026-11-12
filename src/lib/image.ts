@@ -113,14 +113,13 @@ function resolve(input: string | null | undefined, fallback?: string | null): st
   if (has("medan-1", "maimun")) return S("maimun_palace");
   if (has("medan-2", "masjid")) return S("masjid_raya");
   if (has("medan")) return S("maimun_palace");
-  if (has("bukitlawang-1", "orangutan")) return S("orangutan");
-  if (has("bukitlawang-2", "bukit-lawang")) return S("sumatra_panorama");
+  if (has("silalahi", "paropo")) return S("toba_landscape");
   if (has("honeymoon-1")) return S("hotel_room");
   if (has("honeymoon-2")) return S("toba_landscape");
   if (has("honeymoon-3")) return S("toba_hero");
   if (has("sumut-complete-1")) return S("toba_hero");
   if (has("sumut-complete-2")) return S("berastagi");
-  if (has("sumut-complete-3")) return S("orangutan");
+  if (has("sumut-complete-3")) return S("sipiso_piso");
   if (has("010", "0010", "hotel", "room")) return S("hotel_room");
 
   // 8. Mobil.
@@ -144,7 +143,7 @@ function resolve(input: string | null | undefined, fallback?: string | null): st
 
   // 10. Kata kunci blog.
   if (has("batak")) return S("batak_house");
-  if (has("trekking", "orangutan")) return S("orangutan");
+  if (has("trekking", "hiking")) return S("berastagi");
   if (has("spots", "photo")) return S("toba_landscape");
   if (has("best-time")) return S("toba_hero");
   if (has("transfer", "guide")) return S("sumatra_panorama");

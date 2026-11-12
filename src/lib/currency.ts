@@ -1,5 +1,3 @@
-import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
 import { unstable_cache } from 'next/cache';
 
 export const PRICE_BASE = 'MYR';
@@ -8,7 +6,15 @@ export const REPORTING = 'IDR';
 export const DEFAULT_MYR_IDR = 4400;
 export const DEFAULT_SGD_IDR = 11500;
 
-export const CURRENCIES: Record<string, any> = {
+export interface CurrencyConfig {
+  symbol: string;
+  decimals: number;
+  recordDecimals: number;
+  decPoint: string;
+  thousandsSep: string;
+}
+
+export const CURRENCIES: Record<string, CurrencyConfig> = {
   MYR: { symbol: 'RM ', decimals: 0, recordDecimals: 2, decPoint: '.', thousandsSep: ',' },
   IDR: { symbol: 'Rp ', decimals: 0, recordDecimals: 0, decPoint: ',', thousandsSep: '.' },
   SGD: { symbol: 'S$ ', decimals: 0, recordDecimals: 2, decPoint: '.', thousandsSep: ',' },
@@ -38,33 +44,31 @@ export function config(currency: string) {
  */
 export const getManualRates = unstable_cache(
   async () => {
-    // We create a fresh client because unstable_cache doesn't have request context cookies easily
-    // Or we use nextjs fetch directly to a serverless function, or we pass data from page.
-    // For simplicity, we create an anonymous client (no cookies needed for public settings)
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
-    const { createClient: createSupabaseClient } = await import('@supabase/supabase-js');
-    const supabase = createSupabaseClient(supabaseUrl, supabaseKey);
+    try {
+      const { dbQuery } = await import('@/lib/db');
+      const { rows } = await Promise.race([
+        dbQuery<{ value: { myrToIdr?: number; sgdToIdr?: number } }>(
+          `SELECT value FROM site_settings WHERE key = 'finance' LIMIT 1`,
+        ),
+        new Promise<{ rows: [] }>((resolve) =>
+          setTimeout(() => resolve({ rows: [] }), 1200),
+        ),
+      ]);
 
-    const { data } = await supabase
-      .from('settings')
-      .select('value')
-      .eq('key', 'general')
-      .single();
+      const finance = rows[0]?.value || {};
+      const myr = Number(finance.myrToIdr || DEFAULT_MYR_IDR);
+      const sgd = Number(finance.sgdToIdr || DEFAULT_SGD_IDR);
 
-    const settings = typeof data?.value === 'string' ? JSON.parse(data.value) : (data?.value || {});
-    const finance = settings?.finance || {};
-
-    const myr = parseFloat(finance.exchange_rate_manual_myr || String(DEFAULT_MYR_IDR));
-    const sgd = parseFloat(finance.exchange_rate_manual_sgd || String(DEFAULT_SGD_IDR));
-
-    return {
-      myr: myr > 0 ? myr : DEFAULT_MYR_IDR,
-      sgd: sgd > 0 ? sgd : DEFAULT_SGD_IDR,
-    };
+      return {
+        myr: myr > 0 ? myr : DEFAULT_MYR_IDR,
+        sgd: sgd > 0 ? sgd : DEFAULT_SGD_IDR,
+      };
+    } catch {
+      return { myr: DEFAULT_MYR_IDR, sgd: DEFAULT_SGD_IDR };
+    }
   },
   ['currency_manual_rates'],
-  { revalidate: 300 }
+  { tags: ['cms-data', 'currency_manual_rates'], revalidate: 300 }
 );
 
 export async function getRate(targetCurrency: string) {
