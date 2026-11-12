@@ -46,7 +46,7 @@ function LoginForm() {
     <div className="min-h-screen bg-paper flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md bg-paper-2 border border-rule rounded-card p-6 sm:p-8 shadow-card">
         <div className="flex items-center gap-3 mb-6 pb-5 border-b border-rule">
-          <div className="w-11 h-11 rounded-card bg-accent text-accent-ink flex items-center justify-center shrink-0">
+          <div className="w-11 h-11 rounded-md bg-accent text-accent-ink flex items-center justify-center shrink-0">
             <AdminIcon name="admin_panel_settings" className="w-6 h-6" />
           </div>
           <div>
@@ -61,7 +61,7 @@ function LoginForm() {
           {error ? (
             <div
               role="alert"
-              className="p-3 rounded-card bg-error/15 border border-error/40 text-xs text-ink flex items-center gap-2"
+              className="p-3 rounded-md bg-error/15 border border-error/40 text-xs text-ink flex items-center gap-2"
             >
               <AdminIcon name="error" className="w-4 h-4 text-error" />
               <span>{error}</span>
@@ -81,7 +81,7 @@ function LoginForm() {
               placeholder="admin@sumateraexplore.my.id"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-card bg-paper border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent"
+              className="w-full px-3.5 py-2.5 rounded-md bg-paper border border-muted/60 text-sm text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-focus focus-visible:border-accent"
             />
           </div>
 
@@ -99,7 +99,7 @@ function LoginForm() {
                 placeholder="Masukkan password admin"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3.5 py-2.5 pr-10 rounded-card bg-paper border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent"
+                className="w-full px-3.5 py-2.5 pr-10 rounded-md bg-paper border border-muted/60 text-sm text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-focus focus-visible:border-accent"
               />
               <button
                 type="button"
@@ -115,10 +115,10 @@ function LoginForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full min-h-[44px] rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
+            className="w-full min-h-[44px] rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
           >
             <AdminIcon name="login" className="w-[18px] h-[18px]" />
-            {submitting ? "Memverifikasi sesi..." : "Masuk ke Admin Panel"}
+            {submitting ? "Memverifikasi sesi…" : "Masuk ke Admin Panel"}
           </button>
         </form>
 

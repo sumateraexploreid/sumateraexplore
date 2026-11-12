@@ -215,13 +215,13 @@ export default function PackageDetailClient({
                   role="tab"
                   aria-selected={activeTab === "excludes"}
                   onClick={() => setActiveTab("excludes")}
-                  className={`min-w-0 sm:flex-1 min-h-12 px-1.5 sm:px-4 text-xs sm:text-sm font-semibold text-center leading-tight transition-colors duration-200 active:translate-y-px ${
+                  className={`min-w-0 sm:flex-1 min-h-12 px-1.5 sm:px-4 text-xs sm:text-sm font-semibold text-center leading-tight whitespace-nowrap transition-colors duration-200 active:translate-y-px ${
                     activeTab === "excludes"
                       ? "bg-paper-3 text-ink border-b-2 border-accent"
                       : "text-muted hover:text-ink hover:bg-paper-3"
                   }`}
                 >
-                  Tidak termasuk
+                  Non-paket
                 </button>
               </div>
 
@@ -490,9 +490,9 @@ export default function PackageDetailClient({
               <button
                 type="button"
                 onClick={handleCopySummary}
-                className="se-btn se-btn--quiet w-full mt-2.5"
+                className="se-btn se-btn--quiet w-full mt-2.5 whitespace-nowrap"
               >
-                {copiedSummary ? "Ringkasan tersalin ke clipboard" : "Salin Ringkasan untuk Grup WA"}
+                {copiedSummary ? "Tersalin ke clipboard" : "Salin ke Grup WA"}
               </button>
               <p className="mt-2 text-xs text-muted text-center min-h-[1.25rem]" aria-live="polite">
                 {copiedSummary

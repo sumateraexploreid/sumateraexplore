@@ -166,7 +166,7 @@ export default function AdminGalleryPage() {
       <ToastBanner toast={toast} onClose={() => setToast(null)} />
 
       {loading ? (
-        <p className="text-sm text-muted py-8 text-center">Memuat foto galeri...</p>
+        <p className="text-sm text-muted py-8 text-center">Memuat foto galeri…</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {items.map((item) => (

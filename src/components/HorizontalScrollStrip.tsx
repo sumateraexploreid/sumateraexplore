@@ -60,10 +60,20 @@ export default function HorizontalScrollStrip({ children, itemWidthClass = 'w-[2
         <div className="relative group/strip">
             {showArrows && (
                 <>
-                    <button onClick={scrollPrev} className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/50 backdrop-blur-md border border-slate-200 rounded-full items-center justify-center text-slate-700 hover:bg-toba-green hover:text-white transition duration-300 shadow-lg opacity-60 hover:opacity-100">
+                    <button
+                      type="button"
+                      aria-label="Geser ke kiri"
+                      onClick={scrollPrev}
+                      className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-paper-2 border border-rule rounded-full items-center justify-center text-ink hover:bg-accent hover:text-accent-ink transition duration-300 shadow-lg opacity-90 hover:opacity-100"
+                    >
                         <span className="material-symbols-outlined text-[20px]">chevron_left</span>
                     </button>
-                    <button onClick={scrollNext} className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/50 backdrop-blur-md border border-slate-200 rounded-full items-center justify-center text-slate-700 hover:bg-toba-green hover:text-white transition duration-300 shadow-lg opacity-60 hover:opacity-100">
+                    <button
+                      type="button"
+                      aria-label="Geser ke kanan"
+                      onClick={scrollNext}
+                      className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-paper-2 border border-rule rounded-full items-center justify-center text-ink hover:bg-accent hover:text-accent-ink transition duration-300 shadow-lg opacity-90 hover:opacity-100"
+                    >
                         <span className="material-symbols-outlined text-[20px]">chevron_right</span>
                     </button>
                 </>

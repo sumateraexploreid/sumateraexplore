@@ -218,9 +218,9 @@ export default function PackageCard({
 
           <Link
             href={`/tour/${slug}?adults=${paxAdults}&children=${paxChildren}`}
-            className="se-btn se-btn--primary w-full px-2.5 sm:px-5 text-xs sm:text-sm"
+            className="se-btn se-btn--primary w-full px-2.5 sm:px-5 text-xs sm:text-sm whitespace-nowrap"
           >
-            Lihat detail &amp; pesan
+            Detail &amp; pesan
           </Link>
         </div>
       </div>

@@ -68,11 +68,8 @@ export default async function PaymentPage() {
           <h2 id="deposit-title" className="font-display text-2xl text-ink mb-3">
             Sistem deposit dan komunikasi via WhatsApp
           </h2>
-          <p className="text-ink-2 text-sm leading-relaxed max-w-3xl">
+          <p className="text-ink-2 text-sm leading-relaxed max-w-[65ch]">
             Pemesanan dikonfirmasi setelah uang muka (DP) diterima dengan rincian nominal dan bukti transfer yang dikoordinasikan langsung lewat WhatsApp resmi ({BUSINESS_IDENTITY.whatsappDisplay}) untuk mengunci armada serta hotel. Baki pelunasan diselesaikan setelah trip selesai sebelum berpisah di Bandara Kualanamu (KNO).
-          </p>
-          <p className="text-muted text-xs mt-2">
-            Deposit terms and hotel locking are confirmed directly via our official WhatsApp ({BUSINESS_IDENTITY.whatsappDisplay}); the remaining balance is settled after the trip concludes at Kualanamu Airport.
           </p>
         </section>
 

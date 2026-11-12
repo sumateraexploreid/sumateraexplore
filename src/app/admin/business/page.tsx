@@ -137,7 +137,7 @@ export default function AdminBusinessPage() {
   }
 
   if (loading || !business) {
-    return <p className="text-sm text-muted py-8">Memuat konfigurasi website...</p>;
+    return <p className="text-sm text-muted py-8">Memuat konfigurasi website…</p>;
   }
 
   return (
@@ -164,7 +164,7 @@ export default function AdminBusinessPage() {
             key={k}
             type="button"
             onClick={() => setTab(k)}
-            className={`px-3.5 py-2 rounded-card text-xs font-semibold transition-colors ${
+            className={`px-3.5 py-2 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ${
               tab === k
                 ? "bg-accent text-accent-ink"
                 : "bg-paper-2 text-ink-2 hover:text-ink"
@@ -198,7 +198,7 @@ export default function AdminBusinessPage() {
                 onChange={(e) =>
                   setBusiness({ ...business, brandName: e.target.value })
                 }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
               />
             </div>
             <div>
@@ -211,7 +211,7 @@ export default function AdminBusinessPage() {
                 onChange={(e) =>
                   setBusiness({ ...business, legalName: e.target.value })
                 }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
               />
             </div>
             <div>
@@ -224,7 +224,7 @@ export default function AdminBusinessPage() {
                 onChange={(e) =>
                   setBusiness({ ...business, decreeNumber: e.target.value })
                 }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
               />
             </div>
             <div>
@@ -237,7 +237,7 @@ export default function AdminBusinessPage() {
                 onChange={(e) =>
                   setBusiness({ ...business, ownerName: e.target.value })
                 }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
               />
             </div>
             <div>
@@ -250,7 +250,7 @@ export default function AdminBusinessPage() {
                 onChange={(e) =>
                   setBusiness({ ...business, whatsappNumber: e.target.value })
                 }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink font-mono"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink font-mono"
               />
             </div>
             <div>
@@ -263,7 +263,7 @@ export default function AdminBusinessPage() {
                 onChange={(e) =>
                   setBusiness({ ...business, whatsappDisplay: e.target.value })
                 }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
               />
             </div>
             <div>
@@ -274,7 +274,7 @@ export default function AdminBusinessPage() {
                 type="email"
                 value={business.email}
                 onChange={(e) => setBusiness({ ...business, email: e.target.value })}
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
               />
             </div>
             <div>
@@ -287,7 +287,7 @@ export default function AdminBusinessPage() {
                 onChange={(e) =>
                   setBusiness({ ...business, shortAddress: e.target.value })
                 }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
               />
             </div>
           </div>
@@ -300,7 +300,7 @@ export default function AdminBusinessPage() {
               rows={2}
               value={business.address}
               onChange={(e) => setBusiness({ ...business, address: e.target.value })}
-              className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+              className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
             />
           </div>
 
@@ -308,9 +308,9 @@ export default function AdminBusinessPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
+              className="px-5 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
             >
-              {saving ? "Menyimpan..." : "Simpan Identitas Bisnis"}
+              {saving ? "Menyimpan…" : "Simpan Identitas Bisnis"}
             </button>
           </div>
         </form>
@@ -347,7 +347,7 @@ export default function AdminBusinessPage() {
                       next[idx] = { ...ch, handle: e.target.value };
                       setSocialChannels(next);
                     }}
-                    className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                    className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
                   />
                 </div>
                 <div>
@@ -362,7 +362,7 @@ export default function AdminBusinessPage() {
                       next[idx] = { ...ch, url: e.target.value };
                       setSocialChannels(next);
                     }}
-                    className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                    className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
                   />
                 </div>
               </div>
@@ -378,7 +378,7 @@ export default function AdminBusinessPage() {
                     next[idx] = { ...ch, note: e.target.value };
                     setSocialChannels(next);
                   }}
-                  className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
                 />
               </div>
             </div>
@@ -387,9 +387,9 @@ export default function AdminBusinessPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
+              className="px-5 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
             >
-              {saving ? "Menyimpan..." : "Simpan Kanal Medsos"}
+              {saving ? "Menyimpan…" : "Simpan Kanal Medsos"}
             </button>
           </div>
         </form>
@@ -409,128 +409,128 @@ export default function AdminBusinessPage() {
                     <label className="block text-xs font-semibold text-ink-2 mb-1">
                       Nama Armada
                     </label>
-                    <input
-                      type="text"
-                      value={f.name}
-                      onChange={(e) => {
-                        const next = [...fleet];
-                        next[idx] = { ...f, name: e.target.value };
-                        setFleet(next);
-                      }}
-                      className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
-                    />
+                      <input
+                        type="text"
+                        value={f.name}
+                        onChange={(e) => {
+                          const next = [...fleet];
+                          next[idx] = { ...f, name: e.target.value };
+                          setFleet(next);
+                        }}
+                        className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-ink-2 mb-1">
+                        Kapasitas
+                      </label>
+                      <input
+                        type="text"
+                        value={f.capacity}
+                        onChange={(e) => {
+                          const next = [...fleet];
+                          next[idx] = { ...f, capacity: e.target.value };
+                          setFleet(next);
+                        }}
+                        className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
+                      />
+                    </div>
                   </div>
+                  <MediaPickerField
+                    label={`Foto Armada ${f.name}`}
+                    value={f.image}
+                    onChange={(url) => {
+                      const next = [...fleet];
+                      next[idx] = { ...f, image: url };
+                      setFleet(next);
+                    }}
+                    folder="fleet"
+                  />
                   <div>
                     <label className="block text-xs font-semibold text-ink-2 mb-1">
-                      Kapasitas
+                      Catatan Kenyamanan Rute
                     </label>
                     <input
                       type="text"
-                      value={f.capacity}
+                      value={f.note}
                       onChange={(e) => {
                         const next = [...fleet];
-                        next[idx] = { ...f, capacity: e.target.value };
+                        next[idx] = { ...f, note: e.target.value };
                         setFleet(next);
                       }}
-                      className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                      className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
                     />
                   </div>
                 </div>
-                <MediaPickerField
-                  label={`Foto Armada ${f.name}`}
-                  value={f.image}
-                  onChange={(url) => {
-                    const next = [...fleet];
-                    next[idx] = { ...f, image: url };
-                    setFleet(next);
-                  }}
-                  folder="fleet"
-                />
-                <div>
-                  <label className="block text-xs font-semibold text-ink-2 mb-1">
-                    Catatan Kenyamanan Rute
-                  </label>
-                  <input
-                    type="text"
-                    value={f.note}
-                    onChange={(e) => {
-                      const next = [...fleet];
-                      next[idx] = { ...f, note: e.target.value };
-                      setFleet(next);
-                    }}
-                    className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
-                  />
-                </div>
+              ))}
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  disabled={saving}
+                  onClick={() =>
+                    void saveSection(
+                      "fleet",
+                      { options: fleet },
+                      "Daftar armada berhasil diperbarui.",
+                    )
+                  }
+                  className="px-5 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
+                >
+                  Simpan Daftar Armada
+                </button>
               </div>
-            ))}
-            <div className="flex justify-end">
-              <button
-                type="button"
-                disabled={saving}
-                onClick={() =>
-                  void saveSection(
-                    "fleet",
-                    { options: fleet },
-                    "Daftar armada berhasil diperbarui.",
-                  )
-                }
-                className="px-5 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
-              >
-                Simpan Daftar Armada
-              </button>
             </div>
-          </div>
 
-          <div className="bg-paper-2 border border-rule rounded-card p-5 space-y-4">
-            <h3 className="font-display text-lg text-ink">
-              Dokumentasi iPhone 4K, Opsional Drone & Ketentuan Operator Halal
-            </h3>
-            <div>
-              <label className="block text-xs font-semibold text-ink-2 mb-1">
-                Poin Dokumentasi & Bonus (1 per baris)
-              </label>
-              <textarea
-                rows={5}
-                value={documentationGear.join("\n")}
-                onChange={(e) =>
-                  setDocumentationGear(
-                    e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
-                  )
-                }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-xs text-ink"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-ink-2 mb-1">
-                Catatan Ketentuan Operator & Supir Muslim Halal (1 per baris)
-              </label>
-              <textarea
-                rows={6}
-                value={operatorNotes.join("\n")}
-                onChange={(e) =>
-                  setOperatorNotes(
-                    e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
-                  )
-                }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-xs text-ink"
-              />
-            </div>
-            <div className="flex justify-end">
-              <button
-                type="button"
-                disabled={saving}
-                onClick={() =>
-                  void saveSection(
-                    "operations",
-                    { documentationGear, operatorNotes, legalDocuments },
-                    "Ketentuan dokumentasi iPhone/Drone & SOP halal disimpan.",
-                  )
-                }
-                className="px-5 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
-              >
-                Simpan Dokumentasi & SOP Halal
-              </button>
-            </div>
+            <div className="bg-paper-2 border border-rule rounded-card p-5 space-y-4">
+              <h3 className="font-display text-lg text-ink">
+                Dokumentasi iPhone 4K, Opsional Drone & Ketentuan Operator Halal
+              </h3>
+              <div>
+                <label className="block text-xs font-semibold text-ink-2 mb-1">
+                  Poin Dokumentasi & Bonus (1 per baris)
+                </label>
+                <textarea
+                  rows={5}
+                  value={documentationGear.join("\n")}
+                  onChange={(e) =>
+                    setDocumentationGear(
+                      e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
+                    )
+                  }
+                  className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-xs text-ink"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-ink-2 mb-1">
+                  Catatan Ketentuan Operator & Supir Muslim Halal (1 per baris)
+                </label>
+                <textarea
+                  rows={6}
+                  value={operatorNotes.join("\n")}
+                  onChange={(e) =>
+                    setOperatorNotes(
+                      e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
+                    )
+                  }
+                  className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-xs text-ink"
+                />
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  disabled={saving}
+                  onClick={() =>
+                    void saveSection(
+                      "operations",
+                      { documentationGear, operatorNotes, legalDocuments },
+                      "Ketentuan dokumentasi iPhone/Drone & SOP halal disimpan.",
+                    )
+                  }
+                  className="px-5 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm whitespace-nowrap hover:bg-accent-hover disabled:opacity-50"
+                >
+                  Simpan SOP Halal
+                </button>
+              </div>
           </div>
         </div>
       ) : null}
@@ -541,7 +541,7 @@ export default function AdminBusinessPage() {
             <button
               type="button"
               onClick={() => setFaqs([...faqs, { q: "Pertanyaan baru?", a: "" }])}
-              className="px-3.5 py-2 rounded-card border border-accent text-xs font-semibold text-accent"
+              className="px-3.5 py-2 rounded-md border border-accent text-xs font-semibold text-accent"
             >
               + Tambah Pertanyaan FAQ
             </button>
@@ -593,7 +593,7 @@ export default function AdminBusinessPage() {
                   "FAQ Tamu berhasil disimpan ke Beranda & Pusat Bantuan.",
                 )
               }
-              className="px-5 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
+              className="px-5 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
             >
               Simpan FAQ Tamu
             </button>
@@ -620,7 +620,7 @@ export default function AdminBusinessPage() {
                     next[idx] = { ...doc, title: e.target.value };
                     setLegalDocuments(next);
                   }}
-                  className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
                 />
               </div>
               <div>
@@ -635,7 +635,7 @@ export default function AdminBusinessPage() {
                     next[idx] = { ...doc, subtitle: e.target.value };
                     setLegalDocuments(next);
                   }}
-                  className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
                 />
               </div>
               <MediaPickerField
@@ -661,7 +661,7 @@ export default function AdminBusinessPage() {
                   "Dokumen bukti legalitas PT berhasil diperbarui.",
                 )
               }
-              className="px-5 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
+              className="px-5 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
             >
               Simpan Dokumen Legalitas
             </button>
@@ -681,7 +681,7 @@ export default function AdminBusinessPage() {
           }}
           className="max-w-3xl bg-paper-2 border border-rule rounded-card p-6 space-y-4"
         >
-          <div className="p-4 rounded-card bg-paper border border-rule text-xs space-y-1">
+          <div className="p-4 rounded-md bg-paper border border-rule text-xs space-y-1">
             <p className="font-bold text-ink">Status Koneksi Infrastruktur Web</p>
             <p className="text-ink-2">
               Supabase PostgreSQL Project:{" "}
@@ -703,7 +703,7 @@ export default function AdminBusinessPage() {
               onChange={(e) =>
                 setIntegrations({ ...integrations, waAutoGreeting: e.target.value })
               }
-              className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+              className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
             />
           </div>
 
@@ -719,7 +719,7 @@ export default function AdminBusinessPage() {
                   setIntegrations({ ...integrations, gaMeasurementId: e.target.value })
                 }
                 placeholder="G-XXXXXXXXXX"
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink font-mono"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink font-mono"
               />
             </div>
 
@@ -734,7 +734,7 @@ export default function AdminBusinessPage() {
                   setIntegrations({ ...integrations, metaPixelId: e.target.value })
                 }
                 placeholder="123456789012345"
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink font-mono"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink font-mono"
               />
             </div>
 
@@ -748,7 +748,7 @@ export default function AdminBusinessPage() {
                 onChange={(e) =>
                   setIntegrations({ ...integrations, notifyEmail: e.target.value })
                 }
-                className="w-full px-3 py-2 rounded-card bg-paper border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
               />
             </div>
           </div>
@@ -757,9 +757,9 @@ export default function AdminBusinessPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
+              className="px-5 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
             >
-              {saving ? "Menyimpan..." : "Simpan Pengaturan Integrasi"}
+              {saving ? "Menyimpan…" : "Simpan Pengaturan Integrasi"}
             </button>
           </div>
         </form>

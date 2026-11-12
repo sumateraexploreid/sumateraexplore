@@ -212,7 +212,7 @@ export default function AdminBlogPage() {
       </div>
 
       {loading ? (
-        <p className="text-sm text-muted py-8 text-center">Memuat jurnal...</p>
+        <p className="text-sm text-muted py-8 text-center">Memuat jurnal…</p>
       ) : (
         <div className="space-y-3">
           {posts.map((post) => (
@@ -221,7 +221,7 @@ export default function AdminBlogPage() {
               className="p-4 rounded-card bg-paper-2 border border-rule flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
             >
               <div className="flex items-start gap-3.5 min-w-0">
-                <div className="w-20 h-14 rounded-card overflow-hidden bg-paper-3 shrink-0 border border-rule">
+                <div className="w-20 h-14 rounded-md overflow-hidden bg-paper-3 shrink-0 border border-rule">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={post.image_url}
@@ -246,14 +246,14 @@ export default function AdminBlogPage() {
                 <button
                   type="button"
                   onClick={() => openEdit(post)}
-                  className="px-3 py-1.5 rounded-card bg-accent text-accent-ink text-xs font-bold hover:bg-accent-hover"
+                  className="px-3 py-1.5 rounded-md bg-accent text-accent-ink text-xs font-bold hover:bg-accent-hover"
                 >
                   Edit Artikel
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDelete(post)}
-                  className="px-3 py-1.5 rounded-card border border-rule text-xs text-muted hover:text-error hover:border-error"
+                  className="px-3 py-1.5 rounded-md border border-rule text-xs text-muted hover:text-error hover:border-error"
                 >
                   Hapus
                 </button>
@@ -387,7 +387,7 @@ export default function AdminBlogPage() {
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <p className="text-xs font-bold uppercase tracking-wider text-muted">
+              <p className="text-xs font-semibold text-muted">
                 Bagian Isi Artikel
               </p>
               <button

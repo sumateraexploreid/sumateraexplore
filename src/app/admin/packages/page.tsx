@@ -254,7 +254,7 @@ export default function AdminPackagesPage() {
           <button
             type="button"
             onClick={openCreate}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover transition-colors"
           >
             <AdminIcon name="add_circle" className="w-[18px] h-[18px]" />
             Tambah Paket Baru
@@ -269,8 +269,8 @@ export default function AdminPackagesPage() {
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Cari nama paket, durasi, atau destinasi..."
-          className="w-full sm:w-80 px-3.5 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent"
+          placeholder="Cari nama paket, durasi, atau destinasi…"
+          className="w-full sm:w-80 px-3.5 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent"
         />
         <span className="text-xs text-muted whitespace-nowrap num">
           {packages.length} paket
@@ -278,7 +278,7 @@ export default function AdminPackagesPage() {
       </div>
 
       {loading ? (
-        <p className="text-sm text-muted py-8 text-center">Memuat daftar paket...</p>
+        <p className="text-sm text-muted py-8 text-center">Memuat daftar paket…</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {packages.map((pkg) => (
@@ -322,7 +322,7 @@ export default function AdminPackagesPage() {
                     <button
                       type="button"
                       onClick={() => openEdit(pkg)}
-                      className="px-3 py-1.5 rounded-card bg-accent text-accent-ink text-xs font-bold hover:bg-accent-hover"
+                      className="px-3 py-1.5 rounded-md bg-accent text-accent-ink text-xs font-bold whitespace-nowrap hover:bg-accent-hover"
                     >
                       Edit Lengkap
                     </button>
@@ -330,7 +330,7 @@ export default function AdminPackagesPage() {
                       type="button"
                       onClick={() => handleDelete(pkg)}
                       aria-label={`Hapus ${pkg.name}`}
-                      className="p-1.5 rounded-card border border-rule text-muted hover:text-error hover:border-error"
+                      className="p-1.5 rounded-md border border-rule text-muted hover:text-error hover:border-error"
                     >
                       <AdminIcon name="delete" className="w-4 h-4" />
                     </button>
@@ -362,7 +362,7 @@ export default function AdminPackagesPage() {
               key={key}
               type="button"
               onClick={() => setActiveTab(key)}
-              className={`px-3 py-1.5 rounded-card text-xs font-semibold transition-colors ${
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ${
                 activeTab === key
                   ? "bg-accent text-accent-ink"
                   : "bg-paper-2 text-ink-2 hover:text-ink"
@@ -386,7 +386,7 @@ export default function AdminPackagesPage() {
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                    className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                   />
                 </div>
                 <div>
@@ -399,7 +399,7 @@ export default function AdminPackagesPage() {
                     value={form.slug}
                     onChange={(e) => setForm({ ...form, slug: e.target.value })}
                     placeholder="danau-toba-3d2n"
-                    className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink font-mono"
+                    className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink font-mono"
                   />
                 </div>
                 <div>
@@ -411,7 +411,7 @@ export default function AdminPackagesPage() {
                     required
                     value={form.short_label}
                     onChange={(e) => setForm({ ...form, short_label: e.target.value })}
-                    className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                    className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                   />
                 </div>
                 <div>
@@ -423,7 +423,7 @@ export default function AdminPackagesPage() {
                     required
                     value={form.duration}
                     onChange={(e) => setForm({ ...form, duration: e.target.value })}
-                    className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                    className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                   />
                 </div>
                 <div>
@@ -435,7 +435,7 @@ export default function AdminPackagesPage() {
                     required
                     value={form.location_tag}
                     onChange={(e) => setForm({ ...form, location_tag: e.target.value })}
-                    className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                    className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
@@ -456,7 +456,7 @@ export default function AdminPackagesPage() {
                           price_idr: val * 4400,
                         });
                       }}
-                      className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                      className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                     />
                   </div>
                   <div>
@@ -466,7 +466,7 @@ export default function AdminPackagesPage() {
                     <select
                       value={form.status}
                       onChange={(e) => setForm({ ...form, status: e.target.value })}
-                      className="w-full px-2 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                      className="w-full px-2 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                     >
                       <option value="active">Aktif</option>
                       <option value="draft">Draf</option>
@@ -491,7 +491,7 @@ export default function AdminPackagesPage() {
                   rows={3}
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                 />
               </div>
 
@@ -523,7 +523,7 @@ export default function AdminPackagesPage() {
                       ],
                     })
                   }
-                  className="px-3 py-1.5 rounded-card bg-paper-2 border border-accent text-xs font-semibold text-accent"
+                  className="px-3 py-1.5 rounded-md bg-paper-2 border border-accent text-xs font-semibold text-accent"
                 >
                   + Tambah Baris Tier
                 </button>
@@ -532,7 +532,7 @@ export default function AdminPackagesPage() {
               {form.tiers.map((tier, idx) => (
                 <div
                   key={idx}
-                  className="grid grid-cols-12 gap-2 items-center p-2.5 rounded-card bg-paper-2 border border-rule"
+                  className="grid grid-cols-12 gap-2 items-center p-2.5 rounded-md bg-paper-2 border border-rule"
                 >
                   <div className="col-span-2">
                     <input
@@ -617,7 +617,7 @@ export default function AdminPackagesPage() {
                   rows={4}
                   value={form.hotelsText}
                   onChange={(e) => setForm({ ...form, hotelsText: e.target.value })}
-                  className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-xs text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-xs text-ink"
                 />
               </div>
               <div>
@@ -628,7 +628,7 @@ export default function AdminPackagesPage() {
                   rows={4}
                   value={form.notesText}
                   onChange={(e) => setForm({ ...form, notesText: e.target.value })}
-                  className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-xs text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-xs text-ink"
                 />
               </div>
               <div>
@@ -639,7 +639,7 @@ export default function AdminPackagesPage() {
                   rows={6}
                   value={form.includesText}
                   onChange={(e) => setForm({ ...form, includesText: e.target.value })}
-                  className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-xs text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-xs text-ink"
                 />
               </div>
               <div>
@@ -650,7 +650,7 @@ export default function AdminPackagesPage() {
                   rows={6}
                   value={form.excludesText}
                   onChange={(e) => setForm({ ...form, excludesText: e.target.value })}
-                  className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-xs text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-xs text-ink"
                 />
               </div>
             </div>
@@ -668,14 +668,14 @@ export default function AdminPackagesPage() {
                         ...form.itinerary,
                         {
                           day: form.itinerary.length + 1,
-                          title: `Day ${form.itinerary.length + 1}: ...`,
+                          title: `Day ${form.itinerary.length + 1}: Baru`,
                           description: "",
                           stops: [],
                         },
                       ],
                     })
                   }
-                  className="px-3 py-1.5 rounded-card bg-paper-2 border border-accent text-xs font-semibold text-accent"
+                  className="px-3 py-1.5 rounded-md bg-paper-2 border border-accent text-xs font-semibold text-accent"
                 >
                   + Tambah Hari
                 </button>
@@ -683,7 +683,7 @@ export default function AdminPackagesPage() {
               {form.itinerary.map((dayItem, dIdx) => (
                 <div
                   key={dIdx}
-                  className="p-3.5 rounded-card bg-paper-2 border border-rule space-y-2.5"
+                  className="p-3.5 rounded-md bg-paper-2 border border-rule space-y-2.5"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <input
@@ -728,16 +728,16 @@ export default function AdminPackagesPage() {
             <button
               type="button"
               onClick={() => setModalOpen(false)}
-              className="px-4 py-2 rounded-card border border-rule text-sm text-ink-2"
+              className="px-4 py-2 rounded-md border border-rule text-sm text-ink-2"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2 rounded-card bg-accent text-accent-ink text-sm font-bold hover:bg-accent-hover disabled:opacity-50"
+              className="px-5 py-2 rounded-md bg-accent text-accent-ink text-sm font-bold whitespace-nowrap hover:bg-accent-hover disabled:opacity-50"
             >
-              {saving ? "Menyimpan..." : "Simpan & Terbitkan ke Web"}
+              {saving ? "Menyimpan…" : "Terbitkan ke Web"}
             </button>
           </div>
         </form>

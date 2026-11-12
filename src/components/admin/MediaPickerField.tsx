@@ -89,12 +89,12 @@ export function MediaPickerField({
 
   return (
     <div>
-      <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-2">
+      <label className="block text-xs font-semibold text-muted mb-2">
         {label}
       </label>
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-3 rounded-card bg-paper-2 border border-rule">
-        <div className="w-24 h-16 rounded-card overflow-hidden bg-paper-3 border border-rule shrink-0 flex items-center justify-center">
+        <div className="w-24 h-16 rounded-md overflow-hidden bg-paper-3 border border-rule shrink-0 flex items-center justify-center">
           {value ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -123,10 +123,10 @@ export function MediaPickerField({
               type="button"
               disabled={uploading}
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-card bg-accent text-accent-ink text-xs font-bold hover:bg-accent-hover disabled:opacity-50 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent text-accent-ink text-xs font-bold hover:bg-accent-hover disabled:opacity-50 transition-colors"
             >
               <AdminIcon name="upload" className="w-4 h-4" />
-              {uploading ? "Mengunggah..." : "Upload Foto"}
+              {uploading ? "Mengunggah…" : "Upload Foto"}
             </button>
 
             <button
@@ -135,7 +135,7 @@ export function MediaPickerField({
                 setLoadingLib(true);
                 setLibraryOpen(true);
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-card bg-paper border border-rule text-ink text-xs font-semibold hover:border-accent hover:text-accent transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-paper border border-rule text-ink text-xs font-semibold hover:border-accent hover:text-accent transition-colors"
             >
               <AdminIcon name="photo_library" className="w-4 h-4" />
               Pilih dari Koleksi Web
@@ -154,7 +154,7 @@ export function MediaPickerField({
         onClose={() => setLibraryOpen(false)}
       >
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-          <div className="flex items-center gap-1.5 bg-paper-2 p-1 rounded-card border border-rule">
+          <div className="flex items-center gap-1.5 bg-paper-2 p-1 rounded-md border border-rule">
             {(
               [
                 ["all", "Semua Foto"],
@@ -181,15 +181,15 @@ export function MediaPickerField({
             type="button"
             disabled={uploading}
             onClick={() => fileInputRef.current?.click()}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-card bg-accent text-accent-ink text-xs font-bold hover:bg-accent-hover transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md bg-accent text-accent-ink text-xs font-bold hover:bg-accent-hover transition-colors"
           >
             <AdminIcon name="add_photo_alternate" className="w-4 h-4" />
-            {uploading ? "Mengunggah..." : "Upload Foto Baru"}
+            {uploading ? "Mengunggah…" : "Upload Foto Baru"}
           </button>
         </div>
 
         {loadingLib ? (
-          <p className="text-sm text-muted py-10 text-center">Memuat koleksi gambar...</p>
+          <p className="text-sm text-muted py-10 text-center">Memuat koleksi gambar…</p>
         ) : visibleAssets.length === 0 ? (
           <p className="text-sm text-muted py-10 text-center">
             Belum ada foto pada kategori ini. Klik Upload Foto Baru untuk menambahkan.
@@ -206,7 +206,7 @@ export function MediaPickerField({
                     onChange(item.url);
                     setLibraryOpen(false);
                   }}
-                  className={`group text-left rounded-card border overflow-hidden transition-all ${
+                  className={`group text-left rounded-md border overflow-hidden transition-colors ${
                     selected
                       ? "border-accent ring-2 ring-accent/40 bg-paper-3"
                       : "border-rule bg-paper-2 hover:border-accent"
@@ -217,14 +217,14 @@ export function MediaPickerField({
                     <img
                       src={item.url}
                       alt={item.filename}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="p-2">
                     <p className="text-xs font-medium text-ink truncate">
                       {item.filename}
                     </p>
-                    <p className="text-[11px] text-muted uppercase">{item.folder}</p>
+                    <p className="text-[11px] text-muted">{item.folder}</p>
                   </div>
                 </button>
               );

@@ -148,7 +148,7 @@ export function ModalDialog({
             type="button"
             onClick={onClose}
             aria-label="Tutup modal"
-            className="min-w-9 min-h-9 rounded-card border border-rule text-muted hover:text-ink hover:border-accent flex items-center justify-center transition-colors"
+            className="min-w-9 min-h-9 rounded-md border border-rule text-muted hover:text-ink hover:border-accent flex items-center justify-center transition-colors"
           >
             <AdminIcon name="close" className="w-[18px] h-[18px]" />
           </button>

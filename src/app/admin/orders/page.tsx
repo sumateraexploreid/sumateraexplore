@@ -228,7 +228,7 @@ export default function AdminOrdersPage() {
           <button
             type="button"
             onClick={openCreate}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover transition-colors"
           >
             <AdminIcon name="add_circle" className="w-[18px] h-[18px]" />
             Catat Order / DP Baru
@@ -269,8 +269,8 @@ export default function AdminOrdersPage() {
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Cari kode booking, nama tamu, WA..."
-            className="w-full md:w-72 px-3.5 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent"
+            placeholder="Cari kode booking, nama tamu, WA…"
+            className="w-full md:w-72 px-3.5 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent"
           />
           <span className="text-xs text-muted whitespace-nowrap num">
             {total} order
@@ -281,7 +281,7 @@ export default function AdminOrdersPage() {
       {/* Table / Cards */}
       {loading ? (
         <div className="p-8 rounded-card bg-paper-2 border border-rule text-sm text-muted text-center">
-          Memuat data order...
+          Memuat data order…
         </div>
       ) : rows.length === 0 ? (
         <div className="p-8 rounded-card bg-paper-2 border border-rule text-sm text-muted text-center">
@@ -350,7 +350,7 @@ export default function AdminOrdersPage() {
                       aria-label={`Ubah status ${row.booking_code}`}
                       value={row.dp_status}
                       onChange={(e) => handleQuickStatus(row, e.target.value)}
-                      className="px-2.5 py-1.5 rounded-card bg-paper border border-rule text-xs text-ink"
+                      className="px-2.5 py-1.5 rounded-md bg-paper border border-rule text-xs text-ink"
                     >
                       <option value="pending_inquiry">Lead Baru</option>
                       <option value="waiting_dp">Menunggu DP</option>
@@ -363,7 +363,7 @@ export default function AdminOrdersPage() {
                       href={waFollowUpUrl(row)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-card bg-wa text-wa-ink text-xs font-semibold hover:bg-wa-hover transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-wa text-wa-ink text-xs font-semibold whitespace-nowrap hover:bg-wa-hover transition-colors"
                     >
                       WA Tamu
                     </a>
@@ -371,7 +371,7 @@ export default function AdminOrdersPage() {
                     <button
                       type="button"
                       onClick={() => openEdit(row)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-card bg-paper border border-rule text-xs font-semibold text-ink hover:border-accent"
+                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-paper border border-rule text-xs font-semibold text-ink hover:border-accent"
                     >
                       Edit
                     </button>
@@ -401,7 +401,7 @@ export default function AdminOrdersPage() {
                 value={form.guest_name}
                 onChange={(e) => setForm({ ...form, guest_name: e.target.value })}
                 placeholder="Contoh: Pn. Aisyah & Keluarga"
-                className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
               />
             </div>
 
@@ -414,8 +414,8 @@ export default function AdminOrdersPage() {
                 required
                 value={form.guest_phone}
                 onChange={(e) => setForm({ ...form, guest_phone: e.target.value })}
-                placeholder="60123456789 / 62812..."
-                className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                placeholder="60123456789 / 62812…"
+                className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
               />
             </div>
 
@@ -426,7 +426,7 @@ export default function AdminOrdersPage() {
               <select
                 value={form.guest_origin}
                 onChange={(e) => setForm({ ...form, guest_origin: e.target.value })}
-                className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
               >
                 <option value="Malaysia">Malaysia</option>
                 <option value="Indonesia">Indonesia</option>
@@ -443,7 +443,7 @@ export default function AdminOrdersPage() {
                 type="date"
                 value={form.trip_date}
                 onChange={(e) => setForm({ ...form, trip_date: e.target.value })}
-                className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
               />
             </div>
 
@@ -461,7 +461,7 @@ export default function AdminOrdersPage() {
                     package_name: found?.name || e.target.value,
                   });
                 }}
-                className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
               >
                 {pkgOptions.map((p) => (
                   <option key={p.slug} value={p.slug}>
@@ -483,7 +483,7 @@ export default function AdminOrdersPage() {
                   onChange={(e) =>
                     setForm({ ...form, adults_count: Number(e.target.value) || 1 })
                   }
-                  className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                 />
                 <input
                   type="number"
@@ -492,7 +492,7 @@ export default function AdminOrdersPage() {
                   onChange={(e) =>
                     setForm({ ...form, children_count: Number(e.target.value) || 0 })
                   }
-                  className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                  className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                 />
               </div>
             </div>
@@ -504,7 +504,7 @@ export default function AdminOrdersPage() {
               <select
                 value={form.vehicle_type}
                 onChange={(e) => setForm({ ...form, vehicle_type: e.target.value })}
-                className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
               >
                 <option value="Innova / SUV">Innova / SUV (1-6 Pax)</option>
                 <option value="Van Hiace">Van Hiace (6-10 Pax)</option>
@@ -521,7 +521,7 @@ export default function AdminOrdersPage() {
                 <select
                   value={form.currency}
                   onChange={(e) => setForm({ ...form, currency: e.target.value })}
-                  className="px-2 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                  className="px-2 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                 >
                   <option value="MYR">MYR</option>
                   <option value="IDR">IDR</option>
@@ -534,7 +534,7 @@ export default function AdminOrdersPage() {
                   onChange={(e) =>
                     setForm({ ...form, estimated_total: Number(e.target.value) || 0 })
                   }
-                  className="col-span-2 px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                  className="col-span-2 px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                 />
               </div>
             </div>
@@ -551,12 +551,12 @@ export default function AdminOrdersPage() {
                   onChange={(e) =>
                     setForm({ ...form, dp_amount: Number(e.target.value) || 0 })
                   }
-                  className="px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                  className="px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                 />
                 <select
                   value={form.dp_status}
                   onChange={(e) => setForm({ ...form, dp_status: e.target.value })}
-                  className="px-2 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                  className="px-2 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
                 >
                   <option value="pending_inquiry">Lead Baru</option>
                   <option value="waiting_dp">Menunggu DP</option>
@@ -578,7 +578,7 @@ export default function AdminOrdersPage() {
                   setForm({ ...form, assigned_driver: e.target.value })
                 }
                 placeholder="Contoh: Bang Suja'i (Driver Muslim + iPhone 4K)"
-                className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
               />
             </div>
 
@@ -590,7 +590,7 @@ export default function AdminOrdersPage() {
                 rows={3}
                 value={form.notes}
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                className="w-full px-3 py-2 rounded-card bg-paper-2 border border-rule text-sm text-ink"
+                className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink"
               />
             </div>
           </div>
@@ -599,16 +599,16 @@ export default function AdminOrdersPage() {
             <button
               type="button"
               onClick={() => setModalOpen(false)}
-              className="px-4 py-2 rounded-card border border-rule text-sm text-ink-2 hover:text-ink"
+              className="px-4 py-2 rounded-md border border-rule text-sm text-ink-2 hover:text-ink"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2 rounded-card bg-accent text-accent-ink text-sm font-bold hover:bg-accent-hover disabled:opacity-50"
+              className="px-5 py-2 rounded-md bg-accent text-accent-ink text-sm font-bold hover:bg-accent-hover disabled:opacity-50"
             >
-              {saving ? "Menyimpan..." : "Simpan Order"}
+              {saving ? "Menyimpan…" : "Simpan Order"}
             </button>
           </div>
         </form>

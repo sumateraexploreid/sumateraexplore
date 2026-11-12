@@ -153,7 +153,7 @@ export default function AdminUsersPage() {
       <ToastBanner toast={toast} onClose={() => setToast(null)} />
 
       {loading ? (
-        <p className="text-sm text-muted py-8 text-center">Memuat akun...</p>
+        <p className="text-sm text-muted py-8 text-center">Memuat akun…</p>
       ) : (
         <div className="space-y-3">
           {users.map((u) => (
@@ -182,7 +182,7 @@ export default function AdminUsersPage() {
                   onChange={(e) =>
                     void changeRole(u, e.target.value as AdminUserRow["role"])
                   }
-                  className="px-2.5 py-1.5 rounded-card bg-paper border border-rule text-xs text-ink"
+                  className="px-2.5 py-1.5 rounded-md bg-paper border border-rule text-xs text-ink"
                 >
                   <option value="super_admin">Super Admin</option>
                   <option value="editor">Editor Konten</option>
@@ -192,7 +192,7 @@ export default function AdminUsersPage() {
                 <button
                   type="button"
                   onClick={() => void toggleActive(u)}
-                  className="px-3 py-1.5 rounded-card border border-rule text-xs font-semibold text-ink hover:border-accent"
+                  className="px-3 py-1.5 rounded-md border border-rule text-xs font-semibold text-ink hover:border-accent"
                 >
                   {u.is_active ? "Nonaktifkan" : "Aktifkan"}
                 </button>

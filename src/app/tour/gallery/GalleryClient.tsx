@@ -153,7 +153,7 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
             <h1>Galeri perjalanan</h1>
           </div>
           <p>
-            Koleksi dokumentasi foto dan video perjalanan tamu dari Danau Toba, Samosir, Paropo, serta Berastagi (tersedia opsi drone by request).
+            Dokumentasi foto dan video tamu dari Danau Toba, Samosir, Paropo, serta Berastagi.
           </p>
         </div>
       </section>

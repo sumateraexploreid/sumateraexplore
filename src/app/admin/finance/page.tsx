@@ -75,7 +75,7 @@ export default function AdminFinancePage() {
       <ToastBanner toast={toast} onClose={() => setToast(null)} />
 
       {loading ? (
-        <p className="text-sm text-muted py-8">Memuat konfigurasi...</p>
+        <p className="text-sm text-muted py-8">Memuat konfigurasi…</p>
       ) : (
         <form
           onSubmit={handleSubmit}
@@ -131,7 +131,7 @@ export default function AdminFinancePage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-card bg-paper border border-rule text-xs text-ink-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="p-4 rounded-md bg-paper border border-rule text-xs text-ink-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <span className="text-muted block">Simulasi Paket 3D2N (4 Pax = RM 550/org):</span>
               <span className="font-bold text-accent text-sm num">
@@ -174,9 +174,9 @@ export default function AdminFinancePage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2.5 rounded-card bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
+              className="px-5 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover disabled:opacity-50"
             >
-              {saving ? "Menyimpan..." : "Simpan & Sinkronkan Kurs"}
+              {saving ? "Menyimpan…" : "Simpan & Sinkronkan Kurs"}
             </button>
           </div>
         </form>

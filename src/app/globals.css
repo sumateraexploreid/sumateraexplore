@@ -1,8 +1,8 @@
-/* Hallmark · shape: Hub-First · genre: editorial · theme: custom · redesign: full
- * paper: oklch(14.5% 0.008 160) · accent: oklch(77% 0.14 84) · display: Plus Jakarta Sans · body: Plus Jakarta Sans · hero: Obsidian Hub · nav: edge-aligned · footer: mast · signature: Full-bleed Danau Toba obsidian stage with instant 2D1N-5D4N choices and stacked WA action links
- * axes: dark/geometric-sans/warm · posture: Committed · contrast: pass · fold: pass · v3.0.0 */
-/* Hallmark · dropped intro-title, perjalanan, {whatsappLink("Halo Sumatera Explore, boleh kirimkan daftar paket wisata yang tersedia?")}, {whatsappLink("Halo Sumatera Explore, saya ingin bertanya tentang rute perjalanan ke Sumatera Utara.")}, {whatsappLink("Halo Sumatera Explore, saya ingin meminta daftar paket wisata terbaru. Rencana perjalanan saya:")}, {whatsappLink(`Halo Sumatera Explore, saya ingin bertanya tentang paket ${pkg.name}.`)} · replaced supabase fallback empty states with bundled official PDF packages and direct fold WhatsApp action */
-/* Hallmark · pre-emit critique: P5 H5 E5 S4 R4 V5 · weakest: R; anchored entire dark canvas to Danau Toba dusk stage and transparent human-authored operator rows */
+/* Hallmark · shape: Hub-First · genre: editorial · theme: custom · redesign: polish
+ * paper: oklch(22% 0.014 180) · accent: oklch(78% 0.115 76) · display: Plus Jakarta Sans · body: Plus Jakarta Sans · hero: Toba Slate-Pine Hub · nav: edge-aligned · footer: mast · signature: Full-bleed Danau Toba slate-pine stage with instant 2D1N-5D4N choices and stacked WA action links
+ * axes: slate-pine/geometric-sans/calm-amber · posture: Committed · contrast: pass · fold: pass · v3.1.0 */
+/* Hallmark · waive 83 · gallery route curates customer documentation · Lake Toba photo gallery holds photography above 33% of page area because visual destination proof is the page product */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · polished Toba slate-pine contrast, removed unused HomeSlider, unified 6px control radii */
 @import 'tailwindcss';
 @import '@fontsource/plus-jakarta-sans/400.css';
 @import '@fontsource/plus-jakarta-sans/600.css';
@@ -986,9 +986,9 @@
   width: 100%;
   min-height: 48px;
   padding: var(--space-sm) var(--space-md);
-  background: var(--color-paper);
-  border: var(--rule-hair) solid var(--color-rule);
-  border-radius: var(--radius-card);
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-muted);
+  border-radius: var(--radius-control);
   color: var(--color-ink);
   font-size: var(--text-md);
 }
