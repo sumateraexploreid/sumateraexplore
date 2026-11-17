@@ -14,7 +14,7 @@ const ALLOWED_MIME_TYPES = new Set([
 const MAX_UPLOAD_BYTES = 5 * 1024 * 1024; // 5 MB
 
 function scanStaticAssets() {
-  const dirs = ["sumut", "legal", "partners"];
+  const dirs = ["sumut", "legal", "partners", "logo"];
   const results: Array<{
     id: string;
     url: string;

@@ -10,6 +10,7 @@ import {
 } from "@/components/admin/AdminUi";
 import { MediaPickerField } from "@/components/admin/MediaPickerField";
 import { AdminIcon } from "@/components/admin/AdminIcon";
+import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
 
 interface BlogSection {
   heading: string;
@@ -196,8 +197,9 @@ export default function AdminBlogPage() {
   }
 
   return (
-    <div>
-      <AdminPageHeader
+    <AdminErrorBoundary>
+      <div>
+        <AdminPageHeader
         title="Jurnal Rute, Ferry & Kuliner Halal"
         subtitle="Kelola artikel panduan wisata Sumatera Utara yang tertaut langsung ke katalog paket wisata."
         actions={
@@ -501,5 +503,6 @@ export default function AdminBlogPage() {
         </form>
       </ModalDialog>
     </div>
+    </AdminErrorBoundary>
   );
 }

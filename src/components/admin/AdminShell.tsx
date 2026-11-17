@@ -34,6 +34,7 @@ const NAV_GROUPS: NavGroup[] = [
       { href: "/admin/packages", label: "Paket & Harga", icon: "tour" },
       { href: "/admin/blog", label: "Artikel Wisata", icon: "article" },
       { href: "/admin/gallery", label: "Galeri Foto", icon: "gallery_thumbnail" },
+      { href: "/admin/media", label: "Pustaka Media", icon: "photo_library" },
     ],
   },
   {
@@ -42,6 +43,7 @@ const NAV_GROUPS: NavGroup[] = [
       { href: "/admin/finance", label: "Kurs & Aturan DP", icon: "currency_exchange" },
       { href: "/admin/business", label: "Profil Bisnis & WA", icon: "verified_user" },
       { href: "/admin/users", label: "Akun Pengelola", icon: "admin_panel_settings" },
+      { href: "/admin/audit", label: "Riwayat Aktivitas", icon: "history" },
     ],
   },
 ];

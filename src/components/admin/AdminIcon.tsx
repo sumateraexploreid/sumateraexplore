@@ -227,6 +227,48 @@ const ICON_PATHS: Record<string, React.ReactNode> = {
       <path d="M12 8v6M9 11h6" />
     </>
   ),
+  history: (
+    <>
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+      <path d="M3 3v5h5M12 7v5l3 3" />
+    </>
+  ),
+  sync: (
+    <>
+      <path d="M21.5 2v6h-6M2.5 22v-6h6" />
+      <path d="M20 15.5A9 9 0 0 1 4.5 18L2.5 16M4 8.5A9 9 0 0 1 19.5 6L21.5 8" />
+    </>
+  ),
+  table_view: (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M3 9h18M3 15h18M9 9v12M15 9v12" />
+    </>
+  ),
+  file_download: (
+    <>
+      <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+      <path d="m7 11 5 5 5-5M12 4v12" />
+    </>
+  ),
+  filter: (
+    <>
+      <path d="M4 5h16M7 11h10M10 16h4" />
+    </>
+  ),
+  calendar: (
+    <>
+      <rect x="4" y="4" width="16" height="17" rx="2" />
+      <path d="M4 9h16M9 4v4M15 4v4" />
+    </>
+  ),
+  payments: (
+    <>
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <path d="M2 10h20" />
+      <circle cx="12" cy="15" r="2" />
+    </>
+  ),
 };
 
 export function AdminIcon({

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useSyncExternalStore } from 'react';
+import React, { useState, useEffect, useSyncExternalStore, useRef, useCallback } from 'react';
 import Link from 'next/link';
 
 const subscribeLocation = (callback: () => void) => {
@@ -17,6 +17,8 @@ interface ImageProps {
   slug?: string;
 }
 
+const ITEMS_PER_PAGE = 12;
+
 export default function GalleryClient({ images }: { images: ImageProps[] }) {
   const categories = ['Semua', ...Array.from(new Set(images.map((img) => img.category).filter(Boolean)))];
 
@@ -27,34 +29,56 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
   );
   const [categoryOverride, setCategoryOverride] = useState<string | null>(null);
   const [queryOverride, setQueryOverride] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [lightbox, setLightbox] = useState({ open: false, index: 0, zoom: 1 });
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const imageRefsRef = useRef<Map<number, HTMLImageElement>>(new Map());
 
   const initialParams = new URLSearchParams(searchStr);
   const urlCategory = initialParams.get('kategori');
+  const urlPage = parseInt(initialParams.get('halaman') || '1', 10);
   const activeCategory =
     categoryOverride ?? (urlCategory && categories.includes(urlCategory) ? urlCategory : 'Semua');
   const searchQuery = queryOverride ?? (initialParams.get('q') || '');
 
-  const syncUrl = (nextCategory: string, nextQuery: string) => {
+  // Sync URL with category, query, and page
+  const syncUrl = useCallback((nextCategory: string, nextQuery: string, nextPage: number) => {
     const params = new URLSearchParams();
     if (nextCategory !== 'Semua') params.set('kategori', nextCategory);
     if (nextQuery.trim() !== '') params.set('q', nextQuery.trim());
+    if (nextPage > 1) params.set('halaman', nextPage.toString());
     const query = params.toString();
     window.history.replaceState(
       {},
       '',
       query ? `${window.location.pathname}?${query}` : window.location.pathname
     );
-  };
+  }, []);
+
+  // Reset to page 1 when category or query changes
+  useEffect(() => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+      syncUrl(activeCategory, searchQuery, 1);
+    }
+  }, [activeCategory, searchQuery, currentPage, syncUrl]);
+
+  // Initialize page from URL on mount
+  useEffect(() => {
+    if (urlPage > 1) {
+      setCurrentPage(urlPage);
+    }
+  }, [urlPage]);
 
   const handleCategoryChange = (cat: string) => {
     setCategoryOverride(cat);
-    syncUrl(cat, searchQuery);
+    syncUrl(cat, searchQuery, 1);
   };
 
   const handleQueryChange = (q: string) => {
     setQueryOverride(q);
-    syncUrl(activeCategory, q);
+    syncUrl(activeCategory, q, 1);
   };
 
   const filteredImages = images.filter((img) => {
@@ -68,9 +92,14 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
   });
 
   const filteredCount = filteredImages.length;
+  const totalPages = Math.ceil(filteredCount / ITEMS_PER_PAGE);
+  const currentPageImages = filteredImages.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   const openLightbox = (id: number) => {
-    const index = filteredImages.findIndex((x) => x.id === id);
+    const index = currentPageImages.findIndex((x) => x.id === id);
     if (index === -1) return;
     setLightbox({ open: true, index, zoom: 1 });
   };
@@ -80,19 +109,19 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
   };
 
   const prev = () => {
-    if (filteredCount === 0) return;
+    if (currentPageImages.length === 0) return;
     setLightbox((prevState) => ({
       ...prevState,
-      index: (prevState.index - 1 + filteredCount) % filteredCount,
+      index: (prevState.index - 1 + currentPageImages.length) % currentPageImages.length,
       zoom: 1,
     }));
   };
 
   const next = () => {
-    if (filteredCount === 0) return;
+    if (currentPageImages.length === 0) return;
     setLightbox((prevState) => ({
       ...prevState,
-      index: (prevState.index + 1) % filteredCount,
+      index: (prevState.index + 1) % currentPageImages.length,
       zoom: 1,
     }));
   };
@@ -120,25 +149,68 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setLightbox((prevState) => ({ ...prevState, open: false, zoom: 1 }));
-      } else if (e.key === 'ArrowLeft' && filteredCount > 0) {
+      } else if (e.key === 'ArrowLeft' && currentPageImages.length > 0) {
         setLightbox((prevState) => ({
           ...prevState,
-          index: (prevState.index - 1 + filteredCount) % filteredCount,
+          index: (prevState.index - 1 + currentPageImages.length) % currentPageImages.length,
           zoom: 1,
         }));
-      } else if (e.key === 'ArrowRight' && filteredCount > 0) {
+      } else if (e.key === 'ArrowRight' && currentPageImages.length > 0) {
         setLightbox((prevState) => ({
           ...prevState,
-          index: (prevState.index + 1) % filteredCount,
+          index: (prevState.index + 1) % currentPageImages.length,
           zoom: 1,
         }));
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [lightbox.open, filteredCount]);
+  }, [lightbox.open, currentPageImages.length]);
 
-  const activeItem = filteredImages[lightbox.index];
+  // IntersectionObserver for lazy loading images
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement;
+            const id = parseInt(img.dataset.id || '0', 10);
+            if (id) {
+              setLoadedImages((prev) => new Set([...prev, id]));
+            }
+            observerRef.current?.unobserve(img);
+          }
+        });
+      },
+      {
+        rootMargin: '100px',
+        threshold: 0.01,
+      }
+    );
+
+    // Observe all current page images
+    currentPageImages.forEach((img) => {
+      const imgEl = imageRefsRef.current.get(img.id);
+      if (imgEl) {
+        observerRef.current?.observe(imgEl);
+      }
+    });
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, [currentPageImages]);
+
+  const handleImageRef = (id: number) => (el: HTMLImageElement | null) => {
+    if (el) {
+      imageRefsRef.current.set(id, el);
+      observerRef.current?.observe(el);
+    } else {
+      imageRefsRef.current.delete(id);
+    }
+  };
+
+  const activeItem = currentPageImages[lightbox.index];
 
   return (
     <main>
@@ -200,7 +272,7 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
               onClick={() => {
                 setCategoryOverride('Semua');
                 setQueryOverride('');
-                syncUrl('Semua', '');
+                syncUrl('Semua', '', 1);
               }}
               className="se-btn se-btn--quiet"
             >
@@ -208,47 +280,116 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
             </button>
           </div>
         ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredImages.map((img) => (
-              <figure
-                key={img.id}
-                className="flex flex-col border-b border-rule pb-5"
+          <>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {currentPageImages.map((img) => (
+                <figure
+                  key={img.id}
+                  className="flex flex-col border-b border-rule pb-5"
+                >
+                  <button
+                    type="button"
+                    onClick={() => openLightbox(img.id)}
+                    className="block w-full aspect-[4/3] overflow-hidden rounded-card bg-paper-2 text-left focus-visible:outline-2 focus-visible:outline-focus"
+                    aria-label={`Lihat foto penuh: ${img.caption || img.category}`}
+                  >
+                    <img
+                      ref={handleImageRef(img.id)}
+                      data-id={img.id}
+                      src={loadedImages.has(img.id) ? img.image_url : undefined}
+                      data-src={!loadedImages.has(img.id) ? img.image_url : undefined}
+                      alt={img.caption || img.category}
+                      className={`h-full w-full object-cover transition-opacity duration-300 ${
+                        loadedImages.has(img.id) ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      loading="lazy"
+                      decoding="async"
+                      onLoad={() => setLoadedImages((prev) => new Set([...prev, img.id]))}
+                    />
+                  </button>
+                  <figcaption className="flex flex-1 flex-col justify-between gap-2 pt-4">
+                    <div>
+                      <p className="font-display text-lg leading-snug text-ink">
+                        {img.caption || 'Dokumentasi perjalanan Sumatera Explore'}
+                      </p>
+                      <p className="mt-1 text-sm text-muted">{img.category}</p>
+                    </div>
+                    {img.slug && (
+                      <div>
+                        <Link
+                          href={img.type === 'blog' ? `/tour/blog/${img.slug}` : `/tour/${img.slug}`}
+                          className="inline-flex min-h-[44px] items-center text-sm font-semibold text-accent underline underline-offset-4 hover:text-ink"
+                        >
+                          {img.type === 'blog' ? 'Baca artikel terkait' : 'Lihat paket rute ini'}
+                        </Link>
+                      </div>
+                    )}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <nav
+                className="flex flex-wrap items-center justify-center gap-2 mt-8"
+                aria-label="Navigasi halaman galeri"
               >
                 <button
                   type="button"
-                  onClick={() => openLightbox(img.id)}
-                  className="block w-full aspect-[4/3] overflow-hidden rounded-card bg-paper-2 text-left focus-visible:outline-2 focus-visible:outline-focus"
-                  aria-label={`Lihat foto penuh: ${img.caption || img.category}`}
+                  onClick={() => {
+                    const nextPage = Math.max(1, currentPage - 1);
+                    setCurrentPage(nextPage);
+                    syncUrl(activeCategory, searchQuery, nextPage);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  disabled={currentPage === 1}
+                  className="se-btn se-btn--quiet"
+                  aria-label="Halaman sebelumnya"
+                  aria-disabled={currentPage === 1}
                 >
-                  <img
-                    src={img.image_url}
-                    alt={img.caption || img.category}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  Sebelumnya
                 </button>
-                <figcaption className="flex flex-1 flex-col justify-between gap-2 pt-4">
-                  <div>
-                    <p className="font-display text-lg leading-snug text-ink">
-                      {img.caption || 'Dokumentasi perjalanan Sumatera Explore'}
-                    </p>
-                    <p className="mt-1 text-sm text-muted">{img.category}</p>
-                  </div>
-                  {img.slug && (
-                    <div>
-                      <Link
-                        href={img.type === 'blog' ? `/tour/blog/${img.slug}` : `/tour/${img.slug}`}
-                        className="inline-flex min-h-[44px] items-center text-sm font-semibold text-accent underline underline-offset-4 hover:text-ink"
-                      >
-                        {img.type === 'blog' ? 'Baca artikel terkait' : 'Lihat paket rute ini'}
-                      </Link>
-                    </div>
-                  )}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+                <div className="flex items-center gap-1" role="group" aria-label="Pilih halaman">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <button
+                      key={page}
+                      type="button"
+                      onClick={() => {
+                        setCurrentPage(page);
+                        syncUrl(activeCategory, searchQuery, page);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className={`se-btn ${currentPage === page ? 'se-btn--primary' : 'se-btn--quiet'} min-w-[44px]`}
+                      aria-label={`Halaman ${page}`}
+                      aria-current={currentPage === page ? 'page' : undefined}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextPage = Math.min(totalPages, currentPage + 1);
+                    setCurrentPage(nextPage);
+                    syncUrl(activeCategory, searchQuery, nextPage);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  disabled={currentPage === totalPages}
+                  className="se-btn se-btn--quiet"
+                  aria-label="Halaman berikutnya"
+                  aria-disabled={currentPage === totalPages}
+                >
+                  Berikutnya
+                </button>
+              </nav>
+            )}
+
+            <p className="text-center text-sm text-muted mt-6">
+              Menampilkan {((currentPage - 1) * ITEMS_PER_PAGE) + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredCount)} dari {filteredCount} foto
+            </p>
+          </>
         )}
       </section>
 
@@ -262,7 +403,7 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-forest-rule pb-4">
             <div className="text-sm text-forest-muted">
               <span className="num font-semibold text-forest-ink">
-                {lightbox.index + 1} / {filteredImages.length}
+                {lightbox.index + 1} / {currentPageImages.length}
               </span>{' '}
               ({activeItem.category})
             </div>

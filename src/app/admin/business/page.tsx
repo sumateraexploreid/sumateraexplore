@@ -5,6 +5,7 @@ import { adminFetch } from "@/lib/admin-client";
 import { AdminPageHeader, ToastBanner } from "@/components/admin/AdminUi";
 import { MediaPickerField } from "@/components/admin/MediaPickerField";
 import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
+import { AdminIcon } from "@/components/admin/AdminIcon";
 
 interface BusinessData {
   brandName: string;
@@ -147,6 +148,31 @@ export default function AdminBusinessPage() {
         <AdminPageHeader
         title="Bisnis, Legal AHU, Medsos & Integrasi Web"
         subtitle="Kelola seluruh profil PT SUJAI TOBA SUMATERA, nomor WhatsApp, kanal IG/TikTok/Threads, armada, dokumentasi iPhone/Drone, FAQ, bukti SK AHU, dan integrasi analitik."
+        actions={
+          <button
+            type="button"
+            disabled={saving}
+            onClick={async () => {
+              if (!confirm("Jalankan sinkronisasi data awal default website? Data paket/artikel/galeri default yang belum ada akan diisi otomatis.")) return;
+              setSaving(true);
+              try {
+                const res = await adminFetch<{ message: string }>("/api/admin/system/sync", {
+                  method: "POST",
+                  body: JSON.stringify({ action: "seed_defaults" }),
+                });
+                setToast({ type: "success", message: res.message });
+              } catch (err) {
+                setToast({ type: "error", message: err instanceof Error ? err.message : "Gagal sinkronisasi data." });
+              } finally {
+                setSaving(false);
+              }
+            }}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-md border border-rule bg-paper text-ink font-semibold text-xs hover:border-accent transition-colors disabled:opacity-50"
+          >
+            <AdminIcon name="sync" className="w-4 h-4 text-accent" />
+            <span>Sinkronkan Data Default</span>
+          </button>
+        }
       />
 
       <ToastBanner toast={toast} onClose={() => setToast(null)} />

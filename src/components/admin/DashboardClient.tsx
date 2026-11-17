@@ -374,6 +374,26 @@ export default function DashboardClient() {
             </div>
           </Link>
           <Link
+            href="/admin/media"
+            className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
+          >
+            <AdminIcon name="photo_library" className="w-6 h-6 text-accent" />
+            <div>
+              <p className="text-sm font-bold text-ink">Pustaka Media</p>
+              <p className="text-[11px] text-muted">Kelola &amp; salin URL semua foto</p>
+            </div>
+          </Link>
+          <Link
+            href="/admin/audit-logs"
+            className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
+          >
+            <AdminIcon name="history" className="w-6 h-6 text-accent" />
+            <div>
+              <p className="text-sm font-bold text-ink">Riwayat Audit Log</p>
+              <p className="text-[11px] text-muted">Jejak siapa mengubah apa</p>
+            </div>
+          </Link>
+          <Link
             href="/"
             target="_blank"
             className="p-4 rounded-card bg-paper-2 border border-rule hover:border-accent flex items-center gap-3 transition-colors"
@@ -435,7 +455,15 @@ export default function DashboardClient() {
         </section>
 
         <section className="bg-paper-2 border border-rule rounded-card p-5">
-          <h2 className="font-display text-lg text-ink mb-4">Log Aktivitas Admin</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-display text-lg text-ink">Log Aktivitas Admin</h2>
+            <Link
+              href="/admin/audit-logs"
+              className="text-xs font-semibold text-accent hover:underline"
+            >
+              Lihat Semua
+            </Link>
+          </div>
           {data.recentAuditLogs.length === 0 ? (
             <p className="text-sm text-muted">Belum ada catatan aktivitas.</p>
           ) : (

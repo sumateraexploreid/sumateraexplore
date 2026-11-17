@@ -83,6 +83,15 @@ export async function POST(req: NextRequest) {
       return fail("Slug, nama paket, durasi, dan lokasi wajib diisi.", 400);
     }
 
+    // Validate slug uniqueness
+    const { rows: dupRows } = await dbQuery<{ exists: boolean }>(
+      `SELECT EXISTS(SELECT 1 FROM tour_packages WHERE slug = $1) AS exists`,
+      [slug],
+    );
+    if (dupRows[0]?.exists) {
+      return fail("Slug paket sudah digunakan. Gunakan slug unik lainnya.", 409);
+    }
+
     const { rows } = await dbQuery(
       `INSERT INTO tour_packages (
         slug, short_label, name, duration, location_tag, price_myr, price_idr,

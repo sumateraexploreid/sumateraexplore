@@ -8,6 +8,11 @@ export const metadata = {
     "Koleksi momen perjalanan dan foto-foto eksklusif wisata Danau Toba, Samosir, dan destinasi Sumatera Utara lainnya.",
 };
 
+export async function generateStaticParams() {
+  // Ensures this page is statically generated at build time
+  return [];
+}
+
 export default async function GalleryPage() {
   const images = await getLiveGallery();
   return <GalleryClient images={images} />;

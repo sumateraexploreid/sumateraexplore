@@ -205,6 +205,62 @@ export default function AdminOrdersPage() {
       : `https://wa.me/6289502472594?text=${encodeURIComponent(msg)}`;
   }
 
+  function handleExportCsv() {
+    if (rows.length === 0) {
+      alert("Tidak ada data order untuk diexport.");
+      return;
+    }
+
+    const headers = [
+      "Kode Booking",
+      "Nama Tamu",
+      "Nomor HP / WA",
+      "Asal Tamu",
+      "Paket Wisata",
+      "Tanggal Trip",
+      "Dewasa",
+      "Anak",
+      "Armada",
+      "Mata Uang",
+      "Total Biaya",
+      "DP Terbayar",
+      "Sisa Pelunasan",
+      "Status DP",
+      "Supir",
+      "Sumber",
+      "Tanggal Dibuat",
+    ];
+
+    const csvRows = rows.map((r) => [
+      `"${r.booking_code}"`,
+      `"${r.guest_name.replace(/"/g, '""')}"`,
+      `"${r.guest_phone}"`,
+      `"${r.guest_origin}"`,
+      `"${r.package_name.replace(/"/g, '""')}"`,
+      `"${r.trip_date || "-"}"`,
+      r.adults_count,
+      r.children_count,
+      `"${r.vehicle_type}"`,
+      `"${r.currency}"`,
+      r.estimated_total,
+      r.dp_amount,
+      Math.max(0, r.estimated_total - r.dp_amount),
+      `"${r.dp_status}"`,
+      `"${(r.assigned_driver || "-").replace(/"/g, '""')}"`,
+      `"${r.source}"`,
+      `"${new Date(r.created_at).toISOString().slice(0, 10)}"`,
+    ]);
+
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers.join(","), ...csvRows.map((e) => e.join(","))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `laporan-order-sumateraexplore-${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   return (
     <AdminErrorBoundary>
       <div>
@@ -212,14 +268,24 @@ export default function AdminOrdersPage() {
         title="Order, Lead WhatsApp & DP Tracker"
         subtitle="Pantau seluruh inquiry tamu website & WhatsApp, status uang muka (DP), penugasan supir Muslim lokal, dan sisa pelunasan di Bandara KNO."
         actions={
-          <button
-            type="button"
-            onClick={openCreate}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover transition-colors"
-          >
-            <AdminIcon name="add_circle" className="w-[18px] h-[18px]" />
-            Catat Order / DP Baru
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={handleExportCsv}
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-md border border-rule bg-paper text-ink font-semibold text-xs hover:border-accent transition-colors"
+            >
+              <AdminIcon name="file_download" className="w-4 h-4 text-accent" />
+              <span>Export CSV</span>
+            </button>
+            <button
+              type="button"
+              onClick={openCreate}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent text-accent-ink font-bold text-sm hover:bg-accent-hover transition-colors"
+            >
+              <AdminIcon name="add_circle" className="w-[18px] h-[18px]" />
+              Catat Order / DP Baru
+            </button>
+          </div>
         }
       />
 

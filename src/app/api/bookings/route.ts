@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { dbQuery } from "@/lib/db";
 import { okItem, fail } from "@/lib/admin-api";
 
@@ -35,9 +35,9 @@ export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
   const rateLimit = checkRateLimit(ip);
   if (!rateLimit.allowed) {
-    return fail(
-      `Terlalu banyak permintaan. Coba lagi dalam ${rateLimit.retryAfter} detik.`,
-      429
+    return NextResponse.json(
+      { ok: false, error: `Terlalu banyak permintaan. Coba lagi dalam ${rateLimit.retryAfter} detik.` },
+      { status: 429, headers: { "Retry-After": String(rateLimit.retryAfter) } }
     );
   }
 

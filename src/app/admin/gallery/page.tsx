@@ -9,6 +9,7 @@ import {
 } from "@/components/admin/AdminUi";
 import { MediaPickerField } from "@/components/admin/MediaPickerField";
 import { AdminIcon } from "@/components/admin/AdminIcon";
+import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
 
 interface GalleryRow {
   id: number;
@@ -160,8 +161,9 @@ export default function AdminGalleryPage() {
   }
 
   return (
-    <div>
-      <AdminPageHeader
+    <AdminErrorBoundary>
+      <div>
+        <AdminPageHeader
         title="Galeri Wisata & Pustaka Foto"
         subtitle="Unggah foto langsung dari komputer/HP Anda ke database Supabase tanpa perlu menyalin URL, lalu tampilkan ke halaman Galeri Publik."
         actions={
@@ -320,5 +322,6 @@ export default function AdminGalleryPage() {
         </form>
       </ModalDialog>
     </div>
+    </AdminErrorBoundary>
   );
 }

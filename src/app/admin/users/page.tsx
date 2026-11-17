@@ -9,6 +9,7 @@ import {
   ToastBanner,
 } from "@/components/admin/AdminUi";
 import { AdminIcon } from "@/components/admin/AdminIcon";
+import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
 
 interface AdminUserRow {
   id: number;
@@ -134,8 +135,9 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div>
-      <AdminPageHeader
+    <AdminErrorBoundary>
+      <div>
+        <AdminPageHeader
         title="Akun Operator & Hak Akses"
         subtitle="Kelola tim admin Sumatera Explore (Super Admin, Editor Konten, dan CS WhatsApp) beserta status akses & keamanan sesi."
         actions={
@@ -285,5 +287,6 @@ export default function AdminUsersPage() {
         </form>
       </ModalDialog>
     </div>
+    </AdminErrorBoundary>
   );
 }

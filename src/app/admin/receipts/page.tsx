@@ -639,6 +639,60 @@ export default function AdminReceiptsPage() {
     else setPaymentStatus("DP Lunas");
   }
 
+  function handleExportReceiptsCsv() {
+    if (receipts.length === 0) {
+      alert("Belum ada riwayat kwitansi untuk diexport.");
+      return;
+    }
+
+    const headers = [
+      "No Kwitansi",
+      "Tanggal Diterbitkan",
+      "Nama Tamu",
+      "Nomor HP / WA",
+      "Asal Tamu",
+      "Paket Wisata",
+      "Tanggal Trip",
+      "Peserta / Pax",
+      "Armada",
+      "Mata Uang",
+      "Total Biaya",
+      "DP Masuk",
+      "Sisa Pelunasan",
+      "Status Pembayaran",
+      "Metode Pembayaran",
+      "Diterbitkan Oleh",
+    ];
+
+    const csvRows = receipts.map((r) => [
+      `"${r.receipt_number}"`,
+      `"${r.issue_date || "-"}"`,
+      `"${r.guest_name.replace(/"/g, '""')}"`,
+      `"${r.guest_phone || "-"}"`,
+      `"${r.guest_origin || "-"}"`,
+      `"${r.package_name.replace(/"/g, '""')}"`,
+      `"${r.trip_date || "-"}"`,
+      `"${r.pax_summary || "-"}"`,
+      `"${r.vehicle_type || "-"}"`,
+      `"${r.currency}"`,
+      r.total_amount,
+      r.dp_amount,
+      r.remaining_amount,
+      `"${r.payment_status}"`,
+      `"${r.payment_method || "-"}"`,
+      `"${r.issuer_name || "-"}"`,
+    ]);
+
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers.join(","), ...csvRows.map((e) => e.join(","))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `rekap-kwitansi-sumateraexplore-${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   return (
     <AdminErrorBoundary>
       <div>
@@ -647,6 +701,15 @@ export default function AdminReceiptsPage() {
         subtitle="Isi langsung dari daftar order atau ketik manual. Admin bebas mengubah harga, nama tamu, dan rincian lalu kirim sebagai gambar PNG, PDF, atau teks WhatsApp."
         actions={
           <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={handleExportReceiptsCsv}
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-rule bg-paper-2 text-xs font-semibold text-ink hover:border-accent"
+              title="Download rekap seluruh kwitansi dalam format Excel / CSV"
+            >
+              <AdminIcon name="file_download" className="w-4 h-4 text-accent" />
+              <span>Export Rekap CSV</span>
+            </button>
             <button
               type="button"
               onClick={resetNewReceipt}

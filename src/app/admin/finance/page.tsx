@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { adminFetch } from "@/lib/admin-client";
 import { AdminPageHeader, ToastBanner } from "@/components/admin/AdminUi";
+import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
+import { AdminIcon } from "@/components/admin/AdminIcon";
 
 interface FinanceSettings {
   myrToIdr: number;
@@ -22,15 +24,20 @@ export default function AdminFinancePage() {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [fetching, setFetching] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(
     null,
   );
 
   useEffect(() => {
-    adminFetch<Record<string, unknown>>("/api/admin/settings")
-      .then((all) => {
-        if (all.finance) {
-          setForm(all.finance as FinanceSettings);
+    adminFetch<Record<string, unknown>>("/api/admin/finance")
+      .then((data) => {
+        if (data.finance) {
+          setForm(data.finance as FinanceSettings);
+        }
+        if (data.updatedAt) {
+          setLastUpdated(data.updatedAt as string);
         }
       })
       .catch((err) =>
@@ -41,6 +48,31 @@ export default function AdminFinancePage() {
       )
       .finally(() => setLoading(false));
   }, []);
+
+  async function handleAutoFetch() {
+    setFetching(true);
+    try {
+      const res = await adminFetch<{
+        myrToIdr: number;
+        sgdToIdr: number;
+        source: string;
+        fetchedAt: string;
+      }>("/api/admin/finance/fetch-rates");
+      setForm((prev) => ({ ...prev, myrToIdr: res.myrToIdr, sgdToIdr: res.sgdToIdr }));
+      setLastUpdated(res.fetchedAt);
+      setToast({
+        type: "success",
+        message: `Kurs otomatis diperbarui dari ${res.source} — MYR/SGD ke IDR diisi ke form.`,
+      });
+    } catch (err) {
+      setToast({
+        type: "error",
+        message: err instanceof Error ? err.message : "Gagal mengambil kurs otomatis.",
+      });
+    } finally {
+      setFetching(false);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -66,8 +98,9 @@ export default function AdminFinancePage() {
   }
 
   return (
-    <div>
-      <AdminPageHeader
+    <AdminErrorBoundary>
+      <div>
+        <AdminPageHeader
         title="Kurs Mata Uang & Aturan DP"
         subtitle="Ubah nilai tukar RM dan SGD di sini. Seluruh harga pada kalkulator website dan halaman Pembayaran otomatis ikut berubah."
       />
@@ -81,6 +114,28 @@ export default function AdminFinancePage() {
           onSubmit={handleSubmit}
           className="max-w-3xl bg-paper-2 border border-rule rounded-card p-6 space-y-5"
         >
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="text-xs text-muted">
+              Terakhir diperbarui:{" "}
+              <span className="text-ink-2 font-semibold">
+                {lastUpdated
+                  ? new Date(lastUpdated).toLocaleString("id-ID", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })
+                  : "—"}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={handleAutoFetch}
+              disabled={fetching}
+              className="px-4 py-2 rounded-md bg-paper-2 border border-rule text-ink font-bold text-xs hover:bg-paper disabled:opacity-50"
+            >
+              {fetching ? "Mengambil…" : "Auto-fetch Kurs"}
+            </button>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-ink-2 mb-1.5">
@@ -170,7 +225,31 @@ export default function AdminFinancePage() {
             />
           </div>
 
-          <div className="pt-2 flex justify-end">
+          <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <button
+              type="button"
+              disabled={saving}
+              onClick={async () => {
+                if (!confirm(`Hitung ulang harga IDR seluruh paket wisata berdasarkan kurs 1 MYR = Rp ${form.myrToIdr.toLocaleString("id-ID")}?`)) return;
+                setSaving(true);
+                try {
+                  const res = await adminFetch<{ message: string }>("/api/admin/system/sync", {
+                    method: "POST",
+                    body: JSON.stringify({ action: "recalculate_package_idr" }),
+                  });
+                  setToast({ type: "success", message: res.message });
+                } catch (err) {
+                  setToast({ type: "error", message: err instanceof Error ? err.message : "Gagal menghitung ulang." });
+                } finally {
+                  setSaving(false);
+                }
+              }}
+              className="px-4 py-2.5 rounded-md border border-rule bg-paper text-ink font-semibold text-xs hover:border-accent flex items-center justify-center gap-2"
+            >
+              <AdminIcon name="sync" className="w-4 h-4 text-accent" />
+              <span>Selaraskan Harga IDR Semua Paket</span>
+            </button>
+
             <button
               type="submit"
               disabled={saving}
@@ -182,6 +261,7 @@ export default function AdminFinancePage() {
         </form>
       )}
     </div>
+    </AdminErrorBoundary>
   );
 }
 
