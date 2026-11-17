@@ -257,13 +257,36 @@
 
 .se-nav-mobile-list {
   margin: 0;
-  padding: 0 var(--gutter);
+  padding: var(--space-sm) var(--gutter);
   list-style: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.se-nav-mobile-list .se-nav-link {
+  min-height: 44px;
+  padding: 0 var(--space-md);
+  border-radius: var(--radius-card);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-ink-2);
+  white-space: nowrap;
+  scroll-snap-align: start;
+  transition: color var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+}
+
+.se-nav-mobile-list .se-nav-link:hover,
+.se-nav-mobile-list .se-nav-link[aria-current="page"] {
+  color: var(--color-ink);
+  background: var(--color-paper-2);
+}
+
+.se-nav-mobile-list .se-nav-link[aria-current="page"] {
+  box-shadow: inset 0 -2px 0 var(--color-accent);
 }
 
 /* Buttons (one filled primary recipe, quiet outline secondary) */
@@ -463,22 +486,12 @@
 .se-ugc-badge-img {
   width: 72px;
   height: 72px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-card);
   overflow: hidden;
   border: 2px solid var(--color-badge-border);
   background: var(--color-paper-2);
   flex-shrink: 0;
   box-shadow: var(--shadow-card);
-}
-
-.se-ugc-badge-img {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-pill);
-  overflow: hidden;
-  border: 1px solid var(--color-badge-border);
-  background: var(--color-paper-2);
-  flex-shrink: 0;
 }
 
 .se-ugc-operator-name {
@@ -1207,11 +1220,14 @@
   }
 
   .se-nav-mobile-list {
-    gap: var(--space-xs);
+    gap: var(--space-sm);
+    padding: var(--space-xs) var(--gutter);
   }
 
   .se-nav-mobile-list .se-nav-link {
     font-size: 0.8125rem;
+    padding: 0 var(--space-sm);
+    min-height: 40px;
   }
 
   .se-brand-bar {
