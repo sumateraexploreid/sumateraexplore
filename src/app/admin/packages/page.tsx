@@ -11,6 +11,7 @@ import {
 import { MediaPickerField } from "@/components/admin/MediaPickerField";
 import { AdminIcon } from "@/components/admin/AdminIcon";
 import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
+import { PackageCardSkeleton } from "@/components/Skeleton";
 
 interface PaxTier {
   pax: number;
@@ -83,6 +84,9 @@ export default function AdminPackagesPage() {
   const [packages, setPackages] = useState<PackageItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [total, setTotal] = useState(0);
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(
     null,
   );
@@ -100,12 +104,15 @@ export default function AdminPackagesPage() {
 
   const loadPackages = useCallback(async () => {
     try {
-      const qs = new URLSearchParams({ pageSize: "50" });
+      const qs = new URLSearchParams();
       if (q.trim()) qs.set("q", q.trim());
+      qs.set("page", String(page));
+      qs.set("pageSize", String(pageSize));
       const res = await adminFetch<ListResult<PackageItem>>(
         `/api/admin/packages?${qs.toString()}`,
       );
       setPackages(res.items);
+      setTotal(res.meta.total);
     } catch (err) {
       setToast({
         type: "error",
@@ -114,15 +121,20 @@ export default function AdminPackagesPage() {
     } finally {
       setLoading(false);
     }
-  }, [q]);
+  }, [q, page, pageSize]);
 
   useEffect(() => {
     let active = true;
-    const qs = new URLSearchParams({ pageSize: "50" });
+    const qs = new URLSearchParams();
     if (q.trim()) qs.set("q", q.trim());
+    qs.set("page", String(page));
+    qs.set("pageSize", String(pageSize));
     adminFetch<ListResult<PackageItem>>(`/api/admin/packages?${qs.toString()}`)
       .then((res) => {
-        if (active) setPackages(res.items);
+        if (active) {
+          setPackages(res.items);
+          setTotal(res.meta.total);
+        }
       })
       .catch((err) => {
         if (active) {
@@ -138,7 +150,7 @@ export default function AdminPackagesPage() {
     return () => {
       active = false;
     };
-  }, [q]);
+  }, [q, page, pageSize]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -297,7 +309,11 @@ export default function AdminPackagesPage() {
       </div>
 
       {loading ? (
-        <p className="text-sm text-muted py-8 text-center">Memuat daftar paket…</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <PackageCardSkeleton key={i} />
+          ))}
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {packages.map((pkg) => (
@@ -359,6 +375,94 @@ export default function AdminPackagesPage() {
             </article>
           ))}
         </div>
+      )}
+
+      {total > pageSize && (
+        <nav
+          className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+          aria-label="Navigasi halaman paket"
+        >
+          <div className="flex items-center gap-2">
+            <label htmlFor="pkg-page-size" className="text-xs text-muted">
+              Per halaman:
+            </label>
+            <select
+              id="pkg-page-size"
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setPage(1);
+              }}
+              className="w-auto px-2.5 py-1.5 rounded-md bg-paper-2 border border-rule text-sm text-ink"
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="se-btn se-btn--quiet"
+              aria-label="Halaman sebelumnya"
+              aria-disabled={page === 1}
+            >
+              Sebelumnya
+            </button>
+            {(() => {
+              const totalPages = Math.ceil(total / pageSize);
+              const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+              const showEllipsis = totalPages > 7;
+              const centerStart = Math.max(2, page - 2);
+              const centerEnd = Math.min(totalPages - 1, page + 2);
+              const visiblePages = pages.filter((p) => {
+                if (p === 1 || p === totalPages) return true;
+                if (!showEllipsis) return true;
+                return p >= centerStart && p <= centerEnd;
+              });
+              return visiblePages.map((p, idx) => {
+                const prev = visiblePages[idx - 1];
+                const showPrevEllipsis = showEllipsis && prev !== undefined && p - prev > 1;
+                return (
+                  <React.Fragment key={p}>
+                    {showPrevEllipsis && (
+                      <span className="px-2 text-sm text-muted" aria-hidden="true">…</span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setPage(p)}
+                      className={`se-btn min-w-[44px] ${
+                        page === p ? "se-btn--primary" : "se-btn--quiet"
+                      }`}
+                      aria-label={`Halaman ${p}`}
+                      aria-current={page === p ? "page" : undefined}
+                    >
+                      {p}
+                    </button>
+                  </React.Fragment>
+                );
+              });
+            })()}
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.min(Math.ceil(total / pageSize), p + 1))}
+              disabled={page === Math.ceil(total / pageSize)}
+              className="se-btn se-btn--quiet"
+              aria-label="Halaman berikutnya"
+              aria-disabled={page === Math.ceil(total / pageSize)}
+            >
+              Berikutnya
+            </button>
+          </div>
+
+          <span className="text-xs text-muted whitespace-nowrap num">
+            Menampilkan {((page - 1) * pageSize) + 1}–{Math.min(page * pageSize, total)} dari {total} paket
+          </span>
+        </nav>
       )}
 
       <ModalDialog

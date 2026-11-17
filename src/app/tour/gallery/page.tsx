@@ -1,5 +1,5 @@
 import React from "react";
-import GalleryClient from "./GalleryClient";
+import GalleryWrapper from "./GalleryWrapper";
 import { getLiveGallery } from "@/lib/cms";
 
 export const metadata = {
@@ -15,5 +15,5 @@ export async function generateStaticParams() {
 
 export default async function GalleryPage() {
   const images = await getLiveGallery();
-  return <GalleryClient images={images} />;
+  return <GalleryWrapper images={images} />;
 }

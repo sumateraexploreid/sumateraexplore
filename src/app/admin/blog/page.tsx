@@ -11,6 +11,7 @@ import {
 import { MediaPickerField } from "@/components/admin/MediaPickerField";
 import { AdminIcon } from "@/components/admin/AdminIcon";
 import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
+import { BlogCardSkeleton } from "@/components/Skeleton";
 
 interface BlogSection {
   heading: string;
@@ -49,6 +50,9 @@ export default function AdminBlogPage() {
   const [posts, setPosts] = useState<BlogRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [total, setTotal] = useState(0);
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(
     null,
   );
@@ -59,12 +63,15 @@ export default function AdminBlogPage() {
 
   const loadBlogs = useCallback(async () => {
     try {
-      const qs = new URLSearchParams({ pageSize: "50" });
+      const qs = new URLSearchParams();
       if (q.trim()) qs.set("q", q.trim());
+      qs.set("page", String(page));
+      qs.set("pageSize", String(pageSize));
       const res = await adminFetch<ListResult<BlogRow>>(
         `/api/admin/blogs?${qs.toString()}`,
       );
       setPosts(res.items);
+      setTotal(res.meta.total);
     } catch (err) {
       setToast({
         type: "error",
@@ -73,15 +80,20 @@ export default function AdminBlogPage() {
     } finally {
       setLoading(false);
     }
-  }, [q]);
+  }, [q, page, pageSize]);
 
   useEffect(() => {
     let active = true;
-    const qs = new URLSearchParams({ pageSize: "50" });
+    const qs = new URLSearchParams();
     if (q.trim()) qs.set("q", q.trim());
+    qs.set("page", String(page));
+    qs.set("pageSize", String(pageSize));
     adminFetch<ListResult<BlogRow>>(`/api/admin/blogs?${qs.toString()}`)
       .then((res) => {
-        if (active) setPosts(res.items);
+        if (active) {
+          setPosts(res.items);
+          setTotal(res.meta.total);
+        }
       })
       .catch((err) => {
         if (active) {
@@ -97,7 +109,7 @@ export default function AdminBlogPage() {
     return () => {
       active = false;
     };
-  }, [q]);
+  }, [q, page, pageSize]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -227,7 +239,11 @@ export default function AdminBlogPage() {
       </div>
 
       {loading ? (
-        <p className="text-sm text-muted py-8 text-center">Memuat jurnal…</p>
+        <div className="space-y-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <BlogCardSkeleton key={i} />
+          ))}
+        </div>
       ) : (
         <div className="space-y-3">
           {posts.map((post) => (
@@ -276,6 +292,94 @@ export default function AdminBlogPage() {
             </article>
           ))}
         </div>
+      )}
+
+      {total > pageSize && (
+        <nav
+          className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+          aria-label="Navigasi halaman artikel"
+        >
+          <div className="flex items-center gap-2">
+            <label htmlFor="blog-page-size" className="text-xs text-muted">
+              Per halaman:
+            </label>
+            <select
+              id="blog-page-size"
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setPage(1);
+              }}
+              className="w-auto px-2.5 py-1.5 rounded-md bg-paper-2 border border-rule text-sm text-ink"
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="se-btn se-btn--quiet"
+              aria-label="Halaman sebelumnya"
+              aria-disabled={page === 1}
+            >
+              Sebelumnya
+            </button>
+            {(() => {
+              const totalPages = Math.ceil(total / pageSize);
+              const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+              const showEllipsis = totalPages > 7;
+              const centerStart = Math.max(2, page - 2);
+              const centerEnd = Math.min(totalPages - 1, page + 2);
+              const visiblePages = pages.filter((p) => {
+                if (p === 1 || p === totalPages) return true;
+                if (!showEllipsis) return true;
+                return p >= centerStart && p <= centerEnd;
+              });
+              return visiblePages.map((p, idx) => {
+                const prev = visiblePages[idx - 1];
+                const showPrevEllipsis = showEllipsis && prev !== undefined && p - prev > 1;
+                return (
+                  <React.Fragment key={p}>
+                    {showPrevEllipsis && (
+                      <span className="px-2 text-sm text-muted" aria-hidden="true">…</span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setPage(p)}
+                      className={`se-btn min-w-[44px] ${
+                        page === p ? "se-btn--primary" : "se-btn--quiet"
+                      }`}
+                      aria-label={`Halaman ${p}`}
+                      aria-current={page === p ? "page" : undefined}
+                    >
+                      {p}
+                    </button>
+                  </React.Fragment>
+                );
+              });
+            })()}
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.min(Math.ceil(total / pageSize), p + 1))}
+              disabled={page === Math.ceil(total / pageSize)}
+              className="se-btn se-btn--quiet"
+              aria-label="Halaman berikutnya"
+              aria-disabled={page === Math.ceil(total / pageSize)}
+            >
+              Berikutnya
+            </button>
+          </div>
+
+          <span className="text-xs text-muted whitespace-nowrap num">
+            Menampilkan {((page - 1) * pageSize) + 1}–{Math.min(page * pageSize, total)} dari {total} artikel
+          </span>
+        </nav>
       )}
 
       <ModalDialog

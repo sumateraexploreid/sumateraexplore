@@ -1,5 +1,5 @@
 import React from "react";
-import BlogClient from "./BlogClient";
+import BlogWrapper from "./BlogWrapper";
 import { getLiveBlogs } from "@/lib/cms";
 
 export const metadata = {
@@ -15,5 +15,5 @@ export async function generateStaticParams() {
 
 export default async function BlogPage() {
   const posts = await getLiveBlogs();
-  return <BlogClient posts={posts} />;
+  return <BlogWrapper posts={posts} />;
 }

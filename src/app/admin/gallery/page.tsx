@@ -5,11 +5,13 @@ import { adminFetch, type ListResult } from "@/lib/admin-client";
 import {
   AdminPageHeader,
   ModalDialog,
+  StatusPill,
   ToastBanner,
 } from "@/components/admin/AdminUi";
 import { MediaPickerField } from "@/components/admin/MediaPickerField";
 import { AdminIcon } from "@/components/admin/AdminIcon";
 import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
+import { GalleryCardSkeleton } from "@/components/Skeleton";
 
 interface GalleryRow {
   id: number;
@@ -181,7 +183,11 @@ export default function AdminGalleryPage() {
       <ToastBanner toast={toast} onClose={() => setToast(null)} />
 
       {loading ? (
-        <p className="text-sm text-muted py-8 text-center">Memuat foto galeri…</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <GalleryCardSkeleton key={i} />
+          ))}
+        </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {items.map((item) => (

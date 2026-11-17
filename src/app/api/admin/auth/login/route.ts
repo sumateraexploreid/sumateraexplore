@@ -11,8 +11,17 @@ import {
   verifyPassword,
 } from "@/lib/auth";
 import { ensureDefaultContentSeeded } from "@/lib/seed";
+import { adminLoginRateLimiter } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
+  const rateLimit = adminLoginRateLimiter(req);
+  if (!rateLimit.allowed) {
+    return fail(
+      `Terlalu banyak percobaan login. Coba lagi dalam ${rateLimit.retryAfter} detik.`,
+      429,
+    );
+  }
+
   try {
     const body = (await req.json().catch(() => null)) as {
       email?: string;

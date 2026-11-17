@@ -397,12 +397,13 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Tampilan foto galeri"
+          aria-labelledby="lightbox-title"
+          aria-describedby="lightbox-desc"
           className="fixed inset-0 z-50 flex flex-col justify-between bg-forest-deep p-4 md:p-8 text-forest-ink"
         >
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-forest-rule pb-4">
             <div className="text-sm text-forest-muted">
-              <span className="num font-semibold text-forest-ink">
+              <span id="lightbox-title" className="num font-semibold text-forest-ink">
                 {lightbox.index + 1} / {currentPageImages.length}
               </span>{' '}
               ({activeItem.category})
@@ -453,6 +454,9 @@ export default function GalleryClient({ images }: { images: ImageProps[] }) {
               style={{ transform: `scale(${lightbox.zoom})` }}
               className="max-h-[70dvh] w-auto max-w-full object-contain rounded-card"
             />
+            <div id="lightbox-desc" className="sr-only">
+              Foto galeri: {activeItem.caption || activeItem.category}. Kategori: {activeItem.category}. Gunakan tombol panah kiri/kanan untuk navigasi, + atau - untuk zoom, Escape untuk tutup.
+            </div>
           </div>
 
           <div className="flex flex-col gap-4 border-t border-forest-rule pt-4 sm:flex-row sm:items-center sm:justify-between">

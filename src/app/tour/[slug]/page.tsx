@@ -1,5 +1,5 @@
 import React from "react";
-import PackageDetailClient from "./PackageDetailClient";
+import PackageDetailWrapper from "./PackageDetailWrapper";
 import { notFound } from "next/navigation";
 import { getLocale } from "@/i18n";
 import { currencyFor, getManualRates } from "@/lib/currency";
@@ -116,7 +116,7 @@ export default async function PackageDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <PackageDetailClient
+      <PackageDetailWrapper
         pkg={pkg}
         currency={currency}
         idrPerUnit={idrPerUnit}

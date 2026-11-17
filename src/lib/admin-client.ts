@@ -12,6 +12,12 @@ export interface ListResult<T> {
   meta: PaginationMeta;
 }
 
+function getCsrfToken(): string | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(/(?:^|; )se_csrf_token=([^;]*)/);
+  return match ? match[1] : null;
+}
+
 export async function adminFetch<T>(
   url: string,
   init?: RequestInit,
@@ -19,6 +25,14 @@ export async function adminFetch<T>(
   const headers = new Headers(init?.headers || {});
   if (!(init?.body instanceof FormData) && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
+  }
+
+  const method = (init?.method || "GET").toUpperCase();
+  if (!["GET", "HEAD", "OPTIONS"].includes(method)) {
+    const csrfToken = getCsrfToken();
+    if (csrfToken) {
+      headers.set("x-csrf-token", csrfToken);
+    }
   }
 
   const res = await fetch(url, {

@@ -3,6 +3,8 @@ import { dbQuery } from "@/lib/db";
 import { okItem, okList, fail, parsePagination } from "@/lib/admin-api";
 import { recordAuditLog, requireAdminSession } from "@/lib/auth";
 import { invalidatePublicCms } from "@/lib/cms";
+import { requireCsrf } from "@/lib/csrf";
+import { adminMutationRateLimiter } from "@/lib/rate-limit";
 
 export async function GET(req: NextRequest) {
   const auth = await requireAdminSession();
@@ -58,6 +60,17 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const auth = await requireAdminSession(["super_admin", "editor"]);
   if (!auth.ok) return fail(auth.error, auth.status);
+
+  const rateLimit = adminMutationRateLimiter(req);
+  if (!rateLimit.allowed) {
+    return fail(
+      `Terlalu banyak permintaan. Coba lagi dalam ${rateLimit.retryAfter} detik.`,
+      429,
+    );
+  }
+
+  const csrf = await requireCsrf(req);
+  if (!csrf.ok) return fail(csrf.error!, 403);
 
   try {
     const body = await req.json();

@@ -6,6 +6,7 @@ import { adminFetch } from "@/lib/admin-client";
 import { AdminPageHeader, ModalDialog, ToastBanner } from "@/components/admin/AdminUi";
 import { AdminIcon } from "@/components/admin/AdminIcon";
 import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
+import { GalleryCardSkeleton } from "@/components/Skeleton";
 
 interface MediaItem {
   id: string;
@@ -225,7 +226,11 @@ export default function AdminMediaPage() {
 
         {/* Media Grid */}
         {loading ? (
-          <p className="text-sm text-muted py-12 text-center">Memuat pustaka foto…</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <GalleryCardSkeleton key={i} />
+            ))}
+          </div>
         ) : filteredItems.length === 0 ? (
           <div className="p-12 text-center bg-paper-2 border border-rule rounded-card">
             <AdminIcon name="image" className="w-12 h-12 text-muted mx-auto mb-3" />

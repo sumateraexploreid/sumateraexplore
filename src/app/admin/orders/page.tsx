@@ -12,6 +12,7 @@ import {
 import { AdminIcon } from "@/components/admin/AdminIcon";
 import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
 import { formatWaLink } from "@/lib/whatsapp";
+import { AdminTableRowSkeleton } from "@/components/Skeleton";
 
 interface BookingRow {
   id: number;
@@ -63,6 +64,8 @@ export default function AdminOrdersPage() {
   const [rows, setRows] = useState<BookingRow[]>([]);
   const [pkgOptions, setPkgOptions] = useState<PackageOption[]>([]);
   const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -81,7 +84,8 @@ export default function AdminOrdersPage() {
       const qs = new URLSearchParams();
       if (q.trim()) qs.set("q", q.trim());
       if (statusFilter !== "all") qs.set("status", statusFilter);
-      qs.set("pageSize", "50");
+      qs.set("page", String(page));
+      qs.set("pageSize", String(pageSize));
 
       const data = await adminFetch<ListResult<BookingRow>>(
         `/api/admin/orders?${qs.toString()}`,
@@ -96,7 +100,7 @@ export default function AdminOrdersPage() {
     } finally {
       setLoading(false);
     }
-  }, [q, statusFilter]);
+  }, [q, statusFilter, page, pageSize]);
 
   
   useEffect(() => {
@@ -332,8 +336,10 @@ export default function AdminOrdersPage() {
 
       {/* Table / Cards */}
       {loading ? (
-        <div className="p-8 rounded-card bg-paper-2 border border-rule text-sm text-muted text-center">
-          Memuat data order…
+        <div className="space-y-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <AdminTableRowSkeleton key={i} columns={6} />
+          ))}
         </div>
       ) : rows.length === 0 ? (
         <div className="p-8 rounded-card bg-paper-2 border border-rule text-sm text-muted text-center">
@@ -448,9 +454,97 @@ export default function AdminOrdersPage() {
                   </div>
                 </div>
               </div>
-            );
+);
           })}
         </div>
+      )}
+
+      {total > pageSize && (
+        <nav
+          className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+          aria-label="Navigasi halaman order"
+        >
+          <div className="flex items-center gap-2">
+            <label htmlFor="page-size" className="text-xs text-muted">
+              Per halaman:
+            </label>
+            <select
+              id="page-size"
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setPage(1);
+              }}
+              className="w-auto px-2.5 py-1.5 rounded-md bg-paper-2 border border-rule text-sm text-ink"
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="se-btn se-btn--quiet"
+              aria-label="Halaman sebelumnya"
+              aria-disabled={page === 1}
+            >
+              Sebelumnya
+            </button>
+            {(() => {
+              const totalPages = Math.ceil(total / pageSize);
+              const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+              const showEllipsis = totalPages > 7;
+              const centerStart = Math.max(2, page - 2);
+              const centerEnd = Math.min(totalPages - 1, page + 2);
+              const visiblePages = pages.filter((p) => {
+                if (p === 1 || p === totalPages) return true;
+                if (!showEllipsis) return true;
+                return p >= centerStart && p <= centerEnd;
+              });
+              return visiblePages.map((p, idx) => {
+                const prev = visiblePages[idx - 1];
+                const showPrevEllipsis = showEllipsis && prev !== undefined && p - prev > 1;
+                return (
+                  <React.Fragment key={p}>
+                    {showPrevEllipsis && (
+                      <span className="px-2 text-sm text-muted" aria-hidden="true">…</span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setPage(p)}
+                      className={`se-btn min-w-[44px] ${
+                        page === p ? "se-btn--primary" : "se-btn--quiet"
+                      }`}
+                      aria-label={`Halaman ${p}`}
+                      aria-current={page === p ? "page" : undefined}
+                    >
+                      {p}
+                    </button>
+                  </React.Fragment>
+                );
+              });
+            })()}
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.min(Math.ceil(total / pageSize), p + 1))}
+              disabled={page === Math.ceil(total / pageSize)}
+              className="se-btn se-btn--quiet"
+              aria-label="Halaman berikutnya"
+              aria-disabled={page === Math.ceil(total / pageSize)}
+            >
+              Berikutnya
+            </button>
+          </div>
+
+          <span className="text-xs text-muted whitespace-nowrap num">
+            Menampilkan {((page - 1) * pageSize) + 1}–{Math.min(page * pageSize, total)} dari {total} order
+          </span>
+        </nav>
       )}
 
       <ModalDialog

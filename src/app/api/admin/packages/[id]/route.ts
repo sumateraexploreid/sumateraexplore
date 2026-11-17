@@ -3,6 +3,8 @@ import { dbQuery } from "@/lib/db";
 import { okItem, fail } from "@/lib/admin-api";
 import { recordAuditLog, requireAdminSession } from "@/lib/auth";
 import { invalidatePublicCms } from "@/lib/cms";
+import { requireCsrf } from "@/lib/csrf";
+import { adminMutationRateLimiter } from "@/lib/rate-limit";
 
 export async function GET(
   _req: NextRequest,
@@ -27,6 +29,17 @@ export async function PATCH(
 ) {
   const auth = await requireAdminSession(["super_admin", "editor"]);
   if (!auth.ok) return fail(auth.error, auth.status);
+
+  const rateLimit = adminMutationRateLimiter(req);
+  if (!rateLimit.allowed) {
+    return fail(
+      `Terlalu banyak permintaan. Coba lagi dalam ${rateLimit.retryAfter} detik.`,
+      429,
+    );
+  }
+
+  const csrf = await requireCsrf(req);
+  if (!csrf.ok) return fail(csrf.error!, 403);
 
   const id = Number((await ctx.params).id);
   if (!id) return fail("ID paket tidak valid.", 400);
@@ -131,11 +144,22 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  _req: NextRequest,
+  req: NextRequest,
   ctx: { params: Promise<{ id: string }> },
 ) {
   const auth = await requireAdminSession(["super_admin"]);
   if (!auth.ok) return fail(auth.error, auth.status);
+
+  const rateLimit = adminMutationRateLimiter(req);
+  if (!rateLimit.allowed) {
+    return fail(
+      `Terlalu banyak permintaan. Coba lagi dalam ${rateLimit.retryAfter} detik.`,
+      429,
+    );
+  }
+
+  const csrf = await requireCsrf(req);
+  if (!csrf.ok) return fail(csrf.error!, 403);
 
   const id = Number((await ctx.params).id);
   if (!id) return fail("ID paket tidak valid.", 400);

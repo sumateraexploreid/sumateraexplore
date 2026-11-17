@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface PackageProps {
   id: string | number;
@@ -73,13 +74,14 @@ export default function PackageCard({
     <article className="flex flex-col h-full border-b border-rule pb-6">
       <Link href={`/tour/${slug}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden rounded-card bg-paper-2">
-          <img
+          <Image
             src={image}
             alt={name}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
             loading={priority ? undefined : "lazy"}
             fetchPriority={priority ? "high" : undefined}
-            decoding="async"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </div>
       </Link>
@@ -180,7 +182,7 @@ export default function PackageCard({
                 type="button"
                 onClick={() => setPaxAdults((n) => Math.max(1, n - 1))}
                 aria-label="Kurangi jumlah dewasa"
-                className="w-9 sm:w-10 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
+                className="w-10 sm:w-11 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
               >
                 -
               </button>
@@ -189,7 +191,7 @@ export default function PackageCard({
                 type="button"
                 onClick={() => setPaxAdults((n) => n + 1)}
                 aria-label="Tambah jumlah dewasa"
-                className="w-9 sm:w-10 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
+                className="w-10 sm:w-11 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
               >
                 +
               </button>
@@ -200,7 +202,7 @@ export default function PackageCard({
                 type="button"
                 onClick={() => setPaxChildren((n) => Math.max(0, n - 1))}
                 aria-label="Kurangi jumlah anak"
-                className="w-9 sm:w-10 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
+                className="w-10 sm:w-11 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
               >
                 -
               </button>
@@ -209,7 +211,7 @@ export default function PackageCard({
                 type="button"
                 onClick={() => setPaxChildren((n) => n + 1)}
                 aria-label="Tambah jumlah anak"
-                className="w-9 sm:w-10 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
+                className="w-10 sm:w-11 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
               >
                 +
               </button>

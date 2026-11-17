@@ -149,7 +149,7 @@ export default function PackageDetailClient({
     }
   };
 
-  const trackWebLead = () => {
+  const trackWebLead = async () => {
     try {
       const payload = JSON.stringify({
         package_slug: pkg.slug,
@@ -164,20 +164,20 @@ export default function PackageDetailClient({
         estimated_total: Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1)),
         notes: `Klik CTA Pesan WA (${tierLookup?.label || tierLookup?.vehicle || "SUV"})`,
       });
-      if (typeof navigator !== "undefined" && navigator.sendBeacon) {
-        navigator.sendBeacon("/api/bookings", new Blob([payload], { type: "application/json" }));
-      } else {
-        void fetch("/api/bookings", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: payload,
-          keepalive: true,
-        });
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.ok && data?.data?.booking_code) {
+          return data.data.booking_code;
+        }
       }
     } catch {}
+    return null;
   };
-
-  const successUrl = `/booking/success?code=SE-${new Date().getFullYear().toString().slice(-2)}${String(new Date().getMonth() + 1).padStart(2, "0")}-${Math.floor(100 + Math.random() * 900)}&pkg=${encodeURIComponent(pkg.name)}&total=${Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1))}&curr=${currency}&name=Tamu+Website`;
 
   const bookingWaHref = formatWaLink(
     whatsappNumber,
@@ -223,7 +223,9 @@ export default function PackageDetailClient({
                 <button
                   type="button"
                   role="tab"
+                  id="tab-itinerary"
                   aria-selected={activeTab === "itinerary"}
+                  aria-controls="panel-itinerary"
                   onClick={() => setActiveTab("itinerary")}
                   className={`min-w-0 sm:flex-1 min-h-12 px-1.5 sm:px-4 text-xs sm:text-sm font-semibold text-center leading-tight transition-colors duration-200 active:translate-y-px ${
                     activeTab === "itinerary"
@@ -236,7 +238,9 @@ export default function PackageDetailClient({
                 <button
                   type="button"
                   role="tab"
+                  id="tab-pricelist"
                   aria-selected={activeTab === "pricelist"}
+                  aria-controls="panel-pricelist"
                   onClick={() => setActiveTab("pricelist")}
                   className={`min-w-0 sm:flex-1 min-h-12 px-1.5 sm:px-4 text-xs sm:text-sm font-semibold text-center leading-tight whitespace-nowrap transition-colors duration-200 active:translate-y-px ${
                     activeTab === "pricelist"
@@ -249,7 +253,9 @@ export default function PackageDetailClient({
                 <button
                   type="button"
                   role="tab"
+                  id="tab-includes"
                   aria-selected={activeTab === "includes"}
+                  aria-controls="panel-includes"
                   onClick={() => setActiveTab("includes")}
                   className={`min-w-0 sm:flex-1 min-h-12 px-1.5 sm:px-4 text-xs sm:text-sm font-semibold text-center leading-tight transition-colors duration-200 active:translate-y-px ${
                     activeTab === "includes"
@@ -262,7 +268,9 @@ export default function PackageDetailClient({
                 <button
                   type="button"
                   role="tab"
+                  id="tab-excludes"
                   aria-selected={activeTab === "excludes"}
+                  aria-controls="panel-excludes"
                   onClick={() => setActiveTab("excludes")}
                   className={`min-w-0 sm:flex-1 min-h-12 px-1.5 sm:px-4 text-xs sm:text-sm font-semibold text-center leading-tight whitespace-nowrap transition-colors duration-200 active:translate-y-px ${
                     activeTab === "excludes"
@@ -276,8 +284,9 @@ export default function PackageDetailClient({
 
               <div className="p-4 sm:p-6 md:p-8">
                 {activeTab === "itinerary" && (
-                  <ol className="divide-y divide-rule">
-                    {pkg.itinerary.map((day) => (
+                  <div id="panel-itinerary" role="tabpanel" aria-labelledby="tab-itinerary">
+                    <ol className="divide-y divide-rule">
+                      {pkg.itinerary.map((day) => (
                       <li key={day.day} className="py-5 first:pt-0 last:pb-0 grid grid-cols-1 sm:grid-cols-12 gap-3">
                         <div className="sm:col-span-3">
                           <span className="num text-sm font-bold text-accent block">
@@ -308,10 +317,12 @@ export default function PackageDetailClient({
                       </li>
                     ))}
                   </ol>
+        </div>
                 )}
 
                 {activeTab === "pricelist" && (
-                  <div className="space-y-3">
+                  <div id="panel-pricelist" role="tabpanel" aria-labelledby="tab-pricelist">
+                    <div className="space-y-3">
                     <p className="text-xs text-muted">
                       Harga Weekday per orang. Ketuk baris untuk menerapkan ke kalkulator:
                     </p>
@@ -358,10 +369,12 @@ export default function PackageDetailClient({
                       </table>
                     </div>
                   </div>
+        </div>
                 )}
 
                 {activeTab === "includes" && (
-                  <ul className="divide-y divide-rule">
+                  <div id="panel-includes" role="tabpanel" aria-labelledby="tab-includes">
+                    <ul className="divide-y divide-rule">
                     {pkg.includes.map((inc, i) => (
                       <li key={i} className="py-3 first:pt-0 last:pb-0 flex items-start gap-3 text-ink-2 text-sm">
                         <span className="text-success font-semibold shrink-0" aria-hidden="true">Ya</span>
@@ -369,10 +382,12 @@ export default function PackageDetailClient({
                       </li>
                     ))}
                   </ul>
+        </div>
                 )}
 
                 {activeTab === "excludes" && (
-                  <ul className="divide-y divide-rule">
+                  <div id="panel-excludes" role="tabpanel" aria-labelledby="tab-excludes">
+                    <ul className="divide-y divide-rule">
                     {pkg.excludes.map((exc, i) => (
                       <li key={i} className="py-3 first:pt-0 last:pb-0 flex items-start gap-3 text-ink-2 text-sm">
                         <span className="text-muted font-semibold shrink-0" aria-hidden="true">Tidak</span>
@@ -380,6 +395,7 @@ export default function PackageDetailClient({
                       </li>
                     ))}
                   </ul>
+        </div>
                 )}
               </div>
             </div>
@@ -450,7 +466,7 @@ export default function PackageDetailClient({
                           setVariantChoiceIdx(0);
                         }}
                         aria-label="Kurangi peserta dewasa"
-                        className="w-10 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
+                        className="w-11 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
                       >
                         -
                       </button>
@@ -462,7 +478,7 @@ export default function PackageDetailClient({
                           setVariantChoiceIdx(0);
                         }}
                         aria-label="Tambah peserta dewasa"
-                        className="w-10 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
+                        className="w-11 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
                       >
                         +
                       </button>
@@ -478,7 +494,7 @@ export default function PackageDetailClient({
                         type="button"
                         onClick={() => setChildrenOverride(Math.max(0, paxChildren - 1))}
                         aria-label="Kurangi peserta anak"
-                        className="w-10 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
+                        className="w-11 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
                       >
                         -
                       </button>
@@ -487,7 +503,7 @@ export default function PackageDetailClient({
                         type="button"
                         onClick={() => setChildrenOverride(paxChildren + 1)}
                         aria-label="Tambah peserta anak"
-                        className="w-10 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
+                        className="w-11 min-h-11 flex items-center justify-center text-ink font-semibold hover:text-accent active:translate-y-px"
                       >
                         +
                       </button>
@@ -511,7 +527,7 @@ export default function PackageDetailClient({
                         {variant.label ?? variant.vehicle}
                       </button>
                     ))}
-                  </div>
+        </div>
                 )}
 
                 <p className="text-xs text-muted">
@@ -530,9 +546,12 @@ export default function PackageDetailClient({
                 href={bookingWaHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => {
-                  trackWebLead();
-                  setTimeout(() => window.open(successUrl, "_blank", "noopener,noreferrer"), 500);
+                onClick={async () => {
+                  const realCode = await trackWebLead();
+                  if (realCode) {
+                    const url = `/booking/success?code=${encodeURIComponent(realCode)}&pkg=${encodeURIComponent(pkg.name)}&total=${Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1))}&curr=${currency}&name=Tamu+Website`;
+                    setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 500);
+                  }
                 }}
                 className="se-btn se-btn--wa w-full"
               >
@@ -570,9 +589,12 @@ export default function PackageDetailClient({
             href={bookingWaHref}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => {
-              trackWebLead();
-              setTimeout(() => window.open(successUrl, "_blank", "noopener,noreferrer"), 500);
+            onClick={async () => {
+              const realCode = await trackWebLead();
+              if (realCode) {
+                const url = `/booking/success?code=${encodeURIComponent(realCode)}&pkg=${encodeURIComponent(pkg.name)}&total=${Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1))}&curr=${currency}&name=Tamu+Website`;
+                setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 500);
+              }
             }}
             className="se-btn se-btn--primary min-h-11 px-4 shrink-0"
           >
