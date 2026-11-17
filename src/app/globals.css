@@ -484,14 +484,14 @@
 }
 
 .se-ugc-badge-img {
-  width: 72px;
-  height: 72px;
+  width: 88px;
+  height: 88px;
   border-radius: var(--radius-card);
   overflow: hidden;
-  border: 2px solid var(--color-badge-border);
-  background: var(--color-paper-2);
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  background: #ffffff;
   flex-shrink: 0;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 8px 24px oklch(0% 0 0 / 0.35);
 }
 
 .se-ugc-operator-name {
