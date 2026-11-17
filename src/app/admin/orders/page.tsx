@@ -11,6 +11,7 @@ import {
 } from "@/components/admin/AdminUi";
 import { AdminIcon } from "@/components/admin/AdminIcon";
 import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
+import { formatWaLink } from "@/lib/whatsapp";
 
 interface BookingRow {
   id: number;
@@ -197,12 +198,9 @@ export default function AdminOrdersPage() {
   }
 
   function waFollowUpUrl(row: BookingRow) {
-    const cleanPhone = row.guest_phone.replace(/[^0-9]/g, "");
     const balance = Math.max(0, row.estimated_total - row.dp_amount);
     const msg = `Halo ${row.guest_name}, kami dari Sumatera Explore (${row.booking_code}) untuk ${row.package_name}. Estimasi total: ${row.currency} ${row.estimated_total}, DP tercatat: ${row.currency} ${row.dp_amount}, baki pelunasan di Bandara KNO: ${row.currency} ${balance}.`;
-    return cleanPhone
-      ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`
-      : `https://wa.me/6289502472594?text=${encodeURIComponent(msg)}`;
+    return formatWaLink(row.guest_phone, msg);
   }
 
   function handleExportCsv() {

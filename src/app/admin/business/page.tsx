@@ -472,6 +472,9 @@ export default function AdminBusinessPage() {
                       next[idx] = { ...f, image: url };
                       setFleet(next);
                     }}
+                    onDelete={(oldUrl) => {
+                      // Deletion is handled by the component via API
+                    }}
                     folder="fleet"
                   />
                   <div>

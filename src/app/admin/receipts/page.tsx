@@ -5,6 +5,7 @@ import { adminFetch, type ListResult } from "@/lib/admin-client";
 import { AdminPageHeader, StatusPill, ToastBanner } from "@/components/admin/AdminUi";
 import { AdminIcon } from "@/components/admin/AdminIcon";
 import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
+import { formatWaLink } from "@/lib/whatsapp";
 
 interface ReceiptLineItem {
   label: string;
@@ -430,9 +431,7 @@ export default function AdminReceiptsPage() {
   }
 
   function handleSendWhatsapp() {
-    const digits = normalizeWaPhone(guestPhone);
-    const text = encodeURIComponent(buildReceiptText());
-    const url = digits ? `https://wa.me/${digits}?text=${text}` : `https://wa.me/?text=${text}`;
+    const url = formatWaLink(guestPhone, buildReceiptText());
     window.open(url, "_blank", "noopener,noreferrer");
   }
 

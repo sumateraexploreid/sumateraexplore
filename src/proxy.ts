@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { updateSession } from "@/utils/supabase/middleware";
 import {
   ADMIN_SESSION_COOKIE,
   verifySessionTokenEdge,
@@ -31,7 +30,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  return updateSession(request);
+  return NextResponse.next();
 }
 
 export const config = {

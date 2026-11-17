@@ -7,6 +7,7 @@ import Image from "next/image";
 import { AdminIcon } from "@/components/admin/AdminIcon";
 import { getLocale } from "@/i18n";
 import { BUSINESS_IDENTITY } from "@/data/business";
+import { formatWaLink } from "@/lib/whatsapp";
 
 interface SuccessPageData {
   bookingCode?: string;
@@ -62,7 +63,7 @@ export default function BookingSuccessPage() {
   };
 
   const whatsappLink = (msg: string) =>
-    `https://wa.me/${bundle?.business?.whatsappNumber || "6289502472594"}?text=${encodeURIComponent(msg)}`;
+    formatWaLink(bundle?.business?.whatsappNumber || "6289502472594", msg);
 
   if (!code) {
     return (

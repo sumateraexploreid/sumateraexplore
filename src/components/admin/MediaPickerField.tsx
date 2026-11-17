@@ -18,11 +18,13 @@ export function MediaPickerField({
   label,
   value,
   onChange,
+  onDelete,
   folder = "gallery",
 }: {
   label: string;
   value: string;
   onChange: (nextUrl: string) => void;
+  onDelete?: (url: string) => void;
   folder?: "packages" | "blog" | "gallery" | "fleet" | "legal";
 }) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -72,6 +74,9 @@ export function MediaPickerField({
         method: "POST",
         body: fd,
       });
+      if (value && onDelete) {
+        onDelete(value);
+      }
       onChange(uploaded.url);
     } catch (err) {
       setUploadError(
@@ -202,6 +207,9 @@ export function MediaPickerField({
                   key={item.id}
                   type="button"
                   onClick={() => {
+                    if (value && value !== item.url && onDelete) {
+                      onDelete(value);
+                    }
                     onChange(item.url);
                     setLibraryOpen(false);
                   }}

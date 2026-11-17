@@ -7,6 +7,7 @@ import LegalDocumentProof from "@/components/LegalDocumentProof";
 import { getLocale } from "@/i18n";
 import { formatPrice } from "@/lib/currency";
 import { getLivePackages, getLiveSiteBundle } from "@/lib/cms";
+import { formatWaLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Sumatera Explore | Trip Privat Danau Toba, Samosir & Berastagi",
@@ -82,7 +83,7 @@ export default async function Home() {
   const OPERATOR_NOTES = bundle.operatorNotes;
 
   const whatsappLink = (message: string) =>
-    `https://wa.me/${BUSINESS_IDENTITY.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    formatWaLink(BUSINESS_IDENTITY.whatsappNumber, message);
 
   const durationPackages = TOUR_PACKAGES.slice(0, 4);
   const pricedPackages = await Promise.all(

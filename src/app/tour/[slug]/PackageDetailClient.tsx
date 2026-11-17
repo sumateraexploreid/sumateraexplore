@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useSyncExternalStore } from "react";
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import type { TourPackage } from "@/data/packages";
 import { DOCUMENTATION_GEAR, OPERATOR_NOTES } from "@/data/packages";
+import { formatWaLink } from "@/lib/whatsapp";
 import { BUSINESS_IDENTITY } from "@/data/business";
 
 const subscribeLocation = (callback: () => void) => {
@@ -63,6 +64,10 @@ export default function PackageDetailClient({
   const paxChildren =
     childrenOverride ??
     (Number.isInteger(parsedChildren) && parsedChildren >= 0 ? parsedChildren : 0);
+
+  useEffect(() => {
+    setVariantChoiceIdx(0);
+  }, [paxAdults]);
 
   const clampedPax = Math.min(maxTierPax, Math.max(1, paxAdults));
   const exactMatches = pkg.tiers.filter((t) => t.pax === clampedPax);
@@ -134,9 +139,10 @@ export default function PackageDetailClient({
 
   const successUrl = `/booking/success?code=SE-${new Date().getFullYear().toString().slice(-2)}${String(new Date().getMonth() + 1).padStart(2, "0")}-${Math.floor(100 + Math.random() * 900)}&pkg=${encodeURIComponent(pkg.name)}&total=${Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1))}&curr=${currency}&name=Tamu+Website`;
 
-  const bookingWaHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+  const bookingWaHref = formatWaLink(
+    whatsappNumber,
     `Halo Sumatera Explore, saya ingin memesan paket ${pkg.name} (Harga Weekday) untuk ${paxAdults} Dewasa dan ${paxChildren} Anak (${tierLookup?.label ?? tierLookup?.vehicle ?? "SUV"}, estimasi ${formatCurrency(totalPriceIdr)}). Mohon info konfirmasi DP & jadwal.`
-  )}`;
+  );
 
   return (
     <main className="se-page min-h-dvh pb-24 lg:pb-16">
@@ -486,7 +492,6 @@ export default function PackageDetailClient({
                 rel="noopener noreferrer"
                 onClick={() => {
                   trackWebLead();
-                  // Open success page in new tab after short delay
                   setTimeout(() => window.open(successUrl, "_blank", "noopener,noreferrer"), 500);
                 }}
                 className="se-btn se-btn--wa w-full"
