@@ -166,11 +166,10 @@ export function MediaPickerField({
                 key={key}
                 type="button"
                 onClick={() => setTab(key)}
-                className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors ${
-                  tab === key
-                    ? "bg-accent text-accent-ink"
-                    : "text-muted hover:text-ink"
-                }`}
+                className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors ${tab === key
+                  ? "bg-accent text-accent-ink"
+                  : "text-muted hover:text-ink"
+                  }`}
               >
                 {text}
               </button>
@@ -206,11 +205,10 @@ export function MediaPickerField({
                     onChange(item.url);
                     setLibraryOpen(false);
                   }}
-                  className={`group text-left rounded-md border overflow-hidden transition-colors ${
-                    selected
-                      ? "border-accent ring-2 ring-accent/40 bg-paper-3"
-                      : "border-rule bg-paper-2 hover:border-accent"
-                  }`}
+                  className={`group text-left rounded-md border overflow-hidden transition-colors ${selected
+                    ? "border-accent ring-2 ring-accent/40 bg-paper-3"
+                    : "border-rule bg-paper-2 hover:border-accent"
+                    }`}
                 >
                   <div className="aspect-[4/3] bg-paper-3 overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}

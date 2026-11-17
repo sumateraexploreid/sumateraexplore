@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { adminFetch, type ListResult } from "@/lib/admin-client";
 import { AdminPageHeader, StatusPill, ToastBanner } from "@/components/admin/AdminUi";
 import { AdminIcon } from "@/components/admin/AdminIcon";
+import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
 
 interface ReceiptLineItem {
   label: string;
@@ -435,7 +436,7 @@ export default function AdminReceiptsPage() {
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
-  function handleDownloadPng() {
+  async function handleDownloadPng() {
     try {
       const styles = getComputedStyle(document.documentElement);
       const paperColor = styles.getPropertyValue("--color-receipt-paper").trim() || "white";
@@ -463,15 +464,32 @@ export default function AdminReceiptsPage() {
       ctx.fillStyle = accentColor;
       ctx.fillRect(0, 0, width, 16);
 
+      // Try loading brand logo for header
+      try {
+        const logoImg = new window.Image();
+        logoImg.crossOrigin = "anonymous";
+        logoImg.src = "/images/logo/logo.png";
+        await new Promise((resolve) => {
+          logoImg.onload = resolve;
+          logoImg.onerror = resolve;
+        });
+        if (logoImg.complete && logoImg.naturalWidth > 0) {
+          ctx.drawImage(logoImg, 64, 46, 110, 110);
+        }
+      } catch {
+        // Fallback gracefully without logo image
+      }
+
       // Header brand
+      const textX = 194;
       ctx.fillStyle = inkColor;
-      ctx.font = "bold 38px sans-serif";
-      ctx.fillText(business.brandName, 64, 90);
+      ctx.font = "bold 36px sans-serif";
+      ctx.fillText(business.brandName, textX, 86);
 
       ctx.fillStyle = mutedColor;
-      ctx.font = "22px sans-serif";
-      ctx.fillText(`${business.legalForm} ${business.legalName} (${business.decreeNumber})`, 64, 126);
-      ctx.fillText(`${business.shortAddress} | WA: ${business.whatsappDisplay}`, 64, 158);
+      ctx.font = "20px sans-serif";
+      ctx.fillText(`${business.legalForm} ${business.legalName} (${business.decreeNumber})`, textX, 120);
+      ctx.fillText(`${business.shortAddress} | WA: ${business.whatsappDisplay}`, textX, 150);
 
       // Receipt badge on top right
       ctx.fillStyle = inkColor;
@@ -622,8 +640,9 @@ export default function AdminReceiptsPage() {
   }
 
   return (
-    <div>
-      <AdminPageHeader
+    <AdminErrorBoundary>
+      <div>
+        <AdminPageHeader
         title="Buat & Edit Kwitansi Resmi"
         subtitle="Isi langsung dari daftar order atau ketik manual. Admin bebas mengubah harga, nama tamu, dan rincian lalu kirim sebagai gambar PNG, PDF, atau teks WhatsApp."
         actions={
@@ -803,7 +822,7 @@ export default function AdminReceiptsPage() {
                   type="text"
                   value={guestPhone}
                   onChange={(e) => setGuestPhone(e.target.value)}
-                  placeholder="+60123456789 atau 0812..."
+                  placeholder="+60123456789 atau 0812…"
                   className="w-full px-3 py-2 rounded-md bg-paper border border-rule text-sm text-ink"
                 />
               </div>
@@ -1098,19 +1117,27 @@ export default function AdminReceiptsPage() {
           >
             {/* Header */}
             <div className="flex flex-wrap items-start justify-between gap-4 border-b border-receipt-rule pb-4">
-              <div>
-                <p className="font-display text-xl font-bold text-receipt-ink">
-                  {business.brandName}
-                </p>
-                <p className="text-xs text-receipt-muted mt-0.5">
-                  {business.legalForm} {business.legalName}
-                </p>
-                <p className="text-[11px] text-receipt-muted">
-                  SK Kemenkumham: {business.decreeNumber}
-                </p>
-                <p className="text-[11px] text-receipt-muted mt-1">
-                  {business.shortAddress} | WA: {business.whatsappDisplay}
-                </p>
+              <div className="flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/logo/logo.png"
+                  alt="Logo"
+                  className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-md border border-receipt-rule/60 p-0.5 bg-white shrink-0"
+                />
+                <div>
+                  <p className="font-display text-xl font-bold text-receipt-ink">
+                    {business.brandName}
+                  </p>
+                  <p className="text-xs text-receipt-muted mt-0.5">
+                    {business.legalForm} {business.legalName}
+                  </p>
+                  <p className="text-[11px] text-receipt-muted">
+                    SK Kemenkumham: {business.decreeNumber}
+                  </p>
+                  <p className="text-[11px] text-receipt-muted mt-0.5">
+                    {business.shortAddress} | WA: {business.whatsappDisplay}
+                  </p>
+                </div>
               </div>
               <div className="text-right">
                 <p className="text-xs font-bold tracking-tight text-receipt-muted">
@@ -1257,11 +1284,14 @@ export default function AdminReceiptsPage() {
                     <td className="py-3 px-3">
                       <StatusPill
                         status={
-                          item.payment_status.toLowerCase().includes("lunas penuh")
-                            ? "lunas"
-                            : item.payment_status.toLowerCase().includes("dp")
-                              ? "dp_lunas"
-                              : "lead"
+                          (() => {
+                            const s = item.payment_status.toLowerCase();
+                            if (s.includes("lunas penuh") || s === "lunas_penuh" || s === "lunas") return "lunas";
+                            if (s.includes("dp") || s === "dp_lunas" || s === "dp_paid") return "dp_lunas";
+                            if (s.includes("menunggu") || s === "menunggu_pembayaran") return "pending_inquiry";
+                            if (s.includes("tagihan") || s === "tagihan_resmi") return "pending_inquiry";
+                            return "lead";
+                          })()
                         }
                       />
                     </td>
@@ -1299,6 +1329,7 @@ export default function AdminReceiptsPage() {
           </div>
         )}
       </section>
-    </div>
+      </div>
+    </AdminErrorBoundary>
   );
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { adminFetch } from "@/lib/admin-client";
 import { AdminPageHeader, StatusPill } from "@/components/admin/AdminUi";
 import { AdminIcon } from "@/components/admin/AdminIcon";
+import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
 
 interface DashboardData {
   dbHealth: { connected: boolean; latencyMs: number; error?: string };
@@ -86,8 +87,9 @@ export default function DashboardClient() {
   const maxTrend = Math.max(1, ...data.trend14Days.map((d) => d.count));
 
   return (
-    <div>
-      <AdminPageHeader
+    <AdminErrorBoundary>
+      <div>
+        <AdminPageHeader
         title="Beranda Admin Sumatera Explore"
         subtitle="Kelola order tamu, cetak kwitansi resmi, ubah harga paket, unggah foto galeri, dan atur nomor WhatsApp dari satu tempat yang mudah."
         actions={
@@ -463,6 +465,7 @@ export default function DashboardClient() {
         </section>
       </div>
     </div>
+    </AdminErrorBoundary>
   );
 }
 

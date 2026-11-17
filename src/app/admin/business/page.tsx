@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { adminFetch } from "@/lib/admin-client";
 import { AdminPageHeader, ToastBanner } from "@/components/admin/AdminUi";
 import { MediaPickerField } from "@/components/admin/MediaPickerField";
+import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
 
 interface BusinessData {
   brandName: string;
@@ -141,8 +142,9 @@ export default function AdminBusinessPage() {
   }
 
   return (
-    <div>
-      <AdminPageHeader
+    <AdminErrorBoundary>
+      <div>
+        <AdminPageHeader
         title="Bisnis, Legal AHU, Medsos & Integrasi Web"
         subtitle="Kelola seluruh profil PT SUJAI TOBA SUMATERA, nomor WhatsApp, kanal IG/TikTok/Threads, armada, dokumentasi iPhone/Drone, FAQ, bukti SK AHU, dan integrasi analitik."
       />
@@ -764,5 +766,6 @@ export default function AdminBusinessPage() {
         </form>
       ) : null}
     </div>
+  </AdminErrorBoundary>
   );
 }

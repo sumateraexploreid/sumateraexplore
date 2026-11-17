@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   // Situs ini bergantung pada cookie bahasa (id/my/en) di setiap halaman publik,
   // jadi hampir semua rute bersifat dinamis. Cache Components dimatikan agar
   // pola Laravel (locale per-sesi, tanpa prefix URL) tetap sama persis.
+  serverExternalPackages: ["pg"],
   turbopack: {
     rules: {
       "*.css": {

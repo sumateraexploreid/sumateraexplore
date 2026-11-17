@@ -7,6 +7,7 @@ import { DOCUMENTATION_GEAR, OPERATOR_NOTES } from "@/data/packages";
 import { BUSINESS_IDENTITY } from "@/data/business";
 
 const subscribeLocation = (callback: () => void) => {
+  if (typeof window === "undefined") return () => {};
   window.addEventListener("popstate", callback);
   return () => window.removeEventListener("popstate", callback);
 };
@@ -130,6 +131,8 @@ export default function PackageDetailClient({
       }
     } catch {}
   };
+
+  const successUrl = `/booking/success?code=SE-${new Date().getFullYear().toString().slice(-2)}${String(new Date().getMonth() + 1).padStart(2, "0")}-${Math.floor(100 + Math.random() * 900)}&pkg=${encodeURIComponent(pkg.name)}&total=${Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1))}&curr=${currency}&name=Tamu+Website`;
 
   const bookingWaHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     `Halo Sumatera Explore, saya ingin memesan paket ${pkg.name} (Harga Weekday) untuk ${paxAdults} Dewasa dan ${paxChildren} Anak (${tierLookup?.label ?? tierLookup?.vehicle ?? "SUV"}, estimasi ${formatCurrency(totalPriceIdr)}). Mohon info konfirmasi DP & jadwal.`
@@ -481,7 +484,11 @@ export default function PackageDetailClient({
                 href={bookingWaHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={trackWebLead}
+                onClick={() => {
+                  trackWebLead();
+                  // Open success page in new tab after short delay
+                  setTimeout(() => window.open(successUrl, "_blank", "noopener,noreferrer"), 500);
+                }}
                 className="se-btn se-btn--wa w-full"
               >
                 Pesan lewat WhatsApp
@@ -518,7 +525,10 @@ export default function PackageDetailClient({
             href={bookingWaHref}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={trackWebLead}
+            onClick={() => {
+              trackWebLead();
+              setTimeout(() => window.open(successUrl, "_blank", "noopener,noreferrer"), 500);
+            }}
             className="se-btn se-btn--primary min-h-11 px-4 shrink-0"
           >
             Pesan WA

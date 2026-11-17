@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Icon from "./Icon";
 import { BUSINESS_IDENTITY, SOCIAL_CHANNELS, type SocialChannel } from "@/data/business";
@@ -32,8 +33,17 @@ export default function Footer({
     <footer className="se-footer">
       <div className="se-footer-inner">
         <div className="se-footer-brand">
-          <Link href="/" className="se-footer-logo" aria-label={`${business.brandName}, beranda`}>
-            {business.brandName}
+          <Link href="/" className="se-footer-logo inline-flex items-center gap-3" aria-label={`${business.brandName}, beranda`}>
+            <div className="w-10 h-10 rounded-md bg-white border border-rule/50 flex items-center justify-center p-1 overflow-hidden shrink-0">
+              <Image
+                src="/images/logo/logo-badge.png"
+                alt={business.brandName}
+                width={40}
+                height={40}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <span>{business.brandName}</span>
           </Link>
           <p>
             Kantor operasional di Berastagi, Kabupaten Karo. Dikelola resmi oleh badan hukum{" "}

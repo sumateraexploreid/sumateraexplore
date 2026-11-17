@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Icon from "./Icon";
 import type { Locale } from "@/i18n";
@@ -91,7 +92,17 @@ export default function Navbar({
     >
       <div className="se-nav-inner">
         <div className="se-brand-bar">
-          <Link href="/" className="se-wordmark inline-flex items-center" aria-label={`${brandName}, beranda`}>
+          <Link href="/" className="se-wordmark inline-flex items-center gap-2.5" aria-label={`${brandName}, beranda`}>
+            <div className="w-8 h-8 rounded-md bg-white border border-rule/50 flex items-center justify-center p-0.5 overflow-hidden shrink-0 shadow-xs">
+              <Image
+                src="/images/logo/logo-badge.png"
+                alt={brandName}
+                width={32}
+                height={32}
+                className="w-full h-full object-contain"
+                priority
+              />
+            </div>
             <span>{brandName}</span>
           </Link>
 

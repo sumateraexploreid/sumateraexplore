@@ -3,6 +3,7 @@
 import React, { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { AdminIcon } from "@/components/admin/AdminIcon";
 
 function LoginForm() {
@@ -45,9 +46,16 @@ function LoginForm() {
   return (
     <div className="min-h-dvh bg-paper flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md bg-paper-2 border border-rule rounded-card p-6 sm:p-8 shadow-card">
-        <div className="flex items-center gap-3 mb-6 pb-5 border-b border-rule">
-          <div className="w-11 h-11 rounded-md bg-accent text-accent-ink flex items-center justify-center shrink-0">
-            <AdminIcon name="admin_panel_settings" className="w-6 h-6" />
+        <div className="flex items-center gap-3.5 mb-6 pb-5 border-b border-rule">
+          <div className="w-12 h-12 rounded-md bg-white p-1 flex items-center justify-center shrink-0 border border-rule shadow-xs">
+            <Image
+              src="/images/logo/logo-badge.png"
+              alt="Logo Sumatera Explore"
+              width={44}
+              height={44}
+              className="w-full h-full object-contain"
+              priority
+            />
           </div>
           <div>
             <h1 className="font-display text-xl text-ink">Sumatera Explore</h1>

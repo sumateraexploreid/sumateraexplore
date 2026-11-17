@@ -10,6 +10,7 @@ import {
   ToastBanner,
 } from "@/components/admin/AdminUi";
 import { AdminIcon } from "@/components/admin/AdminIcon";
+import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
 
 interface BookingRow {
   id: number;
@@ -95,35 +96,7 @@ export default function AdminOrdersPage() {
     }
   }, [q, statusFilter]);
 
-  useEffect(() => {
-    let active = true;
-    const qs = new URLSearchParams();
-    if (q.trim()) qs.set("q", q.trim());
-    if (statusFilter !== "all") qs.set("status", statusFilter);
-    qs.set("pageSize", "50");
-    adminFetch<ListResult<BookingRow>>(`/api/admin/orders?${qs.toString()}`)
-      .then((data) => {
-        if (active) {
-          setRows(data.items);
-          setTotal(data.meta.total);
-        }
-      })
-      .catch((err) => {
-        if (active) {
-          setToast({
-            type: "error",
-            message: err instanceof Error ? err.message : "Gagal memuat order.",
-          });
-        }
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [q, statusFilter]);
-
+  
   useEffect(() => {
     if (typeof window === "undefined") return;
     const qs = new URLSearchParams(window.location.search);
@@ -233,8 +206,9 @@ export default function AdminOrdersPage() {
   }
 
   return (
-    <div>
-      <AdminPageHeader
+    <AdminErrorBoundary>
+      <div>
+        <AdminPageHeader
         title="Order, Lead WhatsApp & DP Tracker"
         subtitle="Pantau seluruh inquiry tamu website & WhatsApp, status uang muka (DP), penugasan supir Muslim lokal, dan sisa pelunasan di Bandara KNO."
         actions={
@@ -644,6 +618,7 @@ export default function AdminOrdersPage() {
           </div>
         </form>
       </ModalDialog>
-    </div>
+      </div>
+    </AdminErrorBoundary>
   );
 }

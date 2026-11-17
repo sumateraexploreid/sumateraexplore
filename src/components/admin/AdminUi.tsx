@@ -91,11 +91,10 @@ export function ToastBanner({
     <div
       role="status"
       aria-live="polite"
-      className={`mb-5 px-4 py-3 rounded-card border flex items-center justify-between gap-3 text-sm ${
-        isError
-          ? "bg-error/15 border-error/40 text-ink"
-          : "bg-wa/15 border-wa/40 text-ink"
-      }`}
+      className={`mb-5 px-4 py-3 rounded-card border flex items-center justify-between gap-3 text-sm ${isError
+        ? "bg-error/15 border-error/40 text-ink"
+        : "bg-wa/15 border-wa/40 text-ink"
+        }`}
     >
       <div className="flex items-center gap-2.5">
         <AdminIcon name={isError ? "error" : "check_circle"} className="w-[18px] h-[18px]" />

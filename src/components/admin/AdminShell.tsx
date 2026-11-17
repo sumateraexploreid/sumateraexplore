@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { AdminIcon } from "@/components/admin/AdminIcon";
 
@@ -84,8 +85,14 @@ export default function AdminShell({
     <>
       <div className="px-5 py-4 flex items-center justify-between gap-3 border-b border-forest-rule">
         <Link href="/admin" className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-accent text-accent-ink rounded-md flex items-center justify-center shrink-0">
-            <AdminIcon name="explore" className="w-5 h-5" />
+          <div className="w-9 h-9 bg-white rounded-md flex items-center justify-center p-0.5 shrink-0 overflow-hidden border border-forest-rule/50">
+            <Image
+              src="/images/logo/logo-badge.png"
+              alt="Logo"
+              width={36}
+              height={36}
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <span className="font-display text-sm font-bold text-forest-ink block leading-tight">
@@ -169,8 +176,14 @@ export default function AdminShell({
       {/* Top Bar Mobile */}
       <div className="md:hidden sticky top-0 z-30 bg-forest-deep border-b border-forest-rule px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-accent text-accent-ink rounded-md flex items-center justify-center">
-            <AdminIcon name="explore" className="w-4 h-4" />
+          <div className="w-8 h-8 bg-white rounded-md flex items-center justify-center p-0.5 overflow-hidden border border-forest-rule/50">
+            <Image
+              src="/images/logo/logo-badge.png"
+              alt="Logo"
+              width={32}
+              height={32}
+              className="w-full h-full object-contain"
+            />
           </div>
           <span className="font-display text-sm font-bold text-forest-ink">
             Admin Sumatera Explore

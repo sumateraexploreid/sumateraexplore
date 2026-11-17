@@ -1,0 +1,10 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "model": "freellmapi/auto",
+  "provider": {
+    "freellmapi": {
+      "baseUrl": "http://127.0.0.1:31415/v1",
+      "apiKey": "freellmapi-9aa5c1cc2e7f249af781229d741dc9afec4bfacb42f11714"
+    }
+  }
+}

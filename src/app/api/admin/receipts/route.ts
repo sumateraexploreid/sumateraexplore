@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { dbQuery } from "@/lib/db";
 import { okItem, okList, fail, parsePagination } from "@/lib/admin-api";
 import { recordAuditLog, requireAdminSession } from "@/lib/auth";
+import crypto from "crypto";
 
 export async function ensureReceiptsTable() {
   await dbQuery(`
@@ -34,11 +35,22 @@ export async function ensureReceiptsTable() {
   `);
 }
 
-function generateReceiptNumber() {
+async function generateReceiptNumber(): Promise<string> {
   const now = new Date();
   const ymd = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
-  const rnd = Math.floor(1000 + Math.random() * 9000);
-  return `KWT-${ymd}-${rnd}`;
+  // Use timestamp + random for better uniqueness, plus check DB for collision
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const rnd = Math.floor(1000 + Math.random() * 9000);
+    const candidate = `KWT-${ymd}-${timestamp}-${rnd}`;
+    const { rows } = await dbQuery<{ exists: boolean }>(
+      `SELECT EXISTS(SELECT 1 FROM receipt_logs WHERE receipt_number = $1) AS exists`,
+      [candidate]
+    );
+    if (!rows[0]?.exists) return candidate;
+  }
+  // Fallback with UUID if all attempts fail
+  return `KWT-${ymd}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
 }
 
 export async function GET(req: NextRequest) {

@@ -10,6 +10,7 @@ import {
 } from "@/components/admin/AdminUi";
 import { MediaPickerField } from "@/components/admin/MediaPickerField";
 import { AdminIcon } from "@/components/admin/AdminIcon";
+import { AdminErrorBoundary } from "@/components/admin/ErrorBoundary";
 
 interface PaxTier {
   pax: number;
@@ -260,8 +261,9 @@ export default function AdminPackagesPage() {
   }
 
   return (
-    <div>
-      <AdminPageHeader
+    <AdminErrorBoundary>
+      <div>
+        <AdminPageHeader
         title="Paket Tour & Pricelist Tier (1-20 Pax)"
         subtitle="Edit harga dasar Weekday, daftar tier SUV/Hiace/ELF, pilihan hotel, fasilitas halal, dan itinerary. Perubahan langsung aktif di beranda & katalog."
         actions={
@@ -773,6 +775,7 @@ export default function AdminPackagesPage() {
           </div>
         </form>
       </ModalDialog>
-    </div>
+      </div>
+    </AdminErrorBoundary>
   );
 }

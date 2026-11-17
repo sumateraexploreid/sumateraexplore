@@ -40,6 +40,22 @@ export async function PATCH(
     const cur = existingRows[0];
     if (!cur) return fail("Paket tidak ditemukan.", 404);
 
+    // Validate slug uniqueness if being changed
+    if (body.slug && body.slug !== cur.slug) {
+      const slug = String(body.slug)
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, "-")
+        .replace(/^-|-$/g, "");
+      const { rows: dupRows } = await dbQuery<{ exists: boolean }>(
+        `SELECT EXISTS(SELECT 1 FROM tour_packages WHERE slug = $1 AND id != $2) AS exists`,
+        [slug, id]
+      );
+      if (dupRows[0]?.exists) {
+        return fail("Slug paket sudah digunakan. Gunakan slug unik lainnya.", 409);
+      }
+    }
+
     const priceMyr =
       body.price_myr !== undefined ? Math.max(0, Number(body.price_myr)) : cur.price_myr;
     const priceIdr =

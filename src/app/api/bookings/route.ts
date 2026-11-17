@@ -2,7 +2,45 @@ import { NextRequest } from "next/server";
 import { dbQuery } from "@/lib/db";
 import { okItem, fail } from "@/lib/admin-api";
 
+// Simple in-memory rate limiter (for production, use Redis/Upstash)
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 10; // 10 requests per minute per IP
+
+function checkRateLimit(ip: string): { allowed: boolean; retryAfter?: number } {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+
+  if (!record || now > record.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true };
+  }
+
+  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return { allowed: false, retryAfter: Math.ceil((record.resetAt - now) / 1000) };
+  }
+
+  record.count++;
+  return { allowed: true };
+}
+
+function getClientIp(req: NextRequest): string {
+  const forwarded = req.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+  return req.headers.get("x-real-ip") || "unknown";
+}
+
 export async function POST(req: NextRequest) {
+  // Rate limiting
+  const ip = getClientIp(req);
+  const rateLimit = checkRateLimit(ip);
+  if (!rateLimit.allowed) {
+    return fail(
+      `Terlalu banyak permintaan. Coba lagi dalam ${rateLimit.retryAfter} detik.`,
+      429
+    );
+  }
+
   try {
     const body = await req.json().catch(() => null);
     if (!body) return fail("Payload tidak valid.", 400);

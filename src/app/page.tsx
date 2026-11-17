@@ -160,12 +160,13 @@ export default async function Home() {
         <div className="se-ugc-inner">
           <div className="se-ugc-identity">
             <div className="se-ugc-mark-row">
-              <div className="se-ugc-badge-img">
+              <div className="se-ugc-badge-img bg-white rounded-md p-1 border border-white/20">
                 <Image
-                  src="/images/sumut/toba_landscape.webp"
-                  alt="Danau Toba"
+                  src="/images/logo/logo-badge.png"
+                  alt="Sumatera Explore"
                   width={44}
                   height={44}
+                  className="w-full h-full object-contain"
                 />
               </div>
               <div>
