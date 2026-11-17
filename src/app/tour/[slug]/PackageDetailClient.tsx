@@ -7,6 +7,8 @@ import { DOCUMENTATION_GEAR, OPERATOR_NOTES } from "@/data/packages";
 import { formatWaLink } from "@/lib/whatsapp";
 import { BUSINESS_IDENTITY } from "@/data/business";
 
+const STORAGE_KEY = "se_package_calculator";
+
 const subscribeLocation = (callback: () => void) => {
   if (typeof window === "undefined") return () => {};
   window.addEventListener("popstate", callback);
@@ -27,6 +29,18 @@ function formatDetailPrice(
     return `S$ ${converted.toLocaleString("en-US")}`;
   }
   return `Rp ${converted.toLocaleString("id-ID")}`;
+}
+
+function getInitialPax() {
+  if (typeof window === "undefined") return { adults: 4, children: 0 };
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (parsed.adults >= 1 && parsed.children >= 0) return parsed;
+    }
+  } catch {}
+  return { adults: 4, children: 0 };
 }
 
 export default function PackageDetailClient({
@@ -54,6 +68,15 @@ export default function PackageDetailClient({
   const [childrenOverride, setChildrenOverride] = useState<number | null>(null);
   const [variantChoiceIdx, setVariantChoiceIdx] = useState<number>(0);
   const [copiedSummary, setCopiedSummary] = useState(false);
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  // Hydration-safe initialization
+  useEffect(() => {
+    setHasHydrated(true);
+    const initial = getInitialPax();
+    setAdultsOverride(initial.adults);
+    setChildrenOverride(initial.children);
+  }, []);
 
   const params = new URLSearchParams(searchStr);
   const parsedAdults = Number(params.get("adults"));
@@ -64,6 +87,23 @@ export default function PackageDetailClient({
   const paxChildren =
     childrenOverride ??
     (Number.isInteger(parsedChildren) && parsedChildren >= 0 ? parsedChildren : 0);
+
+  // Persist to localStorage & sync URL
+  useEffect(() => {
+    if (!hasHydrated) return;
+    const data = { adults: paxAdults, children: paxChildren };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+    // Sync URL without replacing history on every keystroke
+    const newParams = new URLSearchParams();
+    if (paxAdults !== 4) newParams.set("adults", String(paxAdults));
+    if (paxChildren !== 0) newParams.set("children", String(paxChildren));
+    const query = newParams.toString();
+    const newUrl = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+    if (window.location.href !== newUrl) {
+      window.history.replaceState({}, "", newUrl);
+    }
+  }, [paxAdults, paxChildren, hasHydrated]);
 
   useEffect(() => {
     setVariantChoiceIdx(0);

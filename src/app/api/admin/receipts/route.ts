@@ -2,13 +2,13 @@ import { NextRequest } from "next/server";
 import { dbQuery } from "@/lib/db";
 import { okItem, okList, fail, parsePagination } from "@/lib/admin-api";
 import { recordAuditLog, requireAdminSession } from "@/lib/auth";
-import crypto from "crypto";
 
 export async function ensureReceiptsTable() {
   await dbQuery(`
     CREATE TABLE IF NOT EXISTS receipt_logs (
       id SERIAL PRIMARY KEY,
       receipt_number VARCHAR(64) NOT NULL UNIQUE,
+      receipt_seq BIGINT NOT NULL UNIQUE,
       booking_id INTEGER NULL,
       booking_code VARCHAR(64) DEFAULT '',
       issue_date DATE NOT NULL DEFAULT CURRENT_DATE,
@@ -33,24 +33,24 @@ export async function ensureReceiptsTable() {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `);
+  // Create sequence for receipt numbers if not exists
+  await dbQuery(`
+    CREATE SEQUENCE IF NOT EXISTS receipt_seq_seq START 1;
+  `);
 }
 
-async function generateReceiptNumber(): Promise<string> {
+async function generateReceiptNumber(): Promise<{ receipt_number: string; receipt_seq: number }> {
   const now = new Date();
   const ymd = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
-  // Use timestamp + random for better uniqueness, plus check DB for collision
-  for (let attempt = 0; attempt < 5; attempt++) {
-    const timestamp = Date.now().toString(36).toUpperCase();
-    const rnd = Math.floor(1000 + Math.random() * 9000);
-    const candidate = `KWT-${ymd}-${timestamp}-${rnd}`;
-    const { rows } = await dbQuery<{ exists: boolean }>(
-      `SELECT EXISTS(SELECT 1 FROM receipt_logs WHERE receipt_number = $1) AS exists`,
-      [candidate]
-    );
-    if (!rows[0]?.exists) return candidate;
-  }
-  // Fallback with UUID if all attempts fail
-  return `KWT-${ymd}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+
+  // Get next sequence number
+  const { rows } = await dbQuery<{ nextval: number }>(`SELECT nextval('receipt_seq_seq') AS nextval`);
+  const seq = rows[0]?.nextval || 1;
+
+  // Format: KWT-YYYYMMDD-SEQ (e.g., KWT-20261117-00042)
+  const receipt_number = `KWT-${ymd}-${String(seq).padStart(5, "0")}`;
+
+  return { receipt_number, receipt_seq: seq };
 }
 
 export async function GET(req: NextRequest) {
@@ -120,8 +120,7 @@ export async function POST(req: NextRequest) {
     if (!guestName) return fail("Nama tamu wajib diisi.", 400);
     if (!packageName) return fail("Nama paket atau layanan wajib diisi.", 400);
 
-    const receiptNumber =
-      String(body.receipt_number || "").trim() || generateReceiptNumber();
+    const { receipt_number, receipt_seq } = await generateReceiptNumber();
     const totalAmount = Math.max(0, Number(body.total_amount) || 0);
     const dpAmount = Math.max(0, Number(body.dp_amount) || 0);
     const remainingAmount =
@@ -132,19 +131,19 @@ export async function POST(req: NextRequest) {
 
     const { rows } = await dbQuery(
       `INSERT INTO receipt_logs (
-        receipt_number, booking_id, booking_code, issue_date,
+        receipt_number, receipt_seq, booking_id, booking_code, issue_date,
         guest_name, guest_phone, guest_origin,
         package_name, trip_date, pax_summary, vehicle_type,
         currency, items_json, total_amount, dp_amount, remaining_amount,
         payment_status, payment_method, notes, issuer_name, created_by
       ) VALUES (
-        $1, $2, $3, COALESCE(NULLIF($4, '')::date, CURRENT_DATE),
-        $5, $6, $7,
-        $8, $9, $10, $11,
-        $12, $13::jsonb, $14, $15, $16,
-        $17, $18, $19, $20, $21
+        $1, $2, $3, $4, COALESCE(NULLIF($5, '')::date, CURRENT_DATE),
+        $6, $7, $8,
+        $9, $10, $11, $12,
+        $13, $14::jsonb, $15, $16, $17,
+        $18, $19, $20, $21, $22
       )
-      RETURNING id, receipt_number, booking_id, booking_code,
+      RETURNING id, receipt_number, receipt_seq, booking_id, booking_code,
                 TO_CHAR(issue_date, 'YYYY-MM-DD') AS issue_date,
                 guest_name, guest_phone, guest_origin,
                 package_name, trip_date, pax_summary, vehicle_type,
@@ -155,7 +154,8 @@ export async function POST(req: NextRequest) {
                 payment_status, payment_method, notes, issuer_name,
                 created_by, created_at, updated_at`,
       [
-        receiptNumber,
+        receipt_number,
+        receipt_seq,
         body.booking_id ? Number(body.booking_id) : null,
         String(body.booking_code || "").trim(),
         String(body.issue_date || "").trim(),

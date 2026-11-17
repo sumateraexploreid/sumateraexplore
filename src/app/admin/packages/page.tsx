@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { adminFetch, type ListResult } from "@/lib/admin-client";
 import {
   AdminPageHeader,
@@ -94,6 +94,9 @@ export default function AdminPackagesPage() {
   );
   const [form, setForm] = useState(DEFAULT_FORM);
   const [saving, setSaving] = useState(false);
+  const [slugChecking, setSlugChecking] = useState(false);
+  const [slugError, setSlugError] = useState<string | null>(null);
+  const slugDebounceRef = useRef<number | null>(null);
 
   const loadPackages = useCallback(async () => {
     try {
@@ -427,13 +430,43 @@ export default function AdminPackagesPage() {
                     type="text"
                     required
                     value={form.slug}
-                    onChange={(e) => setForm({ ...form, slug: e.target.value })}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setForm({ ...form, slug: val });
+                      setSlugError(null);
+
+                      // Debounce slug check
+                      if (slugDebounceRef.current) clearTimeout(slugDebounceRef.current);
+                      slugDebounceRef.current = window.setTimeout(async () => {
+                        if (!val || val.length < 3 || editingId) return;
+                        setSlugChecking(true);
+                        try {
+                          const res = await fetch(`/api/admin/packages/check-slug?slug=${encodeURIComponent(val)}`);
+                          const data = await res.json();
+                          if (data.exists) {
+                            setSlugError(`Slug "${val}" sudah digunakan.`);
+                          }
+                        } catch {}
+                        setSlugChecking(false);
+                      }, 500);
+                    }}
                     placeholder="danau-toba-3d2n"
-                    className="w-full px-3 py-2 rounded-md bg-paper-2 border border-rule text-sm text-ink font-mono"
+                    className={`w-full px-3 py-2 rounded-md bg-paper-2 border text-sm text-ink font-mono transition-colors ${
+                      slugError ? "border-error" : slugChecking ? "border-accent/50" : "border-rule"
+                    }`}
                   />
-                  <p className="text-[11px] text-muted mt-1">
-                    Dipakai di link web (contoh: /tour/danau-toba-3d2n). Boleh klik &ldquo;Buat Link Otomatis&rdquo;.
-                  </p>
+                  {slugError ? (
+                    <p className="text-[11px] text-error mt-1 flex items-center gap-1">
+                      <AdminIcon name="error" className="w-3 h-3" />
+                      {slugError}
+                    </p>
+                  ) : slugChecking ? (
+                    <p className="text-[11px] text-accent mt-1">Memeriksa ketersediaan...</p>
+                  ) : (
+                    <p className="text-[11px] text-muted mt-1">
+                      Dipakai di link web (contoh: /tour/danau-toba-3d2n). Boleh klik &ldquo;Buat Link Otomatis&rdquo;.
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-ink-2 mb-1">

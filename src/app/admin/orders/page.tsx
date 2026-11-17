@@ -74,6 +74,7 @@ export default function AdminOrdersPage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
   const loadOrders = useCallback(async () => {
     try {
