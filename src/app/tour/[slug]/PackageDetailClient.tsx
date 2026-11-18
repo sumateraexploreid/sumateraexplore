@@ -69,6 +69,9 @@ export default function PackageDetailClient({
   const [variantChoiceIdx, setVariantChoiceIdx] = useState<number>(0);
   const [copiedSummary, setCopiedSummary] = useState(false);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [tripDate, setTripDate] = useState("");
+  const [guestName, setGuestName] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Hydration-safe initialization
   useEffect(() => {
@@ -154,15 +157,16 @@ export default function PackageDetailClient({
       const payload = JSON.stringify({
         package_slug: pkg.slug,
         package_name: pkg.name,
-        guest_name: "Tamu Kalkulator Paket",
+        guest_name: guestName.trim() || "Tamu Kalkulator Paket",
         guest_phone: "Klik WhatsApp Web",
         guest_origin: currency === "MYR" ? "Malaysia" : currency === "SGD" ? "Singapura" : "Indonesia",
         adults_count: paxAdults,
         children_count: paxChildren,
         vehicle_type: tierLookup?.vehicle || "Innova / SUV",
+        trip_date: tripDate || undefined,
         currency,
         estimated_total: Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1)),
-        notes: `Klik CTA Pesan WA (${tierLookup?.label || tierLookup?.vehicle || "SUV"})`,
+        notes: `Klik CTA Pesan WA (${tierLookup?.label || tierLookup?.vehicle || "SUV"})${tripDate ? ` | Tanggal: ${tripDate}` : ""}`,
       });
       const res = await fetch("/api/bookings", {
         method: "POST",
@@ -181,7 +185,7 @@ export default function PackageDetailClient({
 
   const bookingWaHref = formatWaLink(
     whatsappNumber,
-    `Halo Sumatera Explore, saya ingin memesan paket ${pkg.name} (Harga Weekday) untuk ${paxAdults} Dewasa dan ${paxChildren} Anak (${tierLookup?.label ?? tierLookup?.vehicle ?? "SUV"}, estimasi ${formatCurrency(totalPriceIdr)}). Mohon info konfirmasi DP & jadwal.`
+    `Halo Sumatera Explore, saya${guestName.trim() ? ` (${guestName.trim()})` : ""} ingin memesan paket ${pkg.name} untuk ${paxAdults} Dewasa${paxChildren > 0 ? ` dan ${paxChildren} Anak` : ""} (${tierLookup?.label ?? tierLookup?.vehicle ?? "SUV"}). Rencana tanggal: ${tripDate || "Fleksibel"}. Estimasi: ${formatCurrency(totalPriceIdr)}. Mohon info ketersediaan & DP.`
   );
 
   return (
@@ -533,6 +537,35 @@ export default function PackageDetailClient({
                 <p className="text-xs text-muted">
                   Anak di bawah 5 tahun gratis · Supir Muslim &amp; makanan halal.
                 </p>
+
+                <div className="pt-3 space-y-2.5 border-t border-rule/60">
+                  <div>
+                    <label htmlFor="guest-name" className="block text-xs font-medium text-ink-2 mb-1">
+                      Nama PIC / Tamu (Opsional)
+                    </label>
+                    <input
+                      id="guest-name"
+                      type="text"
+                      value={guestName}
+                      onChange={(e) => setGuestName(e.target.value)}
+                      placeholder="Contoh: En. Ahmad / Kak Siti"
+                      className="w-full text-xs bg-paper-3 border border-rule rounded px-2.5 py-1.5 text-ink placeholder:text-muted focus:outline-none focus:border-accent"
+                      maxLength={60}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="trip-date" className="block text-xs font-medium text-ink-2 mb-1">
+                      Perkiraan Tanggal Tiba (Opsional)
+                    </label>
+                    <input
+                      id="trip-date"
+                      type="date"
+                      value={tripDate}
+                      onChange={(e) => setTripDate(e.target.value)}
+                      className="w-full text-xs bg-paper-3 border border-rule rounded px-2.5 py-1.5 text-ink placeholder:text-muted focus:outline-none focus:border-accent"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="pt-4 mb-4 border-t border-rule flex items-baseline justify-between gap-2">
@@ -546,16 +579,24 @@ export default function PackageDetailClient({
                 href={bookingWaHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={async () => {
-                  const realCode = await trackWebLead();
-                  if (realCode) {
-                    const url = `/booking/success?code=${encodeURIComponent(realCode)}&pkg=${encodeURIComponent(pkg.name)}&total=${Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1))}&curr=${currency}&name=Tamu+Website`;
-                    setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 500);
+                onClick={async (e) => {
+                  if (isSubmitting) return;
+                  setIsSubmitting(true);
+                  try {
+                    const realCode = await trackWebLead();
+                    if (realCode) {
+                      const guestParam = encodeURIComponent(guestName.trim() || "Tamu Website");
+                      const url = `/booking/success?code=${encodeURIComponent(realCode)}&pkg=${encodeURIComponent(pkg.name)}&total=${Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1))}&curr=${currency}&name=${guestParam}`;
+                      setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 400);
+                    }
+                  } finally {
+                    setTimeout(() => setIsSubmitting(false), 2000);
                   }
                 }}
-                className="se-btn se-btn--wa w-full"
+                className={`se-btn se-btn--wa w-full ${isSubmitting ? "opacity-75 pointer-events-none" : ""}`}
+                aria-disabled={isSubmitting}
               >
-                Pesan lewat WhatsApp
+                {isSubmitting ? "Menghubungkan ke WA..." : "Pesan lewat WhatsApp"}
               </a>
 
               <button
@@ -590,15 +631,23 @@ export default function PackageDetailClient({
             target="_blank"
             rel="noopener noreferrer"
             onClick={async () => {
-              const realCode = await trackWebLead();
-              if (realCode) {
-                const url = `/booking/success?code=${encodeURIComponent(realCode)}&pkg=${encodeURIComponent(pkg.name)}&total=${Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1))}&curr=${currency}&name=Tamu+Website`;
-                setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 500);
+              if (isSubmitting) return;
+              setIsSubmitting(true);
+              try {
+                const realCode = await trackWebLead();
+                if (realCode) {
+                  const guestParam = encodeURIComponent(guestName.trim() || "Tamu Website");
+                  const url = `/booking/success?code=${encodeURIComponent(realCode)}&pkg=${encodeURIComponent(pkg.name)}&total=${Math.round(totalPriceIdr / (idrPerUnit > 0 ? idrPerUnit : 1))}&curr=${currency}&name=${guestParam}`;
+                  setTimeout(() => window.open(url, "_blank", "noopener,noreferrer"), 400);
+                }
+              } finally {
+                setTimeout(() => setIsSubmitting(false), 2000);
               }
             }}
-            className="se-btn se-btn--primary min-h-11 px-4 shrink-0"
+            className={`se-btn se-btn--primary min-h-11 px-4 shrink-0 ${isSubmitting ? "opacity-75 pointer-events-none" : ""}`}
+            aria-disabled={isSubmitting}
           >
-            Pesan WA
+            {isSubmitting ? "Menghubungkan..." : "Pesan WA"}
           </a>
         </div>
       </div>

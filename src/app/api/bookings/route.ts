@@ -30,6 +30,14 @@ function getClientIp(req: NextRequest): string {
   return req.headers.get("x-real-ip") || "unknown";
 }
 
+function sanitizeText(input: unknown): string {
+  if (typeof input !== "string") return "";
+  return input
+    .replace(/<[^>]*>/g, "")
+    .replace(/javascript:/gi, "")
+    .trim();
+}
+
 export async function POST(req: NextRequest) {
   // Rate limiting
   const ip = getClientIp(req);
@@ -45,10 +53,10 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => null);
     if (!body) return fail("Payload tidak valid.", 400);
 
-    const guestName = String(body.guest_name || "Tamu Website").trim().slice(0, 100);
-    const guestPhone = String(body.guest_phone || "").trim().slice(0, 40);
-    const packageSlug = String(body.package_slug || "").trim().slice(0, 80);
-    const packageName = String(body.package_name || "").trim().slice(0, 140);
+    const guestName = sanitizeText(body.guest_name || "Tamu Website").slice(0, 100);
+    const guestPhone = sanitizeText(body.guest_phone || "").slice(0, 40);
+    const packageSlug = sanitizeText(body.package_slug || "").slice(0, 80);
+    const packageName = sanitizeText(body.package_name || "").slice(0, 140);
 
     if (!packageSlug || !packageName) {
       return fail("Paket wisata wajib disertakan.", 400);

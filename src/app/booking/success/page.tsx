@@ -174,7 +174,7 @@ export default function BookingSuccessPage() {
                 </button>
                 <a
                   href={whatsappLink(
-                    `Halo Sumatera Explore, saya ({name || "Tamu"}) ingin lanjutkan booking ${code} untuk ${pkg || "paket wisata"}. Estimasi: ${total ? `${curr || "MYR"} ${Number(total).toLocaleString("en-US")}` : "konfirmasi admin"}. Mohon info DP & jadwal.`
+                    `Halo Sumatera Explore, saya ${name || "Tamu"} ingin lanjutkan booking ${code} untuk ${pkg || "paket wisata"}. Estimasi: ${total ? `${curr || "MYR"} ${Number(total).toLocaleString("en-US")}` : "konfirmasi admin"}. Mohon info DP & jadwal.`
                   )}
                   target="_blank"
                   rel="noopener noreferrer"

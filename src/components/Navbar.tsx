@@ -33,16 +33,22 @@ const headerDirectLinks = [
   },
 ] as const;
 
-const locales: Record<string, string> = {
-  id: "IDR (Indonesia)",
-  my: "MYR (Melayu)",
-  en: "SGD (English)",
+const locales: Record<string, { label: string; flag: string }> = {
+  id: { label: "IDR (Indonesia)", flag: "🇮🇩" },
+  my: { label: "MYR (Melayu)", flag: "🇲🇾" },
+  en: { label: "SGD (English)", flag: "🇸🇬" },
 };
 
 const localeShort: Record<string, string> = {
   id: "IDR",
   my: "MYR",
   en: "SGD",
+};
+
+const localeFlag: Record<string, string> = {
+  id: "🇮🇩",
+  my: "🇲🇾",
+  en: "🇸🇬",
 };
 
 export default function Navbar({
@@ -146,7 +152,7 @@ export default function Navbar({
               aria-label={`${localeShort[activeLocale] ?? "IDR"} — Pilih bahasa dan mata uang`}
               className="se-locale-btn"
             >
-              <span>{localeShort[activeLocale] ?? "IDR"}</span>
+              <span>{localeFlag[activeLocale] || "🇮🇩"} {localeShort[activeLocale] ?? "IDR"}</span>
               <svg
                 width="12"
                 height="12"
@@ -168,7 +174,7 @@ export default function Navbar({
                   aria-hidden="true"
                 />
                 <div className="se-locale-menu" role="menu">
-                  {Object.entries(locales).map(([code, label]) => (
+                  {Object.entries(locales).map(([code, item]) => (
                     <a
                       key={code}
                       href={`/change-locale/${code}`}
@@ -176,7 +182,10 @@ export default function Navbar({
                       role="menuitem"
                       className={`se-locale-item ${activeLocale === code ? "is-active" : ""}`}
                     >
-                      <span>{label}</span>
+                      <span className="flex items-center gap-2">
+                        <span>{item.flag}</span>
+                        <span>{item.label}</span>
+                      </span>
                       {activeLocale === code && (
                         <svg
                           width="14"

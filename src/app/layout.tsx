@@ -5,8 +5,10 @@ import { getLiveSiteBundle } from "@/lib/cms";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sumateraexplore.my.id"),
   title: "Sumatera Explore | Private Trip Danau Toba, Samosir, Paropo & Berastagi",
   description:
     "Private trip Danau Toba, Pulau Samosir, Silalahi, Paropo, dan Berastagi langsung dari Medan & Kualanamu dengan supir Muslim & gratis dokumentasi iPhone 4K siap posting.",
@@ -41,6 +43,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         />
         {children}
         <Footer business={bundle.business} socialChannels={bundle.socialChannels} />
+        <FloatingWhatsApp whatsappNumber={bundle.business.whatsappNumber} />
         {validGa ? (
           <>
             <Script

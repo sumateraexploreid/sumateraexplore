@@ -34,8 +34,24 @@ export default async function PackagesPage() {
     includes: pkg.includes.slice(0, 3),
   }));
 
+  const itemListLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Paket Wisata Danau Toba & Sumatera Utara",
+    itemListElement: catalogPackages.map((pkg, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: pkg.name,
+      url: `https://sumateraexplore.my.id/tour/${pkg.slug}`,
+    })),
+  };
+
   return (
     <main className="se-page min-h-dvh">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
+      />
       <section className="se-subhero" aria-labelledby="packages-page-title">
         <div className="se-subhero-inner">
           <div>

@@ -18,8 +18,36 @@ export default async function AboutPage() {
   const SOCIAL_CHANNELS = bundle.socialChannels;
   const DOCUMENTATION_GEAR = bundle.documentationGear;
   const OPERATOR_NOTES = bundle.operatorNotes;
+
+  const aboutLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "Tentang & Legalitas Resmi Sumatera Explore",
+    description: "Profil resmi dan legalitas badan hukum PT SUJAI TOBA SUMATERA di Berastagi, Sumatera Utara.",
+    mainEntity: {
+      "@type": "TravelAgency",
+      name: BUSINESS_IDENTITY.brandName,
+      legalName: `${BUSINESS_IDENTITY.legalForm} ${BUSINESS_IDENTITY.legalName}`,
+      identifier: BUSINESS_IDENTITY.decreeNumber,
+      telephone: `+${BUSINESS_IDENTITY.whatsappNumber}`,
+      email: BUSINESS_IDENTITY.email,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Jl. Trimurti No. 109, Tambak Lau Mulgab I",
+        addressLocality: "Berastagi",
+        addressRegion: "Sumatera Utara",
+        postalCode: "22152",
+        addressCountry: "ID",
+      },
+    },
+  };
+
   return (
     <main className="se-page min-h-dvh">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutLd) }}
+      />
       <section className="se-subhero" aria-labelledby="about-title">
         <div className="se-subhero-inner">
           <div>

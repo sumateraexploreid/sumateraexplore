@@ -316,6 +316,251 @@ export const BLOG_POSTS: BlogPost[] = [
         ]
       }
     ]
+  },
+  {
+    id: 7,
+    slug: "wisata-danau-toba-dari-malaysia",
+    title: "Panduan Lengkap Wisata Danau Toba dari Malaysia: Penerbangan, Border, dan Estimasi Biaya MYR",
+    excerpt:
+      "Panduan praktis bagi wisatawan Malaysia yang ingin ke Danau Toba: pilihan penerbangan KL–Medan, proses imigrasi, estimasi budget perjalanan dalam Ringgit Malaysia, dan tips trip yang efisien.",
+    category: "Panduan Tamu",
+    image_url: "/images/sumut/toba_hero.webp",
+    createdAt: "2026-10-05T08:00:00Z",
+    updatedAt: "2026-11-15T08:00:00Z",
+    readTime: "8 menit baca",
+    relatedPackageSlug: "danau-toba-4d3n",
+    tags: ["Malaysia", "MYR", "Penerbangan KUL-KNO", "Danau Toba", "Panduan Tamu"],
+    sections: [
+      {
+        heading: "1. Kenapa Danau Toba Wajib Masuk Bucket List Traveller Malaysia",
+        paragraphs: [
+          "Danau Toba bukan sekadar tasik biasa — ia adalah kaldera gunung berapi purba terbesar di dunia, terletak di jantung Sumatera Utara, dengan kedalaman mencecah 505 meter dan luas hampir 1.130 kilometer persegi. Dari segi landskap, ia menyerupai laut dalaman yang dikelilingi bukit-bukit hijau berjela, dengan Pulau Samosir yang terapung bagai syurga tersembunyi di tengahnya.",
+          "Bagi rakyat Malaysia, Danau Toba menawarkan sesuatu yang jarang ditemui dalam pakej pelancongan biasa: persekitaran alam semula jadi yang belum terlalu komersial, kos perjalanan yang sangat berpatutan dalam Ringgit Malaysia, makanan halal yang mudah ditemui, serta mesra budaya Melayu kerana ramai penduduk tempatan fasih berbahasa Melayu dan beragama Islam.",
+          "Jarak terbang dari Kuala Lumpur ke Medan hanya sekitar 1 jam 10 minit — lebih dekat daripada ke Kota Kinabalu! Namun ramai rakyat Malaysia masih belum menyedari betapa mudah dan murahnya perjalanan ke Danau Toba. Panduan ini hadir untuk menjawab semua pertanyaan tersebut dari A hingga Z."
+        ]
+      },
+      {
+        heading: "2. Pilihan Penerbangan dari Malaysia ke Medan (Bandara Kualanamu / KNO)",
+        paragraphs: [
+          "Gerbang udara utama ke kawasan Danau Toba adalah Bandara Internasional Kualanamu (KNO) di Deli Serdang, Sumatera Utara. Dari Malaysia, terdapat beberapa pilihan penerbangan langsung yang beroperasi harian.",
+          "Dari Kuala Lumpur (KLIA / KUL): AirAsia dan Malaysia Airlines menerbangkan laluan KUL–KNO setiap hari. Masa penerbangan sekitar 1 jam 10 minit. Tambang AirAsia boleh serendah MYR 80–150 (sehala, termasuk duti) jika ditempah awal, manakala MAS menawarkan lebih banyak bagasi termasuk. Penerbangan pagi dari KLIA bertolak sekitar pukul 07:00–09:00 WM dan mendarat di Medan antara pukul 07:00–09:00 WIB (Medan 1 jam lebih lambat dari Malaysia).",
+          "Dari Penang (PEN): AirAsia menerbangkan laluan Penang–Medan beberapa kali seminggu, tambang boleh serendah MYR 60–100 sehala. Masa penerbangan hanya 35–40 minit. Ini pilihan terbaik untuk pelancong dari Utara Semenanjung.",
+          "Dari Johor Bahru (JHB / Senai): AirAsia juga menerbangkan laluan JHB–KNO beberapa kali seminggu. Sesuai untuk pelancong dari Selatan Semenanjung atau Singapura yang lebih mudah ke Senai.",
+          "Tips tempah tiket: Gunakan Google Flights atau laman web terus AirAsia untuk perbandingan harga. Tempah tiket pulang-pergi sekurang-kurangnya 6–8 minggu awal untuk mendapat harga terbaik. Pastikan terbang pagi (mendarat sebelum tengahari) supaya hari pertama di Medan boleh terus ke destinasi."
+        ]
+      },
+      {
+        heading: "3. Proses Imigrasi & Kemasukan ke Indonesia",
+        paragraphs: [
+          "Rakyat Malaysia tidak memerlukan visa untuk melawat Indonesia bagi tempoh tidak melebihi 30 hari. Ini adalah kemudahan Bebas Visa yang diberikan Indonesia kepada warganegara Malaysia — proses masuk sangat mudah dan pantas.",
+          "Dokumen yang diperlukan: Pasport Malaysia yang sah dengan sekurang-kurangnya 6 bulan tempoh sah baki. Tiket penerbangan pulang atau laluan keluar Indonesia. Anda tidak perlu mengisi borang imigrasi kertas — Indonesia kini menggunakan sistem digital di banyak bandara termasuk Kualanamu.",
+          "Di Kaunter Imigrasi KNO: Antri di kaunter imigrasi, imbas pasport, cap jari (biometrik), dan anda selesai dalam masa 5–10 minit. Proses keseluruhan di lapangan terbang dari mendarat hingga keluar terminal biasanya mengambil masa 20–35 minit.",
+          "Penting: Simpan bukti penginapan (nama hotel atau nama operator trip) untuk ditunjukkan kepada pegawai imigrasi jika ditanya. Operator kami akan menghantar itinerary rasmi ke e-mel anda selepas pengesahan tempahan."
+        ]
+      },
+      {
+        heading: "4. Estimasi Bajet Perjalanan dalam Ringgit Malaysia (MYR)",
+        paragraphs: [
+          "Berikut adalah anggaran kos perjalanan untuk pakej 4 Hari 3 Malam Danau Toba & Berastagi bagi 2 orang dewasa. Kadar pertukaran yang digunakan: 1 MYR ≈ IDR 4,400.",
+          "Tiket penerbangan pulang-pergi (2 orang, AirAsia KUL–KNO–KUL): MYR 400–600. Pakej trip privat 4D3N (termasuk hotel, kenderaan, dokumentasi, tiket masuk): mulai MYR 700–1,000 per orang, jumlah 2 orang MYR 1,400–2,000. Hotel premium (jika ditingkatkan di luar pakej): tiada kos tambahan kerana hotel sudah termasuk dalam pakej. Makan malam (tidak termasuk dalam pakej, 3 malam × 2 orang × MYR 15–25): MYR 90–150. Oleh-oleh dan belanja peribadi: MYR 100–200. Jumlah keseluruhan anggaran: MYR 2,000–3,000 untuk 2 orang selama 4 hari 3 malam.",
+          "Perbandingan: Bajet yang sama untuk pakej Pulau Langkawi domestik atau Bali biasanya melebihi MYR 3,500–5,000 untuk 2 orang. Danau Toba menawarkan nilai yang jauh lebih baik dengan pengalaman alam yang lebih unik dan jarang dikunjungi pelancong Malaysia."
+        ]
+      },
+      {
+        heading: "5. Tips Penting untuk Pelancong Malaysia ke Danau Toba",
+        paragraphs: [
+          "Menukar wang: Tukar Ringgit ke Rupiah di kaunter money changer berdaftar di KLIA sebelum berlepas, atau di kaunter money changer di Medan selepas mendarat. Jangan tukar di hotel kerana kadar sering tidak kompetitif. Kad ATM Visa/Mastercard Malaysia juga boleh digunakan di mesin ATM BCA atau BNI di Medan.",
+          "SIM kad: Beli SIM kad Telkomsel atau XL di airport Kualanamu terus — harga sekitar MYR 15–25 untuk pakej data 10GB–20GB yang cukup untuk 4–5 hari. Liputan 4G di kawasan Berastagi dan Danau Toba secara amnya baik di tempat-tempat utama.",
+          "Makanan halal: Ini bukan isu di Medan dan kawasan Danau Toba. Majoriti restoran di koridor Medan–Berastagi–Parapat adalah restoran Muslim atau halal. Operator kami memastikan 100% makanan halal dalam semua pakej rasmi.",
+          "Bahasa: Ramai penduduk tempatan memahami bahasa Melayu kerana kesamaan bahasa. Pemandu kami juga boleh berkomunikasi dalam bahasa Melayu dan Inggeris dengan lancar.",
+          "Hubungi kami melalui WhatsApp sebelum bertolak untuk pengesahan tempahan, itinerary rasmi, dan panduan terkini mengenai cuaca serta laluan."
+        ]
+      }
+    ]
+  },
+  {
+    id: 8,
+    slug: "itinerary-5-hari-4-malam-toba-berastagi",
+    title: "Itinerary 5 Hari 4 Malam Toba & Berastagi: Panduan Lengkap Medan – Danau Toba – Samosir – Berastagi",
+    excerpt:
+      "Itinerary detail 5D4N lengkap dari Medan ke Danau Toba, Pulau Samosir, Silalahi, Paropo, Bukit Holbung, hingga Berastagi — cocok untuk keluarga dan rombongan dari Malaysia dan Singapura.",
+    category: "Rute",
+    image_url: "/images/sumut/toba_landscape.webp",
+    createdAt: "2026-10-10T09:00:00Z",
+    updatedAt: "2026-11-15T08:00:00Z",
+    readTime: "10 menit baca",
+    relatedPackageSlug: "danau-toba-5d4n",
+    tags: ["Itinerary 5D4N", "Danau Toba", "Berastagi", "Samosir", "Rombongan Keluarga"],
+    sections: [
+      {
+        heading: "Sebelum Mulai: Penjemputan & Orientasi",
+        paragraphs: [
+          "Itinerary 5 Hari 4 Malam (5D4N) adalah paket paling komprehensif yang kami tawarkan dan dirancang untuk memberikan pengalaman menyeluruh kawasan Sumatera Utara: dari kota bersejarah Medan, dataran tinggi Karo di Berastagi, tepi barat kaldera Danau Toba yang jarang dikunjungi di Silalahi dan Paropo, hingga pesisir Pulau Samosir dengan budaya Batak yang kaya.",
+          "Seluruh perjalanan menggunakan kendaraan privat — tidak ada bus umum, tidak ada tamu asing yang digabung. Anda atau rombongan keluarga menempati kendaraan sendiri bersama pengemudi dan pemandu lokal kami yang berpengalaman, berbahasa Melayu dan Inggris."
+        ]
+      },
+      {
+        heading: "Hari 1 — Medan: Kota Bersejarah & Budaya Melayu Deli",
+        paragraphs: [
+          "Pagi hari, pengemudi menjemput rombongan di Bandara Internasional Kualanamu (KNO). Setelah istirahat sebentar di hotel Medan untuk check-in dan sarapan, City Tour Medan dimulai sekitar pukul 10:00 WIB.",
+          "Destinasi Hari 1 (Medan): Istana Maimun (istana bersejarah Kesultanan Deli bergaya Melayu-Moorish, dibangun 1888) → Masjid Raya Al-Mashun (masjid ikonik bergaya Ottoman-India, landmark kota Medan) → Kawasan Kesawan dan Jalan Semarang (arsitektur kolonial Belanda, bangunan tua peninggalan era perkebunan tembakau) → Makan siang di restoran halal lokal (coba Soto Medan atau Lontong Medan) → Menara Air Tirtanadi (ikon kota) → Makan malam di kawasan Simpang Lima, lanjut coba durian Medan kupas segar.",
+          "Bermalam: Hotel bintang 3-4 di pusat kota Medan (sekitar Sudirman/Imam Bonjol) — sarapan pagi termasuk dalam paket."
+        ]
+      },
+      {
+        heading: "Hari 2 — Pematang Siantar, Sidamanik & Parapat (Danau Toba)",
+        paragraphs: [
+          "Berangkat dari Medan pukul 08:00 WIB, perjalanan melalui jalan tol Medan–Tebing Tinggi kemudian ke Pematang Siantar (sekitar 2,5 jam). Di Pematang Siantar, singgah sebentar untuk foto di becak motor antik khas Siantar dan kunjungan singkat ke pusat kota bersejarah.",
+          "Dari Siantar, perjalanan berlanjut ke Kebun Teh Sidamanik (sekitar 45 menit) — hamparan perkebunan teh hijau luas milik PTPN IV dengan udara segar pegunungan. Sempat sarapan/snack Mie Gomak hangat di kedai teh Sidamanik.",
+          "Siang hari, tiba di Parapat di tepi Danau Toba. Makan siang di restoran halal pinggir danau (coba Ikan Mas Arsik atau Nila Bakar). Sore hari, penyeberangan dengan ferry dari Pelabuhan Ajibata menuju Pulau Samosir (45–60 menit berlayar sambil menikmati pemandangan kaldera).",
+          "Bermalam: Marianna Resort atau Samosir Cottage di Pulau Samosir, kamar menghadap danau — sarapan pagi termasuk."
+        ]
+      },
+      {
+        heading: "Hari 3 — Eksplorasi Pulau Samosir: Budaya Batak & Pantai Pasir Putih",
+        paragraphs: [
+          "Pagi di Samosir adalah waktu paling indah — danau tenang dengan kabut tipis di pagi buta, suhu sejuk sekitar 22–24°C. Setelah sarapan, kunjungan ke destinasi budaya Samosir dimulai sekitar pukul 09:00 WIB.",
+          "Destinasi Hari 3 (Samosir): Desa Tomok → Makam Raja Sidabutar (situs bersejarah abad ke-16) → Kampung Ulos Hutaraja (lihat penenun ulos Batak tradisional di halaman rumah adat) → Batu Persidangan Huta Siallagan (tempat pengadilan adat Batak kuno) → Makan siang di restoran halal Samosir → Pantai Pasir Putih Parbaba (berenang di air Danau Toba yang jernih kebiruan, foto dan bermain air) → Bukit Holbung atau Desa Lumban Suhi-suhi untuk foto sunset.",
+          "Malam di Samosir: Nikmati makan malam di tepi danau, langit bintang di Samosir yang bebas polusi cahaya sangat memukau. Bermalam malam kedua di Samosir."
+        ]
+      },
+      {
+        heading: "Hari 4 — Silalahi, Paropo & Air Terjun Sitiris-tiris (Switzerland of Toba)",
+        paragraphs: [
+          "Hari keempat adalah favorit banyak tamu karena kawasan Silalahi dan Paropo di barat laut Danau Toba menawarkan pemandangan kaldera yang berbeda — tebing curam bertemu langsung dengan perairan biru jernih, minim bangunan, dan sangat fotogenik.",
+          "Itinerary Hari 4: Keluar Samosir lewat Jembatan Tano Ponggol – Pangururan (melewati Menara Pandang Tele dengan panorama Danau Toba dari atas) → Turun ke Silalahi → Naik sampan tradisional ke Air Terjun Sitiris-tiris (momen paling epic: air terjun alami jatuh langsung ke permukaan Danau Toba, bisa mendekat dengan sampan) → Mandi dan foto di spot air terjun → Makan siang sederhana di warung Silalahi atau Paropo → Tiba di Paropo, istirahat dan foto golden hour.",
+          "Bermalam: Penginapan tepi danau di Paropo atau Tongging — suasana sangat tenang, cocok untuk istirahat total. Langit senja di Paropo menghadap danau sangat dramatis."
+        ]
+      },
+      {
+        heading: "Hari 5 — Sipiso-piso, Berastagi & Kepulangan",
+        paragraphs: [
+          "Hari terakhir diisi dengan destinasi-destinasi kelas dunia di Tanah Karo sebelum menuju bandara. Berangkat dari penginapan Paropo/Tongging pukul 08:00 WIB.",
+          "Destinasi Hari 5: Air Terjun Sipiso-piso (salah satu air terjun tertinggi Indonesia, 120 meter, dengan panorama Danau Toba dari puncak tebing) → Kota Berastagi: Pasar Buah Berastagi (beli markisa, jeruk madu, stroberi, alpukat — harga petani langsung) → Taman Alam Lumbini (replika Pagoda Shwedagon berlapis emas) → Bukit Gundaling (panorama Gunung Sibayak dan Gunung Sinabung) → Oleh-oleh khas Medan di toko resmi (Bika Ambon, Bolu Meranti, Pancake Durian beku).",
+          "Pengantaran ke Bandara Kualanamu (KNO) dimulai pukul 14:00–15:00 WIB tergantung jam penerbangan. Waktu tempuh Berastagi–KNO sekitar 2,5–3 jam, sudah diperhitungkan dengan buffer 3 jam sebelum boarding. Perjalanan pulang yang berkesan dari Sumatera Utara!"
+        ]
+      }
+    ]
+  },
+  {
+    id: 9,
+    slug: "kuliner-halal-medan-dan-sekitar-danau-toba",
+    title: "Kuliner Halal Terbaik di Medan, Parapat & Berastagi: Rekomendasi Warung dan Restoran Pilihan",
+    excerpt:
+      "Panduan kuliner halal lengkap selama perjalanan ke Danau Toba: dari sarapan Lontong Medan, Soto Medan, Mie Gomak Parapat, Ikan Mas Arsik, hingga buah segar Berastagi dan oleh-oleh khas.",
+    category: "Kuliner",
+    image_url: "/images/sumut/maimun_palace.webp",
+    createdAt: "2026-10-20T09:30:00Z",
+    updatedAt: "2026-11-15T08:00:00Z",
+    readTime: "7 menit baca",
+    relatedPackageSlug: "danau-toba-4d3n",
+    tags: ["Kuliner Halal", "Medan", "Parapat", "Berastagi", "Mie Gomak", "Ikan Arsik"],
+    sections: [
+      {
+        heading: "1. Jaminan Halal 100% Sepanjang Perjalanan",
+        paragraphs: [
+          "Pertanyaan paling sering dari tamu Malaysia dan Singapura sebelum berangkat adalah: 'Mudah tak cari makanan halal di Danau Toba?' Jawabannya: sangat mudah. Kawasan koridor Medan–Pematang Siantar–Parapat–Berastagi didominasi oleh rumah makan Muslim dan warung halal yang sudah beroperasi puluhan tahun.",
+          "Dalam semua paket resmi Sumatera Explore, pemandu dan pengemudi kami sudah hafal titik-titik makan halal terpercaya di setiap persinggahan. Kami tidak akan membawa tamu ke restoran yang meragukan. Jika ada menu tertentu yang perlu dipastikan, pengemudi kami siap menanyakan langsung ke dapur. Anak kecil dan orang tua dengan selera khusus? Tingkat kepedasan juga bisa disesuaikan."
+        ]
+      },
+      {
+        heading: "2. Kuliner Wajib Coba di Medan",
+        paragraphs: [
+          "Lontong Medan: Sajian sarapan khas ibu kota Sumatera Utara ini terdiri dari lontong (nasi padat dibungkus daun pisang) disiram kuah sayur lodeh santan dengan pelengkap bihun goreng, teri kacang, perkedel, dan sambal. Teksturnya ringan namun mengenyangkan, cocok sebelum perjalanan jauh.",
+          "Soto Medan: Berbeda dari soto di Jawa, Soto Medan menggunakan kuah santan berwarna kuning keemasan dengan rempah bercita rasa kuat — campuran kunyit, serai, lengkuas, dan kayu manis. Disajikan dengan ayam atau daging sapi, telur rebus, dan emping. Sangat cocok untuk selera Melayu.",
+          "Nasi Gurih Melayu Deli: Di kawasan sekitar Istana Maimun dan Masjid Raya Al-Mashun, banyak kedai menyajikan nasi gurih ala Melayu Deli dengan lauk pilihan: gulai ayam, rendang, telur balado, perkedel jagung, dan ikan goreng kering.",
+          "Durian Medan: Agenda wajib sore hari sebelum check-in hotel atau ke bandara. Durian Medan terkenal dagingnya tebal, legit, bercita rasa pahit-manis yang khas. Harga per buah mulai Rp 50.000–150.000 (sekitar MYR 11–34) tergantung ukuran dan jenis."
+        ]
+      },
+      {
+        heading: "3. Kuliner Tepi Danau Toba & Parapat",
+        paragraphs: [
+          "Mie Gomak: Dijuluki 'Spageti Batak' oleh tamu internasional, Mie Gomak adalah mi lidi berukuran besar berkuah santan kuning dengan bumbu andaliman (lada khas Batak yang memberikan sensasi kebas-pedas unik di mulut). Sangat cocok disantap hangat di udara sejuk tepi danau.",
+          "Ikan Mas Arsik: Hidangan ikan mas yang dimasak dengan bumbu kuning khas Batak (kunyit, bawang merah, kemiri, andaliman, kecombrang) hingga meresap sempurna. Daging ikan lunak dan beraroma, kuah bumbunya bisa dijadikan cocolan nasi. Ini menu ikonik yang wajib dicoba sekali seumur hidup di tepi Danau Toba.",
+          "Ikan Nila Bakar Sambal: Ikan nila segar dari Danau Toba yang dibakar di atas arang dan disajikan dengan sambal khas lokal. Ditemani nasi hangat dan lalapan segar, menyantap ikan bakar dengan latar Danau Toba adalah pengalaman yang sulit dilupakan.",
+          "Di kawasan Parapat, Ajibata, dan sekitar Pelabuhan Tigaras terdapat banyak pilihan warung makan halal yang buka dari pagi hingga malam. Pengemudi kami akan selalu merekomendasikan warung terpercaya dengan kebersihan terjamin."
+        ]
+      },
+      {
+        heading: "4. Kuliner & Produk Segar Berastagi",
+        paragraphs: [
+          "Pasar Buah Berastagi adalah surga buah segar bagi wisatawan. Di sini Anda bisa membeli langsung dari tangan petani dengan harga jauh di bawah harga supermarket: Markisa Berastagi (merah dan kuning, sangat harum dan segar), Jeruk Madu Berastagi (tanpa biji, manis dengan kulit tipis), Stroberi Kebun (segar, merah penuh), Alpukat Mentega (creamy, ukuran besar), Jagung Manis Rebus.",
+          "Kopi Sidikalang: Di Berastagi banyak kedai kopi yang menjual biji kopi Sidikalang, salah satu kopi arabika terbaik Sumatera. Bawa pulang sebagai oleh-oleh untuk diseduh di rumah.",
+          "Kuliner panas Berastagi: Di pagi hari yang dingin (suhu 15–18°C), cobalah Mie Rebus Karo atau Jagung Bakar di sekitar Pasar Buah. Ada juga kedai yang menjual Martabak Terang Bulan (serupa dengan apam Malaysia) yang sangat cocok untuk sarapan sambil melihat kabut pegunungan."
+        ]
+      },
+      {
+        heading: "5. Oleh-oleh Khas yang Aman Dibawa di Pesawat",
+        paragraphs: [
+          "Sebelum menuju Bandara Kualanamu, ada beberapa oleh-oleh wajib yang bisa dibeli di toko resmi di kota Medan:",
+          "Bika Ambon: Kue khas Medan berbahan tepung tapioka, telur, dan santan yang difermentasi — menghasilkan tekstur kenyal berpori dengan rasa manis gurih. Tersedia dalam berbagai varian rasa. Tahan 2–3 hari di suhu ruang atau lebih lama jika disimpan dalam kulkas.",
+          "Bolu Meranti: Bolu gulung isi berbagai varian (durian, keju, blueberry) yang sangat populer sebagai oleh-oleh Medan. Kemasan kotak elegan, cocok sebagai hadiah.",
+          "Pancake Durian Beku: Pancake isi durian Medan asli yang dikemas vakum beku — aman dibawa sebagai bagasi terdaftar. Tahan hingga beberapa hari jika dijaga tetap beku. Ini oleh-oleh paling viral dan dicari tamu Malaysia.",
+          "Ulos Batak: Kain tenun tradisional Batak yang bisa dibeli di Samosir atau di toko souvenir Medan. Cocok sebagai cinderamata budaya yang bermakna."
+        ]
+      }
+    ]
+  },
+  {
+    id: 10,
+    slug: "tips-wisata-hemat-ke-samosir",
+    title: "Tips Budget Trip ke Pulau Samosir: Hemat Biaya Ferry, Penginapan, Oleh-oleh & Waktu Terbaik Berkunjung",
+    excerpt:
+      "Panduan wisata hemat ke Pulau Samosir: cara naik ferry, pilihan penginapan budget, spot oleh-oleh terjangkau, dan waktu terbaik untuk berkunjung agar trip semakin berkesan.",
+    category: "Tips Liburan",
+    image_url: "/images/sumut/batak_house.webp",
+    createdAt: "2026-11-01T08:00:00Z",
+    updatedAt: "2026-11-15T08:00:00Z",
+    readTime: "7 menit baca",
+    relatedPackageSlug: "danau-toba-3d2n",
+    tags: ["Pulau Samosir", "Budget Trip", "Ferry Danau Toba", "Tips Hemat", "Wisata Keluarga"],
+    sections: [
+      {
+        heading: "1. Pulau Samosir: Kenapa Layak Jadi Destinasi Utama",
+        paragraphs: [
+          "Pulau Samosir adalah pulau vulkanik yang terapung di tengah Danau Toba — sebuah fenomena geografi yang langka di dunia. Pulau seluas 630 km² ini adalah jantung kebudayaan Batak Toba, dengan kampung-kampung adat berusia ratusan tahun, makam raja-raja Batak, kain ulos yang ditenun tangan, dan pantai pasir putih alami yang menyentuh perairan danau paling jernih di Sumatera.",
+          "Bagi wisatawan yang ingin pengalaman autentik — bukan sekadar wisata foto cepat — Samosir adalah tujuan yang bisa menghabiskan 2–3 hari tanpa terasa bosan. Biayanya pun lebih terjangkau dibanding destinasi populer lain seperti Bali atau Lombok, terutama bagi tamu dari Malaysia."
+        ]
+      },
+      {
+        heading: "2. Panduan Naik Ferry ke Pulau Samosir",
+        paragraphs: [
+          "Ada dua cara masuk ke Pulau Samosir: melalui ferry penumpang dan kendaraan dari sisi timur Danau Toba, atau masuk lewat darat melalui Jembatan Tano Ponggol di Pangururan (sisi barat). Untuk pengalaman pertama, naik ferry adalah pilihan yang lebih berkesan.",
+          "Rute Ferry Utama: Pelabuhan Ajibata (Parapat) → Pelabuhan Tomok (Samosir). Ini adalah rute paling populer dan beroperasi hampir sepanjang hari dari pukul 06:00 hingga 18:00 WIB. Tarif ferry penumpang sekitar Rp 10.000–20.000 per orang (sekitar MYR 2–5). Jika membawa kendaraan roda empat, biaya penyeberangan mobil sekitar Rp 100.000–200.000. Lama perjalanan: 45–60 menit melintasi perairan danau.",
+          "Rute Alternatif Ferry: Pelabuhan Tigaras (dari arah Berastagi/Tongging) → Pelabuhan Simanindo. Rute ini lebih sepi dan cocok bagi tamu yang datang dari arah Paropo dan Silalahi tanpa melewati pusat Parapat. Jadwal lebih terbatas, biasanya pagi dan siang hari.",
+          "Tips naik ferry: Datang ke dermaga minimal 30 menit sebelum jadwal keberangkatan, terutama saat weekend dan hari libur nasional ketika antrean kendaraan bisa lebih panjang. Pengemudi kami akan mengurus antrean kendaraan sementara tamu bersantai di area tunggu atau kafe tepi danau."
+        ]
+      },
+      {
+        heading: "3. Pilihan Penginapan di Pulau Samosir untuk Berbagai Budget",
+        paragraphs: [
+          "Samosir memiliki berbagai pilihan penginapan dari yang sederhana hingga resort berbintang, semuanya menawarkan pemandangan Danau Toba yang memukau.",
+          "Budget (Rp 150.000–300.000/malam atau MYR 34–68): Guest house dan homestay lokal di sekitar Tuk-Tuk dan Tomok. Kebanyakan sudah bersih, kamar sederhana dengan kipas angin, beberapa sudah dilengkapi AC. Sarapan sederhana kadang sudah termasuk.",
+          "Mid-range (Rp 400.000–700.000/malam atau MYR 90–160): Penginapan seperti Samosir Cottage, Tabo Cottage, atau Toledo Inn di Tuk-Tuk. Kamar lebih luas dengan AC, beberapa menghadap danau langsung. Fasilitas restoran halal di properti atau dekat properti.",
+          "Premium (Rp 800.000–1.500.000/malam atau MYR 180–340): Marianna Resort — resort terbaik di Samosir dengan kolam renang menghadap danau, kamar deluxe berbalkon, dan restoran halal. Ini pilihan yang kami rekomendasikan dalam paket privat 4D3N dan 5D4N untuk kenyamanan maksimal keluarga.",
+          "Tips: Jika datang pada periode peak season (Juni–Agustus dan Desember–Januari), pesan penginapan minimal 2–3 minggu sebelumnya. Konfirmasi ketersediaan penginapan sudah termasuk dalam layanan operator kami saat Anda memesan paket trip."
+        ]
+      },
+      {
+        heading: "4. Oleh-oleh Terbaik dari Samosir & Tips Belanja Hemat",
+        paragraphs: [
+          "Kain Ulos Batak: Ini adalah oleh-oleh paling otentik dari Samosir. Ulos adalah kain tenun tradisional Batak dengan motif geometris yang memiliki makna budaya mendalam. Di Kampung Ulos Hutaraja dan Pasar Tomok, Anda bisa membeli langsung dari penenun. Harga mulai Rp 50.000–500.000 (MYR 11–114) tergantung kualitas dan kerumitan motif.",
+          "Patung Kayu Batak: Miniatur rumah adat Bolon, figur Sigale-gale (boneka kayu Batak yang bisa menari), dan ukiran kayu motif Batak adalah cinderamata populer. Harga mulai Rp 20.000–200.000.",
+          "Kopi dan Rempah Lokal: Pasar Tomok dan Pasar Pangururan menjual kopi bubuk lokal, andaliman (lada Batak), serta rempah khas Sumatera dengan harga murah langsung dari produsen.",
+          "Tips belanja hemat: Harga di Kampung Ulos Hutaraja umumnya lebih murah dibanding di Pasar Tomok yang lebih ramai turis. Tawar-menawar adalah hal yang wajar dan diterima dengan ramah — mulailah penawaran dari 50–60% harga yang disebutkan penjual. Belanja di pagi hari (sebelum pukul 11:00) biasanya lebih tenang dan harga lebih terbuka untuk negosiasi."
+        ]
+      },
+      {
+        heading: "5. Waktu Terbaik Berkunjung ke Pulau Samosir",
+        paragraphs: [
+          "Musim Kering (April–Oktober): Ini adalah waktu ideal berkunjung ke Samosir. Langit lebih cerah, danau tenang, dan aktivitas outdoor seperti bersepeda keliling pulau, berenang di Pantai Parbaba, dan naik sampan ke Air Terjun Sitiris-tiris sangat menyenangkan. Suhu siang berkisar 24–28°C, malam 18–22°C.",
+          "Peak Season (Juni–Agustus dan Desember–Januari): Periode sekolah libur Malaysia dan Indonesia bersamaan menyebabkan lonjakan tamu. Penginapan dan ferry lebih ramai. Jika bisa, hindari periode ini atau pesan jauh-jauh hari.",
+          "Musim Hujan (November–Maret): Hujan biasanya turun pada sore hingga malam hari, pagi masih cerah. Pemandangan danau justru lebih dramatis dengan kabut tipis di pagi hari. Ferry tetap beroperasi kecuali cuaca ekstrem. Harga penginapan dan trip biasanya lebih rendah 15–20% dibanding peak season — ini kesempatan bagus untuk budget traveller.",
+          "Hari Pasar Tomok: Pasar Tomok paling ramai pada hari Senin dan Jumat. Jika ingin suasana pasar yang meriah dan banyak pilihan produk lokal, rencanakan kunjungan pada hari-hari tersebut.",
+          "Untuk informasi cuaca terkini dan ketersediaan paket trip, hubungi tim kami melalui WhatsApp sebelum menetapkan tanggal perjalanan. Kami selalu update kondisi lapangan harian."
+        ]
+      }
+    ]
   }
 ];
 

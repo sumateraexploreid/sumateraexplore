@@ -153,8 +153,7 @@ export default async function Home() {
             alt=""
             fill
             sizes="100vw"
-            loading="eager"
-            fetchPriority="high"
+            priority
           />
         </div>
 

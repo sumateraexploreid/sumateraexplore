@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { formatWaLink } from "@/lib/whatsapp";
+import { BUSINESS_IDENTITY } from "@/data/business";
 
 interface PackageProps {
   id: string | number;
@@ -218,12 +220,29 @@ export default function PackageCard({
             </div>
           </div>
 
-          <Link
-            href={`/tour/${slug}?adults=${paxAdults}&children=${paxChildren}`}
-            className="se-btn se-btn--primary w-full px-2.5 sm:px-5 text-xs sm:text-sm whitespace-nowrap"
-          >
-            Detail &amp; pesan
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              href={`/tour/${slug}?adults=${paxAdults}&children=${paxChildren}`}
+              className="se-btn se-btn--primary flex-1 px-2.5 sm:px-4 text-xs sm:text-sm whitespace-nowrap text-center"
+            >
+              Detail &amp; pesan
+            </Link>
+            <a
+              href={formatWaLink(
+                BUSINESS_IDENTITY.whatsappNumber,
+                `Halo Sumatera Explore, saya tertarik dengan paket ${name} untuk ${paxAdults} Dewasa${paxChildren > 0 ? ` dan ${paxChildren} Anak` : ""}. Estimasi: ${formatCurrency(totalPrice)}. Mohon info ketersediaan & jadwal.`
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Tanya paket ${name} via WhatsApp`}
+              className="se-btn se-btn--wa px-3 sm:px-3.5 flex items-center justify-center shrink-0"
+              title="Chat WhatsApp"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </article>
