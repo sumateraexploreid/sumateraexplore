@@ -337,9 +337,9 @@ export default function AdminFinancePage() {
                     <span className="text-ink-2 font-semibold">
                       {lastUpdated
                         ? new Date(lastUpdated).toLocaleString("id-ID", {
-                            dateStyle: "medium",
-                            timeStyle: "short",
-                          })
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        })
                         : "—"}
                     </span>
                   </div>
